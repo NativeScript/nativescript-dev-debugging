@@ -1,0 +1,13 @@
+{
+	"name": "test",
+	"version": "0.0.1",
+	"description": "",
+	"main": "test",
+	"scripts": {
+		"test": "test"
+	},
+	"devDependencies": {
+		"prompt": "^1.0.0",
+		"nativescript-dev-debugging": "../src"
+	}
+}
