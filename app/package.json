@@ -7,7 +7,6 @@
 		"test": "node node_modules/nativescript-dev-debugging/index.js"
 	},
 	"devDependencies": {
-		"prompt": "^1.0.0",
 		"nativescript-dev-debugging": "../src"
 	}
 }
