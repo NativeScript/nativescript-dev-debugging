@@ -1,0 +1,7 @@
+.vscode
+.idea
+.DS_Store
+*.esm.json 
+*.tns.json
+*.log
+node_modules/
