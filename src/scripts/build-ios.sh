@@ -1,12 +1,6 @@
 set -e
 set -o pipefail
 
-# TODO: Remove this, the psot install script should update the src package.json with commands that include 
-# the b:t:n: params
-PLUGIN_NAME="nativescript-ui-listview"
-PLUGIN_TARGET_DIR="/Users/amiorkov/Desktop/Work/$PLUGIN_NAME/src/platforms"
-IOS_SOURCE_DIR="/Users/amiorkov/Desktop/Work/$PLUGIN_NAME/src-native/ios"
-
 BUILD_FLAVOR="Release"
 
 while getopts b:t:n:d: option

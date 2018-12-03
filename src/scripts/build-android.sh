@@ -1,27 +1,21 @@
 set -e
 set -o pipefail
 
-# TODO: Remove this, the psot install script should update the src package.json with commands that include 
-# the b:t:n: params
-PLUGIN_NAME="nativescript-ui-listview"
-PLUGIN_TARGET_DIR="/Users/amiorkov/Desktop/Work/$PLUGIN_NAME/src/platforms"
-ANDROID_SOURCE_DIR="/Users/amiorkov/Desktop/Work/$PLUGIN_NAME/src-native/android"
-
 BUILD_FLAVOR="Release"
 
-while getopts b:t:n: option
+while getopts b:t:n:f: option
 do
     case "${option}"
         in
     b) BUILD_FLAVOR=${OPTARG};;
     t) PLUGIN_TARGET_DIR=${OPTARG};;
     n) ANDROID_SOURCE_DIR=${OPTARG};;
+    f) SOURCE_NAME=${OPTARG};;
     esac
 done
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-SOURCE_NAME="TNSListView"
 # ANDROID_SOURCE_DIR="$CURRENT_DIR/../../../../src-native/android"
 
 PROJECT_NAME="$SOURCE_NAME"

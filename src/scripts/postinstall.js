@@ -4,6 +4,7 @@ var pluginPlatformsFolder = undefined;
 var nativeIosFolder = undefined;
 var nativeAndroidFolder = undefined;
 var packageJsonFolder = undefined;
+var androidLibraryName = undefined;
 var demoFolder = "../demo";
 var demoAngularFolder = "../demo-angular";
 
@@ -13,6 +14,7 @@ if (process.argv[2] == "dev") {
     nativeIosFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/ios";
     nativeAndroidFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/android";
     packageJsonFolder = "/Users/amiorkov/Desktop/Work/nativescript-dev-debugging/app";
+    androidLibraryName = "TNSListView";
 }
 
 
@@ -41,30 +43,10 @@ function configurePlugin() {
     inputParams.native_ios_src_folder = nativeIosFolder;
     inputParams.target_platform_folder = pluginPlatformsFolder;
     inputParams.plugin_json_file_folder = packageJsonFolder;
+    inputParams.androidLibraryName = androidLibraryName;
 
 
     console.log("'nativescript-dev-debugging' Plugin Configuration");
-
-    // var parseArgv = function () {
-    //     var argv = Array.prototype.slice.call(process.argv, 2);
-    //     var result = {};
-    //     argv.forEach(function (pairString) {
-    //         var pair = pairString.split('=');
-    //         result[pair[0]] = pair[1];
-    //     });
-    //     return result;
-    // };
-    // var argv = parseArgv();
-
-    // if (argv.target_platform_folder !== undefined &&
-    //     argv.native_ios_src_folder !== undefined &&
-    //     argv.native_android_src_folder !== undefined &&
-    //     argv.plugin_json_file_folder == undefined) {
-    //     inputParams.target_platform_folder = argv.target_platform_folder;
-    //     inputParams.native_ios_src_folder = argv.native_ios_src_folder;
-    //     inputParams.native_android_src_folder = argv.native_android_src_folder;
-    //     inputParams.plugin_json_file_folder = argv.plugin_json_file_folder;
-    // }
 
     const pluginScripts = [{
         key: "nd.prepare.demo.app.ios",
@@ -160,7 +142,7 @@ function configurePlugin() {
     },
     {
         key: "nd.build.native.android",
-        value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Debug -t " + inputParams.target_platform_folder + " -n " + inputParams.native_android_src_folder + " pdf "
+        value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Debug -t " + inputParams.target_platform_folder + " -n " + inputParams.native_android_src_folder + " -f " + inputParams.androidLibraryName + " pdf "
     },
     {
         key: "nd.build.simulator",
@@ -178,7 +160,7 @@ function configurePlugin() {
             prompt.start();
             prompt.get({
                 name: 'target_platform_folder',
-                description: "What the path to the 'platforms' directory of your platform?"
+                description: "What the path to the 'platforms' directory of your platform ?"
             }, function (err, result) {
                 if (err) {
                     return console.log(err);
@@ -198,7 +180,7 @@ function configurePlugin() {
         if (inputParams.native_ios_src_folder == undefined) {
             prompt.get({
                 name: 'native_ios_src_folder',
-                description: "What the path to your plugin's native iOS source code?"
+                description: "What the path to your plugin's native iOS source code ?"
             }, function (err, result) {
                 if (err) {
                     return console.log(err);
@@ -219,7 +201,7 @@ function configurePlugin() {
         if (inputParams.native_android_src_folder == undefined) {
             prompt.get({
                 name: 'native_android_src_folder',
-                description: "What the path to your plugin's native Android source code?"
+                description: "What the path to your plugin's native Android source code ?"
             }, function (err, result) {
                 if (err) {
                     return console.log(err);
@@ -240,7 +222,7 @@ function configurePlugin() {
         if (inputParams.plugin_json_file_folder == undefined) {
             prompt.get({
                 name: 'plugin_json_file_folder',
-                description: "What the path to your plugin's TS/JS source code?"
+                description: "What the path to your plugin's TS/JS source code ?"
             }, function (err, result) {
                 if (err) {
                     return console.log(err);
@@ -250,6 +232,27 @@ function configurePlugin() {
                 }
 
                 inputParams.plugin_json_file_folder = result.plugin_json_file_folder;
+                askAndroidLibraryName();
+            });
+        } else {
+            askAndroidLibraryName();
+        }
+    }
+
+    function askAndroidLibraryName() {
+        if (inputParams.androidLibraryName == undefined) {
+            prompt.get({
+                name: 'androidLibraryName',
+                description: "What is the name of the native Android library (.arr file) of your Android Studio proj ?"
+            }, function (err, result) {
+                if (err) {
+                    return console.log(err);
+                }
+                if (!result.androidLibraryName) {
+                    return console.log("The path to your plugin's TS/JS source code is required to correctly setup the plugin.");
+                }
+
+                inputParams.androidLibraryName = result.androidLibraryName;
                 writeToSrcJson();
             });
         } else {
