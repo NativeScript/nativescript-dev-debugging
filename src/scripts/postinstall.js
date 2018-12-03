@@ -9,7 +9,7 @@ package_json_folder_dummy = "/Users/amiorkov/Desktop/Work/nativescript-dev-debug
 
 prompt.get({
     name: 'already_configured',
-    description: "Did you already setup the plugin configuration?"
+    description: "Did you already setup the plugin configuration? (yes/no)"
 }, function (err, result) {
     if (err) {
         return console.log(err);
@@ -214,8 +214,6 @@ function configurePlugin() {
         var path = inputParams.plugin_json_file_folder + "/package.json";
         let jsonFile = fs.readFileSync(path);
         var jsonObject = JSON.parse(jsonFile);
-        console.log(jsonObject);
-
         jsonKeys = Object.keys(jsonObject);
         var jsonScripts = jsonObject["scripts"];
         pluginScripts.forEach((script) => {
