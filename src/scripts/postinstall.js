@@ -1,11 +1,18 @@
 var fs = require('fs');
 var prompt = require('prompt');
+var pluginPlatformsFolder = undefined;
+var nativeIosFolder = undefined;
+var nativeAndroidFolder = undefined;
+var packageJsonFolder = undefined;
 
-// Expected input
-t = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src/platforms";
-nIOS = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/ios";
-nAndroid = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/android";
-package_json_folder_dummy = "/Users/amiorkov/Desktop/Work/nativescript-dev-debugging/app";
+if (process.argv[2] == "test") {
+    // Expected input from user
+    pluginPlatformsFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src/platforms";
+    nativeIosFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/ios";
+    nativeAndroidFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/android";
+    packageJsonFolder = "/Users/amiorkov/Desktop/Work/nativescript-dev-debugging/app";
+}
+
 
 prompt.get({
     name: 'already_configured',
@@ -28,34 +35,34 @@ function configurePlugin() {
         scripts_dir: undefined
     };
 
-    inputParams.native_android_src_folder = nAndroid;
-    inputParams.native_ios_src_folder = nIOS;
-    inputParams.target_platform_folder = t;
-    inputParams.plugin_json_file_folder = package_json_folder_dummy;
+    inputParams.native_android_src_folder = nativeAndroidFolder;
+    inputParams.native_ios_src_folder = nativeIosFolder;
+    inputParams.target_platform_folder = pluginPlatformsFolder;
+    inputParams.plugin_json_file_folder = packageJsonFolder;
 
 
     console.log("'nativescript-dev-debugging' Plugin Configuration");
 
-    var parseArgv = function () {
-        var argv = Array.prototype.slice.call(process.argv, 2);
-        var result = {};
-        argv.forEach(function (pairString) {
-            var pair = pairString.split('=');
-            result[pair[0]] = pair[1];
-        });
-        return result;
-    };
-    var argv = parseArgv();
+    // var parseArgv = function () {
+    //     var argv = Array.prototype.slice.call(process.argv, 2);
+    //     var result = {};
+    //     argv.forEach(function (pairString) {
+    //         var pair = pairString.split('=');
+    //         result[pair[0]] = pair[1];
+    //     });
+    //     return result;
+    // };
+    // var argv = parseArgv();
 
-    if (argv.target_platform_folder !== undefined &&
-        argv.native_ios_src_folder !== undefined &&
-        argv.native_android_src_folder !== undefined &&
-        argv.plugin_json_file_folder == undefined) {
-        inputParams.target_platform_folder = argv.target_platform_folder;
-        inputParams.native_ios_src_folder = argv.native_ios_src_folder;
-        inputParams.native_android_src_folder = argv.native_android_src_folder;
-        inputParams.plugin_json_file_folder = argv.plugin_json_file_folder;
-    }
+    // if (argv.target_platform_folder !== undefined &&
+    //     argv.native_ios_src_folder !== undefined &&
+    //     argv.native_android_src_folder !== undefined &&
+    //     argv.plugin_json_file_folder == undefined) {
+    //     inputParams.target_platform_folder = argv.target_platform_folder;
+    //     inputParams.native_ios_src_folder = argv.native_ios_src_folder;
+    //     inputParams.native_android_src_folder = argv.native_android_src_folder;
+    //     inputParams.plugin_json_file_folder = argv.plugin_json_file_folder;
+    // }
 
     const pluginScripts = [{
         key: "nd.prepare.demo.app.ios",
@@ -162,52 +169,74 @@ function configurePlugin() {
                     return console.log("The 'platforms' directory path is required to correctly setup the plugin.");
                 }
                 inputParams.target_platform_folder = result.target_platform_folder;
+                askNativeIosSrcFolder();
             });
+        } else {
+            askNativeIosSrcFolder();
         }
-
-        askNativeIosSrcFolder();
     }
 
     function askNativeIosSrcFolder() {
         if (inputParams.native_ios_src_folder == undefined) {
-            generateClassName();
             prompt.get({
                 name: 'native_ios_src_folder',
-                description: "What the path to your plugin's native source code?"
+                description: "What the path to your plugin's native iOS source code?"
             }, function (err, result) {
                 if (err) {
                     return console.log(err);
                 }
                 if (!result.native_ios_src_folder) {
-                    return console.log("The path to your plugin's native source code is required to correctly setup the plugin.");
+                    return console.log("The path to your plugin's native iOS source code is required to correctly setup the plugin.");
                 }
 
                 inputParams.native_ios_src_folder = result.native_ios_src_folder;
+                askNativeAndroidSrcFolder();
             });
+        } else {
+            askNativeAndroidSrcFolder();
         }
-
-        askNativeAndroidSrcFolder();
     }
 
     function askNativeAndroidSrcFolder() {
         if (inputParams.native_android_src_folder == undefined) {
             prompt.get({
                 name: 'native_android_src_folder',
-                description: "What the path to your plugin's native source code?"
+                description: "What the path to your plugin's native Android source code?"
             }, function (err, result) {
                 if (err) {
                     return console.log(err);
                 }
                 if (!result.native_android_src_folder) {
-                    return console.log("The path to your plugin's native source code is required to correctly setup the plugin.");
+                    return console.log("The path to your plugin's native Android source code is required to correctly setup the plugin.");
                 }
 
                 inputParams.native_ios_src_folder = result.native_ios_src_folder;
-
+                askSrcFolder();
             });
+        } else {
+            askSrcFolder();
         }
+    }
 
-        writeToSrcJson();
+    function askSrcFolder() {
+        if (inputParams.plugin_json_file_folder == undefined) {
+            prompt.get({
+                name: 'plugin_json_file_folder',
+                description: "What the path to your plugin's TS/JS source code?"
+            }, function (err, result) {
+                if (err) {
+                    return console.log(err);
+                }
+                if (!result.plugin_json_file_folder) {
+                    return console.log("The path to your plugin's TS/JS source code is required to correctly setup the plugin.");
+                }
+
+                inputParams.plugin_json_file_folder = result.plugin_json_file_folder;
+                writeToSrcJson();
+            });
+        } else {
+            writeToSrcJson();
+        }
     }
 
     function writeToSrcJson() {
