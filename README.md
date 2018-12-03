@@ -8,4 +8,4 @@ In order to test the node package locally:
 - Open the app folder `cd app`
 - Run `npm i`
 - Run `npm run test` - will execute the package's postinstall scrip like it is being installed in the app folder for the first time
-- Run `npm run test debug` - will execute the package's postinstall scrip like it is being installed in the app folder for the first time and pre fill all required user inputs that are used to manage the package's scripts
+- Run `npm run test dev` - will execute the package's postinstall scrip like it is being installed in the app folder for the first time and pre fill all required user inputs that are used to manage the package's scripts
