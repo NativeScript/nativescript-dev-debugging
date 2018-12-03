@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "test",
 	"scripts": {
-		"test": "test"
+		"test": "node node_modules/nativescript-dev-debugging/index.js"
 	},
 	"devDependencies": {
 		"prompt": "^1.0.0",

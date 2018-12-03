@@ -5,7 +5,7 @@ var nativeIosFolder = undefined;
 var nativeAndroidFolder = undefined;
 var packageJsonFolder = undefined;
 
-if (process.argv[2] == "test") {
+if (process.argv[2] == "dev") {
     // Expected input from user
     pluginPlatformsFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src/platforms";
     nativeIosFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/ios";
