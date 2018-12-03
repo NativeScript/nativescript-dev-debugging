@@ -4,6 +4,8 @@ var pluginPlatformsFolder = undefined;
 var nativeIosFolder = undefined;
 var nativeAndroidFolder = undefined;
 var packageJsonFolder = undefined;
+var demoFolder = "../demo";
+var demoAngularFolder = "../demo-angular";
 
 if (process.argv[2] == "dev") {
     // Expected input from user
@@ -66,23 +68,23 @@ function configurePlugin() {
 
     const pluginScripts = [{
         key: "nd.prepare.demo.app.ios",
-        value: "cd ../demo && tns prepare ios"
+        value: "cd " + demoFolder + " && tns prepare ios"
     },
     {
         key: "nd.prepare.demo.app.ios",
-        value: "cd ../demo && tns prepare ios"
+        value: "cd " + demoFolder + " && tns prepare ios"
     },
     {
         key: "nd.prepare.demo.app.android",
-        value: "cd ../demo && tns prepare android"
+        value: "cd " + demoFolder + " && tns prepare android"
     },
     {
         key: "nd.prepare.demo.angular.app.ios",
-        value: "cd ../demo-angular && tns prepare ios"
+        value: "cd " + demoAngularFolder + " && tns prepare ios"
     },
     {
         key: "nd.prepare.demo.angular.app.android",
-        value: "cd ../demo-angular && tns prepare android"
+        value: "cd " + demoAngularFolder + " && tns prepare android"
     },
     {
         key: "nd.demo.debug.native.ios",
@@ -102,11 +104,19 @@ function configurePlugin() {
     },
     {
         key: "nd.demo.run.android",
-        value: "cd ../demo && tns run android --syncAllFiles"
+        value: "cd " + demoFolder + " && tns run android --syncAllFiles"
     },
     {
         key: "nd.demo.run.ios",
-        value: "cd ../demo && tns run ios --syncAllFiles --provision NativeScriptDevProfile"
+        value: "cd " + demoFolder + " && tns run ios --syncAllFiles --provision NativeScriptDevProfile"
+    },
+    {
+        key: "nd.demo.angular.run.android",
+        value: "cd " + demoFolder + " && tns run android --syncAllFiles"
+    },
+    {
+        key: "nd.demo.angular.run.ios",
+        value: "cd " + demoFolder + " && tns run ios --syncAllFiles --provision NativeScriptDevProfile"
     },
     {
         key: "nd.open.xcode",
@@ -123,6 +133,14 @@ function configurePlugin() {
     {
         key: "nd.demo.debug.native.attach.ios",
         value: "npm run build.debug && npm run nd.open.xcode && npm run nd.demo.run.ios"
+    },
+    {
+        key: "nd.demo.angular.debug.native.attach.android",
+        value: "npm run build.debug && npm run nd.open.android.studio && npm run nd.demo.angular.run.android"
+    },
+    {
+        key: "nd.demo.angular.debug.native.attach.ios",
+        value: "npm run build.debug && npm run nd.open.xcode && npm run nd.demo.angular.run.ios"
     },
     {
         key: "nd.attach.native.debugger.ios",
@@ -142,7 +160,7 @@ function configurePlugin() {
     },
     {
         key: "nd.build.native.android",
-        value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Debug -t " + inputParams.target_platform_folder + " -n " + inputParams.native_ios_src_folder + " pdf "
+        value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Debug -t " + inputParams.target_platform_folder + " -n " + inputParams.native_android_src_folder + " pdf "
     },
     {
         key: "nd.build.simulator",
