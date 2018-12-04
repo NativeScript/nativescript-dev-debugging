@@ -1,1 +1,1 @@
-require('./scripts/postinstall');
+require('./scripts/postinstall.js');
