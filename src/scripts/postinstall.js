@@ -1,6 +1,5 @@
 var fs = require('fs');
 var prompt = require('prompt');
-var pluginPlatformsFolder = undefined;
 var nativeIosFolder = undefined;
 var nativeAndroidFolder = undefined;
 var packageJsonFolder = undefined;
@@ -9,8 +8,7 @@ var demoFolder = "../demo";
 var demoAngularFolder = "../demo-angular";
 
 if (process.argv[2] == "dev") {
-    // Expected input from user
-    pluginPlatformsFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src/platforms";
+    // Expected input from user. This is for local development purpose and is coupled with the nativescript-ui-listview plugin's source code
     nativeIosFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/ios";
     nativeAndroidFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/android";
     packageJsonFolder = "/Users/amiorkov/Desktop/Work/nativescript-dev-debugging/app";
@@ -18,6 +16,7 @@ if (process.argv[2] == "dev") {
 }
 
 console.log("'nativescript-dev-debugging' Plugin Configuration");
+console.log("Notes: If you want to configure the plugin from start run: $ node node_modules/nativescript-dev-debugging/index.js");
 
 prompt.start();
 prompt.get({
@@ -35,33 +34,35 @@ prompt.get({
 
 function configurePlugin() {
     var inputParams = {
-        target_platform_folder: undefined,
-        native_ios_src_folder: undefined,
-        native_android_src_folder: undefined,
+        pluginPlatformFolder: undefined,
+        pluginIosSrcFolder: undefined,
+        pluginAndroidSrcFolder: undefined,
         scripts_dir: undefined
     };
 
-    inputParams.native_android_src_folder = nativeAndroidFolder;
-    inputParams.native_ios_src_folder = nativeIosFolder;
-    inputParams.target_platform_folder = pluginPlatformsFolder;
-    inputParams.plugin_json_file_folder = packageJsonFolder;
+    inputParams.pluginAndroidSrcFolder = nativeAndroidFolder;
+    inputParams.pluginIosSrcFolder = nativeIosFolder;
+    inputParams.pluginPlatformFolder = packageJsonFolder + "/platforms";
+    inputParams.pluginSrcFolder = packageJsonFolder;
     inputParams.androidLibraryName = androidLibraryName;
 
-    askPlatformsFolder();
+    askSrcFolder();
 
-    function askPlatformsFolder() {
-        if (inputParams.target_platform_folder == undefined) {
+    function askSrcFolder() {
+        if (inputParams.pluginSrcFolder == undefined) {
             prompt.get({
-                name: 'target_platform_folder',
-                description: "What the path to the 'platforms' directory of your platform ?"
+                name: 'pluginSrcFolder',
+                description: "What the path to your plugin's TS/JS source code ?"
             }, function (err, result) {
                 if (err) {
                     return console.log(err);
                 }
-                if (!result.target_platform_folder) {
-                    return console.log("The 'platforms' directory path is required to correctly setup the plugin.");
+                if (!result.pluginSrcFolder) {
+                    return console.log("The path to your plugin's TS/JS source code is required to correctly setup the plugin.");
                 }
-                inputParams.target_platform_folder = result.target_platform_folder;
+
+                inputParams.pluginSrcFolder = result.pluginSrcFolder;
+                inputParams.pluginPlatformFolder = result.pluginSrcFolder + "/platforms";
                 askNativeIosSrcFolder();
             });
         } else {
@@ -70,19 +71,19 @@ function configurePlugin() {
     }
 
     function askNativeIosSrcFolder() {
-        if (inputParams.native_ios_src_folder == undefined) {
+        if (inputParams.pluginIosSrcFolder == undefined) {
             prompt.get({
-                name: 'native_ios_src_folder',
+                name: 'pluginIosSrcFolder',
                 description: "What the path to your plugin's native iOS source code ?"
             }, function (err, result) {
                 if (err) {
                     return console.log(err);
                 }
-                if (!result.native_ios_src_folder) {
+                if (!result.pluginIosSrcFolder) {
                     return console.log("The path to your plugin's native iOS source code is required to correctly setup the plugin.");
                 }
 
-                inputParams.native_ios_src_folder = result.native_ios_src_folder;
+                inputParams.pluginIosSrcFolder = result.pluginIosSrcFolder;
                 askNativeAndroidSrcFolder();
             });
         } else {
@@ -91,40 +92,19 @@ function configurePlugin() {
     }
 
     function askNativeAndroidSrcFolder() {
-        if (inputParams.native_android_src_folder == undefined) {
+        if (inputParams.pluginAndroidSrcFolder == undefined) {
             prompt.get({
-                name: 'native_android_src_folder',
+                name: 'pluginAndroidSrcFolder',
                 description: "What the path to your plugin's native Android source code ?"
             }, function (err, result) {
                 if (err) {
                     return console.log(err);
                 }
-                if (!result.native_android_src_folder) {
+                if (!result.pluginAndroidSrcFolder) {
                     return console.log("The path to your plugin's native Android source code is required to correctly setup the plugin.");
                 }
 
-                inputParams.native_android_src_folder = result.native_android_src_folder;
-                askSrcFolder();
-            });
-        } else {
-            askSrcFolder();
-        }
-    }
-
-    function askSrcFolder() {
-        if (inputParams.plugin_json_file_folder == undefined) {
-            prompt.get({
-                name: 'plugin_json_file_folder',
-                description: "What the path to your plugin's TS/JS source code ?"
-            }, function (err, result) {
-                if (err) {
-                    return console.log(err);
-                }
-                if (!result.plugin_json_file_folder) {
-                    return console.log("The path to your plugin's TS/JS source code is required to correctly setup the plugin.");
-                }
-
-                inputParams.plugin_json_file_folder = result.plugin_json_file_folder;
+                inputParams.pluginAndroidSrcFolder = result.pluginAndroidSrcFolder;
                 askAndroidLibraryName();
             });
         } else {
@@ -216,52 +196,76 @@ function configurePlugin() {
         },
         {
             key: "nd.demo.debug.native.attach.android",
-            value: "npm run build.debug && npm run nd.open.android.studio && npm run nd.demo.run.android"
+            value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.run.android"
         },
         {
             key: "nd.demo.debug.native.attach.ios",
-            value: "npm run build.debug && npm run nd.open.xcode && npm run nd.demo.run.ios"
+            value: "npm run nd.build.debug.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.run.ios"
+        },
+        {
+            key: "nd.demo.debug.native.attach.ios.device",
+            value: "npm run nd.build.debug.device.native.ios && npm run nd.open.xcode && npm run nd.demo.run.ios"
         },
         {
             key: "nd.demo.angular.debug.native.attach.android",
-            value: "npm run build.debug && npm run nd.open.android.studio && npm run nd.demo.angular.run.android"
+            value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.angular.run.android"
         },
         {
             key: "nd.demo.angular.debug.native.attach.ios",
-            value: "npm run build.debug && npm run nd.open.xcode && npm run nd.demo.angular.run.ios"
+            value: "npm run nd.build.debug.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.run.ios"
+        },
+        {
+            key: "nd.demo.angular.debug.native.attach.ios.device",
+            value: "npm run nd.build.debug.device.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.run.ios"
         },
         {
             key: "nd.attach.native.debugger.ios",
-            value: "npm run build.debug && cd ../src-native/ios && run nd.open.xcode && cd ../../src"
+            value: "npm run nd.build.debug.simulator.native.ios && cd ../src-native/ios && run nd.open.xcode && cd ../../src"
+        },
+        {
+            key: "nd.attach.native.debugger.ios.device",
+            value: "npm run nd.build.debug.device.native.ios && cd ../src-native/ios && run nd.open.xcode && cd ../../src"
         },
         {
             key: "nd.attach.native.debugger.android",
-            value: "npm run build.debug && cd ../src-native/ios && npm run nd.open.android.studio && cd ../../src"
+            value: "npm run nd.build.native.android && cd ../src-native/ios && npm run nd.open.android.studio && cd ../../src"
         },
         {
             key: "nd.build.debug.simulator.native.ios",
-            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Simulator -t " + inputParams.target_platform_folder + " -n " + inputParams.native_ios_src_folder + " pdf"
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Simulator -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginIosSrcFolder + " pdf"
         },
         {
             key: "nd.build.debug.device.native.ios",
-            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Device -t " + inputParams.target_platform_folder + " -n " + inputParams.native_ios_src_folder + " pdf"
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Device -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginIosSrcFolder + " pdf"
         },
         {
             key: "nd.build.native.android",
-            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Debug -t " + inputParams.target_platform_folder + " -n " + inputParams.native_android_src_folder + " -f " + inputParams.androidLibraryName + " pdf "
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Debug -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginAndroidSrcFolder + " -f " + inputParams.androidLibraryName + " pdf "
+        },
+        {
+            key: "nd.build.release.native.ios",
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Release -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginIosSrcFolder + " pdf"
+        },
+        {
+            key: "nd.build.release.native.android",
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Release -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginAndroidSrcFolder + " -f " + inputParams.androidLibraryName + " pdf "
         },
         {
             key: "nd.build.simulator",
-            value: "npm run nd.build.native.android && npm run nd.build.debug.simulator.native.ios"
+            value: "npm run nd.build.debug.simulator.native.ios && npm run nd.build.native.android"
         },
         {
             key: "nd.build.device",
-            value: "npm run nd.build.native.android && npm run nd.build.debug.device.native.ios"
+            value: "npm run nd.build.debug.device.native.ios && npm run nd.build.native.android"
+        },
+        {
+            key: "nd.build",
+            value: "npm run nd.build.release.native.ios && npm run nd.build.release.native.android"
         }];
     }
 
     function writeToSrcJson() {
-        var path = inputParams.plugin_json_file_folder + "/package.json";
+        var path = inputParams.pluginSrcFolder + "/package.json";
         let jsonFile = fs.readFileSync(path);
         var jsonObject = JSON.parse(jsonFile);
         jsonKeys = Object.keys(jsonObject);
