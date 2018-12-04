@@ -7,7 +7,11 @@ var androidLibraryName = undefined;
 var demoFolder = "../demo";
 var demoAngularFolder = "../demo-angular";
 
-if (process.argv[2] == "dev") {
+function isLocalTesting() {
+    return process.argv[2] == "dev";
+}
+
+if (isLocalTesting()) {
     // Expected input from user. This is for local development purpose and is coupled with the nativescript-ui-listview plugin's source code
     nativeIosFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/ios";
     nativeAndroidFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/android";
@@ -18,19 +22,23 @@ if (process.argv[2] == "dev") {
 console.log("'nativescript-dev-debugging' Plugin Configuration");
 console.log("Notes: If you want to configure the plugin from start run: $ node node_modules/nativescript-dev-debugging/index.js");
 
-prompt.start();
-prompt.get({
-    name: 'already_configured',
-    description: "Did you already setup the plugin configuration? (yes/no)"
-}, function (err, result) {
-    if (err) {
-        return console.log(err);
-    }
-    if (result.already_configured.toLowerCase() == "yes") {
-    } else {
-        configurePlugin();
-    }
-});
+if (!isLocalTesting()) {
+    prompt.start();
+    prompt.get({
+        name: 'already_configured',
+        description: "Did you already setup the plugin configuration? (yes/no)"
+    }, function (err, result) {
+        if (err) {
+            return console.log(err);
+        }
+        if (result.already_configured.toLowerCase() == "yes") {
+        } else {
+            configurePlugin();
+        }
+    });
+} else {
+    configurePlugin();
+}
 
 function configurePlugin() {
     var inputParams = {
@@ -46,7 +54,11 @@ function configurePlugin() {
     inputParams.pluginSrcFolder = packageJsonFolder;
     inputParams.androidLibraryName = androidLibraryName;
 
-    askSrcFolder();
+    if (!isLocalTesting()) {
+        askSrcFolder();
+    } else {
+        writeToSrcJson();
+    }
 
     function askSrcFolder() {
         if (inputParams.pluginSrcFolder == undefined) {
@@ -133,7 +145,7 @@ function configurePlugin() {
         }
     }
 
-    function getPluginPreDefinedScripts() {
+    function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatformFolder, pluginIosSrcFolder, pluginAndroidSrcFolder, androidLibraryName) {
         return [{
             key: "nd.prepare.demo.app.ios",
             value: "cd " + demoFolder + " && tns prepare ios"
@@ -232,23 +244,23 @@ function configurePlugin() {
         },
         {
             key: "nd.build.debug.simulator.native.ios",
-            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Simulator -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginIosSrcFolder + " pdf"
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Simulator -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf"
         },
         {
             key: "nd.build.debug.device.native.ios",
-            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Device -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginIosSrcFolder + " pdf"
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Device -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf"
         },
         {
             key: "nd.build.native.android",
-            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Debug -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginAndroidSrcFolder + " -f " + inputParams.androidLibraryName + " pdf "
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Debug -t " + pluginPlatformFolder + " -n " + pluginAndroidSrcFolder + " -f " + androidLibraryName + " pdf "
         },
         {
             key: "nd.build.release.native.ios",
-            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Release -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginIosSrcFolder + " pdf"
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Release -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf"
         },
         {
             key: "nd.build.release.native.android",
-            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Release -t " + inputParams.pluginPlatformFolder + " -n " + inputParams.pluginAndroidSrcFolder + " -f " + inputParams.androidLibraryName + " pdf "
+            value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Release -t " + pluginPlatformFolder + " -n " + pluginAndroidSrcFolder + " -f " + androidLibraryName + " pdf "
         },
         {
             key: "nd.build.simulator",
@@ -270,7 +282,8 @@ function configurePlugin() {
         var jsonObject = JSON.parse(jsonFile);
         jsonKeys = Object.keys(jsonObject);
         var jsonScripts = jsonObject["scripts"];
-        getPluginPreDefinedScripts().forEach((script) => {
+        var predefinedScripts = getPluginPreDefinedScripts(demoFolder, demoAngularFolder, inputParams.pluginPlatformFolder, inputParams.pluginIosSrcFolder, inputParams.pluginAndroidSrcFolder, inputParams.androidLibraryName);
+        predefinedScripts.forEach((script) => {
             jsonScripts[script.key] = script.value;
         });
         jsonObject["scripts"] = jsonScripts;
