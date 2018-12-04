@@ -5,3 +5,6 @@
 *.tns.json
 *.log
 node_modules/
+platforms/
+*.zip
+*.tgz
