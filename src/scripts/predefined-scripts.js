@@ -2,172 +2,194 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
     return [{
         key: "nd.help",
         value: "node node_modules/nativescript-dev-debugging/scripts/help.js",
-        description: "Display the help section, available commands etc."
+        description: "Display the help section, available commands etc.",
+        category: "help"
     },
     {
         key: "nd.build",
         value: "npm run nd.build.release.native.ios && npm run nd.build.release.native.android",
-        description: "."
+        description: "Executes scripts that will build your native iOS and Android source code (for release) and move it to the 'platforms' folder of your NS plugin",
+        category: "build"
     },
     {
         key: "nd.build.simulator",
         value: "npm run nd.build.debug.simulator.native.ios && npm run nd.build.native.android",
-        description: "."
+        description: "Executes scripts that will build your native iOS (for simulator) and Android source code (for debug) and move it to the 'platforms' folder of your NS plugin",
+        category: "build"
     },
     {
         key: "nd.build.device",
         value: "npm run nd.build.debug.device.native.ios && npm run nd.build.native.android",
-        description: "."
+        description: "Executes scripts that will build your native iOS (for real device) and Android source code (for debug) and move it to the 'platforms' folder of your NS plugin",
+        category: "build"
     },
     {
         key: "nd.demo.debug.native.attach.android",
         value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.run.android",
-        description: "."
+        description: "Runs your 'demo' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
+        category: "run"
     },
     {
         key: "nd.demo.debug.native.attach.ios",
         value: "npm run nd.build.debug.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.run.ios",
-        description: "."
+        description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
+        category: "run"
     },
     {
         key: "nd.demo.debug.native.attach.ios.device",
         value: "npm run nd.build.debug.device.native.ios && npm run nd.open.xcode && npm run nd.demo.run.ios",
-        description: "."
+        description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
+        category: "run"
     },
     {
         key: "nd.demo.angular.debug.native.attach.android",
         value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.angular.run.android",
-        description: "."
+        description: "Runs your 'demo-angular' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
+        category: "run"
     },
     {
         key: "nd.demo.angular.debug.native.attach.ios",
         value: "npm run nd.build.debug.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.run.ios",
-        description: "."
+        description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
+        category: "run"
     },
     {
         key: "nd.demo.angular.debug.native.attach.ios.device",
         value: "npm run nd.build.debug.device.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.run.ios",
-        description: "."
+        description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
+        category: "run"
     },
     {
         key: "nd.open.xcode",
         value: "cd ../src-native/ios && open *.xcodeproj && cd ../../src",
-        description: "."
+        description: "Opens your plugin's native iOS source code in Xcode",
+        category: "helper"
     },
     {
         key: "nd.open.android.studio",
         value: "open -a /Applications/Android\\ Studio.app ../src-native/android",
-        description: "."
+        description: "Opens your plugin's native Android source code in Android Studio",
+        category: "helper"
     },
     {
         key: "nd.attach.native.debugger.ios",
         value: "npm run nd.build.debug.simulator.native.ios && cd ../src-native/ios && run nd.open.xcode && cd ../../src",
-        description: "."
+        description: "Rebuilds the plugin's native source code and opens it in Xcode. (for simulator)",
+        category: "attach"
     },
     {
         key: "nd.attach.native.debugger.ios.device",
         value: "npm run nd.build.debug.device.native.ios && cd ../src-native/ios && run nd.open.xcode && cd ../../src",
-        description: "."
+        description: "Rebuilds the plugin's native source code and opens it in Xcode. (for real device)",
+        category: "attach"
     },
     {
         key: "nd.attach.native.debugger.android",
         value: "npm run nd.build.native.android && cd ../src-native/ios && npm run nd.open.android.studio && cd ../../src",
-        description: "."
+        description: "Rebuilds the plugin's native source code and opens it in Android Studio",
+        category: "attach"
     },
     {
         key: "nd.prepare.demo.app.ios",
         value: "cd " + demoFolder + " && tns prepare ios",
-        description: "Runs 'tns prepare ios' for the 'demo' app."
+        description: "Executes 'tns prepare ios' for the 'demo' app",
+        category: "prepare"
     },
     {
         key: "nd.prepare.demo.app.android",
         value: "cd " + demoFolder + " && tns prepare android",
-        description: "Runs 'tns prepare android' for the 'demo' app."
+        description: "Executes 'tns prepare android' for the 'demo' app",
+        category: "prepare"
     },
     {
         key: "nd.prepare.demo.angular.app.ios",
         value: "cd " + demoAngularFolder + " && tns prepare ios",
-        description: "Runs 'tns prepare ios' for the 'demo angular' app."
+        description: "Executes 'tns prepare ios' for the 'demo angular' app",
+        category: "prepare"
     },
     {
         key: "nd.prepare.demo.angular.app.android",
         value: "cd " + demoAngularFolder + " && tns prepare android",
-        description: "Runs 'tns prepare android' for the 'demo angular' app.."
+        description: "Executes 'tns prepare android' for the 'demo angular' app",
+        category: "prepare"
     },
     {
         key: "nd.demo.debug.native.ios",
         value: "npm-watch nd.prepare.demo.app.ios",
-        description: "Triggers a file watcher for the 'demo' app.."
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app and runs it. (COMING SOON)",
+        category: "run"
     },
     {
         key: "nd.demo.debug.native.android",
         value: "npm-watch nd.prepare.demo.app.android",
-        description: "."
+        description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo' app and runs it. (COMING SOON)",
+        category: "run"
     },
     {
         key: "nd.demo.angular.debug.native.ios",
         value: "npm-watch nd.prepare.demo.angular.app.ios",
-        description: "."
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-angular' app and runs it. (COMING SOON)",
+        category: "run"
     },
     {
         key: "nd.demo.angular.debug.native.android",
         value: "npm-watch nd.prepare.demo.angular.app.android",
-        description: "."
+        description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo-angular' app and runs it. (COMING SOON)",
+        category: "run"
     },
     {
         key: "nd.demo.run.android",
         value: "cd " + demoFolder + " && tns run android --syncAllFiles",
-        description: "."
+        description: "Runs the 'demo' app on Android with '--syncAllFiles' argument",
+        category: "run"
     },
     {
         key: "nd.demo.run.ios",
         value: "cd " + demoFolder + " && tns run ios --syncAllFiles --provision NativeScriptDevProfile",
-        description: "."
+        description: "Runs the 'demo' app on iOS with '--syncAllFiles' argument",
+        category: "run"
     },
     {
         key: "nd.demo.angular.run.android",
         value: "cd " + demoFolder + " && tns run android --syncAllFiles",
-        description: "."
+        description: "Runs the 'demo-angular' app on Android with '--syncAllFiles' argument",
+        category: "run"
     },
     {
         key: "nd.demo.angular.run.ios",
         value: "cd " + demoFolder + " && tns run ios --syncAllFiles --provision NativeScriptDevProfile",
-        description: "."
-    },
-    {
-        key: "nd.open.xcode",
-        value: "cd ../src-native/ios && open *.xcodeproj && cd ../../src",
-        description: "."
-    },
-    {
-        key: "nd.open.android.studio",
-        value: "open -a /Applications/Android\\ Studio.app ../src-native/android",
-        description: "."
+        description: "Runs the 'demo-angular' app on iOS with '--syncAllFiles' argument",
+        category: "run"
     },
     {
         key: "nd.build.debug.simulator.native.ios",
         value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Simulator -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf",
-        description: "."
+        description: "Builds the native iOS source code in debug mode for simulator. (preferably use 'nd.build.simulator')",
+        category: "build"
     },
     {
         key: "nd.build.debug.device.native.ios",
         value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Device -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf",
-        description: "."
+        description: "Builds the native iOS source code in debug mode for real device. (preferably use 'nd.build.simulator')",
+        category: "build"
     },
     {
         key: "nd.build.native.android",
         value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Debug -t " + pluginPlatformFolder + " -n " + pluginAndroidSrcFolder + " -f " + androidLibraryName + " pdf ",
-        description: "."
+        description: "Builds the native Android source code in debug mode for simulator. (preferably 'use nd.build.simulator')",
+        category: "build"
     },
     {
         key: "nd.build.release.native.ios",
         value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Release -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf",
-        description: "."
+        description: "Builds the native iOS source code in release mode. (preferably use 'nd.build')",
+        category: "build"
     },
     {
         key: "nd.build.release.native.android",
         value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Release -t " + pluginPlatformFolder + " -n " + pluginAndroidSrcFolder + " -f " + androidLibraryName + " pdf ",
-        description: "."
+        description: "Builds the native Android source code in release mode. (preferably use 'nd.build')",
+        category: "build"
     }];
 }
 

@@ -151,6 +151,7 @@ function configurePlugin() {
         const scriptsTag = "scripts";
         const devDepsTag = "devDependencies";
         const descriptionsTag = "descriptions";
+        const categoriesTag = "categories";
         var path = inputParams.pluginSrcFolder + "/package.json";
         let jsonFile = fs.readFileSync(path);
         var jsonObject = JSON.parse(jsonFile);
@@ -169,11 +170,14 @@ function configurePlugin() {
         var ndJson = {};
         var pluginScriptsJson = { };
         var pluginDescriptionsJson = { };
+        var pluginCategoriesJson = { };
         var pluginScripts = updateJson(predefinedScripts, pluginScriptsJson);
         var descriptions = updateDescriptions(predefinedScripts, pluginDescriptionsJson);
+        var categories = updateCategories(predefinedScripts, pluginCategoriesJson);
         ndJson[scriptsTag] = pluginScripts;
         ndJson[devDepsTag] = newDevDeps;
         ndJson[descriptionsTag] = descriptions;
+        ndJson[categoriesTag] = categories;
         var ndJsonPath = inputParams.pluginSrcFolder + "/node_modules/nativescript-dev-debugging/scripts/nd-package.json";
         fs.writeFileSync(ndJsonPath, JSON.stringify(ndJson, null, "\t"));
 
@@ -202,5 +206,13 @@ function configurePlugin() {
         });
 
         return jsonDevDeps;
+    }
+
+    function updateCategories(newDevDependencies, json) {
+        newDevDependencies.forEach((dep) => {
+            json[dep.key] = dep.category;
+        });
+
+        return json;
     }
 }

@@ -15,7 +15,8 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Help",
-            "program": "${workspaceFolder}/app/help.js"
+            "program": "${workspaceFolder}/app/help.js",
+            "args": [""]
         }
     ]
 }
