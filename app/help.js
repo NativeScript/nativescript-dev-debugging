@@ -1,0 +1,1 @@
+require('nativescript-dev-debugging/scripts/help');

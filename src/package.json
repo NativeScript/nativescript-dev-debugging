@@ -4,7 +4,8 @@
 	"description": "This package allows the developer of an NativeScript plugin to use a workflow that allows to debug both the native iOS (objective-c, swift) and Android (Java) code and the wrapper TypeScript/JavaScript code of the plugin used inside an NativeScript application. This is a powerful \"tool\" which will rebuild both the native framework (iOS) and arr files (Android) and the TypeScript/JavaScript code of your NativeScript plugin.",
 	"main": "index.js",
 	"dependencies": {
-		"prompt": "^1.0.0"
+		"prompt": "^1.0.0",
+		"chalk": "^2.4.1"
 	},
 	"scripts": {
 		"config": "node ./scripts/postinstall.js",
