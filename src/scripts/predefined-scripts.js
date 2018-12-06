@@ -6,6 +6,12 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
         category: "help"
     },
     {
+        key: "nd.config",
+        value: "node node_modules/nativescript-dev-debugging/index.js",
+        description: "Start the interactive configuration of the 'nativescript-dev-debugging' plugin",
+        category: "help"
+    },
+    {
         key: "nd.build",
         value: "npm run nd.build.release.native.ios && npm run nd.build.release.native.android",
         description: "Executes scripts that will build your native iOS and Android source code (for release) and move it to the 'platforms' folder of your NS plugin",

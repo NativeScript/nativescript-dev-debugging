@@ -36,10 +36,10 @@ if (!isLocalTesting()) {
         description: "Did you already setup the plugin configuration? (yes/no)"
     }, function (err, result) {
         if (err) {
-            return console.log(err);
+            return writeErrorMessage(err);
         }
-        if (result.already_configured.toLowerCase() == "yes") {
-        } else {
+
+        if (!isAgreeInput(result.already_configured.toLowerCase())) {
             configurePlugin();
         }
     });
@@ -76,10 +76,11 @@ function configurePlugin() {
                 description: "What the path to your plugin's TS/JS source code ?"
             }, function (err, result) {
                 if (err) {
-                    return console.log(err);
+
+                    return writeErrorMessage(err);
                 }
                 if (!result.pluginSrcFolder) {
-                    return console.log("The path to your plugin's TS/JS source code is required to correctly setup the plugin.");
+                    return writeErrorMessage("The path to your plugin's TS/JS source code is required to correctly setup the plugin.");
                 }
 
                 inputParams.pluginSrcFolder = result.pluginSrcFolder;
@@ -98,10 +99,10 @@ function configurePlugin() {
                 description: "What the path to your plugin's native iOS source code ?"
             }, function (err, result) {
                 if (err) {
-                    return console.log(err);
+                    return writeErrorMessage(err);
                 }
                 if (!result.pluginIosSrcFolder) {
-                    return console.log("The path to your plugin's native iOS source code is required to correctly setup the plugin.");
+                    return writeErrorMessage("The path to your plugin's native iOS source code is required to correctly setup the plugin.");
                 }
 
                 inputParams.pluginIosSrcFolder = result.pluginIosSrcFolder;
@@ -119,10 +120,10 @@ function configurePlugin() {
                 description: "What the path to your plugin's native Android source code ?"
             }, function (err, result) {
                 if (err) {
-                    return console.log(err);
+                    return writeErrorMessage(err);
                 }
                 if (!result.pluginAndroidSrcFolder) {
-                    return console.log("The path to your plugin's native Android source code is required to correctly setup the plugin.");
+                    return writeErrorMessage("The path to your plugin's native Android source code is required to correctly setup the plugin.");
                 }
 
                 inputParams.pluginAndroidSrcFolder = result.pluginAndroidSrcFolder;
@@ -140,10 +141,10 @@ function configurePlugin() {
                 description: "What is the name (no spaces) of the native Android library (.arr file) of your Android Studio proj ?"
             }, function (err, result) {
                 if (err) {
-                    return console.log(err);
+                    return writeErrorMessage(err);
                 }
                 if (!result.androidLibraryName) {
-                    return console.log("The path to your plugin's TS/JS source code is required to correctly setup the plugin.");
+                    return writeErrorMessage("The path to your plugin's TS/JS source code is required to correctly setup the plugin.");
                 }
 
                 inputParams.androidLibraryName = result.androidLibraryName;
@@ -161,7 +162,7 @@ function configurePlugin() {
                 description: "Where is the NS application you want to use ? (or use 'default' from plugin seed)"
             }, function (err, result) {
                 if (err) {
-                    return console.log(err);
+                    return writeErrorMessage(err);
                 }
 
                 if (result.demoFolder == "default") {
@@ -172,7 +173,7 @@ function configurePlugin() {
                 }
 
                 if (!result.demoFolder) {
-                    return console.log("An NS application is required in order to be able to debug your source code.");
+                    return writeErrorMessage("An NS application is required in order to be able to debug your source code.");
                 }
 
                 inputParams.demoFolder = result.demoFolder;
@@ -190,15 +191,14 @@ function configurePlugin() {
                 description: "Where is the NS + Angular application you want to use ?"
             }, function (err, result) {
                 if (err) {
-                    return console.log(err);
+                    return writeErrorMessage(err);
                 }
 
                 if (isDeclineInput(result.demoAngularFolder)) {
-                    return console.log("NS + Angular application not configured. Using any of the commands for 'demo.angular' will not work.");
-                }
+                    writeErrorMessage("NS + Angular application not configured. Using any of the commands for 'demo.angular' will not work.");
+                    writeToSrcJson();
 
-                if (!result.demoAngularFolder) {
-                    return console.log("An NS + Angular application is required in order to be able to debug your source code.");
+                    return;
                 }
 
                 inputParams.demoAngularFolder = result.demoAngularFolder;
@@ -217,7 +217,14 @@ function configurePlugin() {
         var path = inputParams.pluginSrcFolder + "/package.json";
         let jsonFile = fs.readFileSync(path);
         var jsonObject = JSON.parse(jsonFile);
-        var predefinedScripts = predefinedScriptsModule.getPluginPreDefinedScripts(inputParams.demoFolder, inputParams.demoAngularFolder, inputParams.pluginPlatformFolder, inputParams.pluginIosSrcFolder, inputParams.pluginAndroidSrcFolder, inputParams.androidLibraryName);
+        inputParams = cleanUpInput(inputParams);
+        var predefinedScripts = predefinedScriptsModule.getPluginPreDefinedScripts(
+            inputParams.demoFolder,
+            inputParams.demoAngularFolder,
+            inputParams.pluginPlatformFolder,
+            inputParams.pluginIosSrcFolder,
+            inputParams.pluginAndroidSrcFolder,
+            inputParams.androidLibraryName);
         var predefinedDevDependencies = predefinedDepsModule.getDevDependencies();
 
         var jsonScripts = jsonObject[scriptsTag];
@@ -245,6 +252,38 @@ function configurePlugin() {
 
         console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration Successful"));
         console.log(chalk.blue("'nativescript-dev-debugging': Run") + chalk.yellow(' $ npm run nd.help all') + chalk.blue(" to see the available functionality"));
+    }
+
+    function cleanUpInput(input) {
+        if (input.demoFolder != defaultDemoPath) {
+            input.demoFolder = trimTrailingChar(input.demoFolder, '/');
+        }
+
+        if (input.demoAngularFolder != defaultDemoAngularPath) {
+            input.demoAngularFolder = trimTrailingChar(input.demoAngularFolder, '/');
+        }
+
+        input.pluginPlatformFolder = trimTrailingChar(input.pluginPlatformFolder, '/');
+        input.pluginIosSrcFolder = trimTrailingChar(input.pluginIosSrcFolder, '/');
+        input.pluginAndroidSrcFolder = trimTrailingChar(input.pluginAndroidSrcFolder, '/');
+
+        return input;
+    }
+
+    function trimTrailingChar(input, charToTrim) {
+        var regExp = new RegExp(charToTrim + "+$");
+        var result = input.replace(regExp, "");
+        result = addPrefixChar(result, '/');
+
+        return result;
+    }
+
+    function addPrefixChar(input, char) {
+        if (!input.startsWith(char)) {
+            return "/" + input;
+        }
+
+        return input;
     }
 
     function updateJson(newScripts, jsonScripts) {
@@ -278,8 +317,18 @@ function configurePlugin() {
 
         return json;
     }
+}
 
-    function isDeclineInput(input) {
-        return input == "" || input == "no";
-    }
+function isDeclineInput(input) {
+    var lowerCaseInput = input.toLowerCase();
+    return lowerCaseInput == "" || lowerCaseInput == "no";
+}
+
+function isAgreeInput(input) {
+    return input.toLowerCase() == "yes";
+}
+
+function writeErrorMessage(message) {
+    console.log(chalk.red(message));
+    console.log(chalk.blue("In order to configure the 'nativescript-dev-debugging' plugin run:") + chalk.yellow(" $ node node_modules/nativescript-dev-debugging/index.js"));
 }
