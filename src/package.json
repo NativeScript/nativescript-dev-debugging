@@ -11,6 +11,10 @@
 		"config": "node ./scripts/postinstall.js",
 		"postinstall": "node ./scripts/postinstall.js"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/VladimirAmiorkov/nativescript-dev-debugging.git"
+	},
 	"author": "Vladimir Amiorkov <v.amiorkov@gmail.com>",
 	"license": "ISC"
 }
