@@ -1,6 +1,6 @@
 function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatformFolder, pluginIosSrcFolder, pluginAndroidSrcFolder, androidLibraryName, provisioningProfile) {
     var provisioningParam = "";
-    if (provisioningProfile) {
+    if (provisioningProfile != "none") {
         provisioningParam = "  --provision " + provisioningProfile;
     }
 
