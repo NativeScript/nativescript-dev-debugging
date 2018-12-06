@@ -154,7 +154,7 @@ function writeToSrcJson(inputParams) {
     fs.writeFileSync(ndJsonPath, JSON.stringify(ndJson, null, "\t"));
 
     console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration Successful"));
-    console.log(chalk.blue("'nativescript-dev-debugging': Run") + chalk.yellow(' $ npm run nd.help all') + chalk.blue(" to see the available functionality"));
+    console.log(chalk.blue("'nativescript-dev-debugging': Run") + chalk.yellow(' $ npm run nd.help') + chalk.blue(" to see the available functionality"));
 }
 
 function cleanUpInput(input) {
