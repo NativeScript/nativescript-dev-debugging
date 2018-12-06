@@ -1,5 +1,6 @@
 var fs = require('fs');
 var prompt = require('prompt');
+const chalk = require('chalk');
 var predefinedScriptsModule = require('./predefined-scripts');
 var predefinedDepsModule = require('./predefined-dev-deps');
 var nativeIosFolder = undefined;
@@ -21,8 +22,8 @@ if (isLocalTesting()) {
     androidLibraryName = "TNSListView";
 }
 
-console.log("'nativescript-dev-debugging': Plugin Configuration started ...");
-console.log("Notes: If you want to configure the plugin from start run: $ node node_modules/nativescript-dev-debugging/index.js");
+console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration started ..."));
+console.log(chalk.blue("Notes: If you want to configure the plugin from start run: $ node node_modules/nativescript-dev-debugging/index.js"));
 
 if (!isLocalTesting()) {
     prompt.start();
@@ -181,7 +182,8 @@ function configurePlugin() {
         var ndJsonPath = inputParams.pluginSrcFolder + "/node_modules/nativescript-dev-debugging/scripts/nd-package.json";
         fs.writeFileSync(ndJsonPath, JSON.stringify(ndJson, null, "\t"));
 
-        console.log("'nativescript-dev-debugging': Plugin Configuration Successful");
+        console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration Successful"));
+        console.log(chalk.blue("'nativescript-dev-debugging': Run") + chalk.yellow(' $ npm run nd.help all') + chalk.blue(" to see the available functionality"));
     }
 
     function updateJson(newScripts, jsonScripts) {
