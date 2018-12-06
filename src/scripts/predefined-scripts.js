@@ -1,4 +1,9 @@
-function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatformFolder, pluginIosSrcFolder, pluginAndroidSrcFolder, androidLibraryName) {
+function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatformFolder, pluginIosSrcFolder, pluginAndroidSrcFolder, androidLibraryName, provisioningProfile) {
+    var provisioningParam = "";
+    if (provisioningProfile) {
+        provisioningParam = "  --provision " + provisioningProfile;
+    }
+
     return [{
         key: "nd.help",
         value: "node node_modules/nativescript-dev-debugging/scripts/help.js",
@@ -151,7 +156,7 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
     },
     {
         key: "nd.demo.run.ios",
-        value: "cd " + demoFolder + " && tns run ios --syncAllFiles --provision NativeScriptDevProfile",
+        value: "cd " + demoFolder + " && tns run ios" + provisioningParam,
         description: "Runs the 'demo' app on iOS with '--syncAllFiles' argument",
         category: "run"
     },
@@ -163,7 +168,7 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
     },
     {
         key: "nd.demo.angular.run.ios",
-        value: "cd " + demoFolder + " && tns run ios --syncAllFiles --provision NativeScriptDevProfile",
+        value: "cd " + demoFolder + " && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo-angular' app on iOS with '--syncAllFiles' argument",
         category: "run"
     },

@@ -9,6 +9,7 @@ var packageJsonFolder = undefined;
 var androidLibraryName = undefined;
 var demoFolder = undefined;
 var demoAngularFolder = undefined;
+var provisioningProfile = undefined;
 const defaultDemoPath = "../demo";
 const defaultDemoAngularPath = "../demo-angular";
 
@@ -24,6 +25,7 @@ if (isLocalTesting()) {
     androidLibraryName = "TNSListView";
     demoFolder = defaultDemoPath;
     demoAngularFolder = defaultDemoAngularPath;
+    provisioningProfile = "NativeScriptDevProfile";
 }
 
 console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration started ..."));
@@ -52,7 +54,8 @@ function configurePlugin() {
         pluginPlatformFolder: undefined,
         pluginIosSrcFolder: undefined,
         pluginAndroidSrcFolder: undefined,
-        scripts_dir: undefined
+        scripts_dir: undefined,
+        provisioningProfile: undefined
     };
 
     inputParams.pluginAndroidSrcFolder = nativeAndroidFolder;
@@ -62,6 +65,7 @@ function configurePlugin() {
     inputParams.androidLibraryName = androidLibraryName;
     inputParams.demoFolder = demoFolder;
     inputParams.demoAngularFolder = demoAngularFolder;
+    inputParams.provisioningProfile = provisioningProfile;
 
     if (!isLocalTesting()) {
         askSrcFolder();
@@ -168,7 +172,7 @@ function configurePlugin() {
                 if (result.demoFolder == "default") {
                     inputParams.demoFolder = defaultDemoPath;
                     inputParams.demoAngularFolder = defaultDemoAngularPath;
-                    writeToSrcJson();
+                    askProvisioningProfile();
                     return;
                 }
 
@@ -196,12 +200,36 @@ function configurePlugin() {
 
                 if (isDeclineInput(result.demoAngularFolder)) {
                     writeErrorMessage("NS + Angular application not configured. Using any of the commands for 'demo.angular' will not work.");
-                    writeToSrcJson();
+                    askProvisioningProfile();
 
                     return;
                 }
 
                 inputParams.demoAngularFolder = result.demoAngularFolder;
+                askProvisioningProfile();
+            });
+        } else {
+            askProvisioningProfile();
+        }
+    }
+
+    function askProvisioningProfile() {
+        if (inputParams.provisioningProfile == undefined) {
+            prompt.get({
+                name: 'provisioningProfile',
+                description: "What is the 'Apple Developer Provisioning profile' that is required for the demo and demo-angular apps ? (press 'enter' if non is required)"
+            }, function (err, result) {
+                if (err) {
+                    return writeErrorMessage(err);
+                }
+
+                if (isDeclineInput(result.provisioningProfile)) {
+                    writeToSrcJson();
+
+                    return;
+                }
+
+                inputParams.provisioningProfile = result.provisioningProfile;
                 writeToSrcJson();
             });
         } else {
@@ -224,7 +252,8 @@ function configurePlugin() {
             inputParams.pluginPlatformFolder,
             inputParams.pluginIosSrcFolder,
             inputParams.pluginAndroidSrcFolder,
-            inputParams.androidLibraryName);
+            inputParams.androidLibraryName,
+            inputParams.provisioningProfile);
         var predefinedDevDependencies = predefinedDepsModule.getDevDependencies();
 
         var jsonScripts = jsonObject[scriptsTag];
