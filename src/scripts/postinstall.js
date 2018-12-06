@@ -7,8 +7,10 @@ var nativeIosFolder = undefined;
 var nativeAndroidFolder = undefined;
 var packageJsonFolder = undefined;
 var androidLibraryName = undefined;
-var demoFolder = "../demo";
-var demoAngularFolder = "../demo-angular";
+var demoFolder = undefined;
+var demoAngularFolder = undefined;
+const defaultDemoPath = "../demo";
+const defaultDemoAngularPath = "../demo-angular";
 
 function isLocalTesting() {
     return process.argv[2] == "dev";
@@ -20,6 +22,8 @@ if (isLocalTesting()) {
     nativeAndroidFolder = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/android";
     packageJsonFolder = "/Users/amiorkov/Desktop/Work/nativescript-dev-debugging/app";
     androidLibraryName = "TNSListView";
+    demoFolder = defaultDemoPath;
+    demoAngularFolder = defaultDemoAngularPath;
 }
 
 console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration started ..."));
@@ -56,6 +60,8 @@ function configurePlugin() {
     inputParams.pluginPlatformFolder = packageJsonFolder + "/platforms";
     inputParams.pluginSrcFolder = packageJsonFolder;
     inputParams.androidLibraryName = androidLibraryName;
+    inputParams.demoFolder = demoFolder;
+    inputParams.demoAngularFolder = demoAngularFolder;
 
     if (!isLocalTesting()) {
         askSrcFolder();
@@ -141,6 +147,61 @@ function configurePlugin() {
                 }
 
                 inputParams.androidLibraryName = result.androidLibraryName;
+                askDemoFolder();
+            });
+        } else {
+            askDemoFolder();
+        }
+    }
+
+    function askDemoFolder() {
+        if (inputParams.demoFolder == undefined) {
+            prompt.get({
+                name: 'demoFolder',
+                description: "Where is the NS application you want to use ? (or use 'default' from plugin seed)"
+            }, function (err, result) {
+                if (err) {
+                    return console.log(err);
+                }
+
+                if (result.demoFolder == "default") {
+                    inputParams.demoFolder = defaultDemoPath;
+                    inputParams.demoAngularFolder = defaultDemoAngularPath;
+                    writeToSrcJson();
+                    return;
+                }
+
+                if (!result.demoFolder) {
+                    return console.log("An NS application is required in order to be able to debug your source code.");
+                }
+
+                inputParams.demoFolder = result.demoFolder;
+                askDemoAngularFolder();
+            });
+        } else {
+            askDemoAngularFolder();
+        }
+    }
+
+    function askDemoAngularFolder() {
+        if (inputParams.demoAngularFolder == undefined) {
+            prompt.get({
+                name: 'demoAngularFolder',
+                description: "Where is the NS + Angular application you want to use ?"
+            }, function (err, result) {
+                if (err) {
+                    return console.log(err);
+                }
+
+                if (isDeclineInput(result.demoAngularFolder)) {
+                    return console.log("NS + Angular application not configured. Using any of the commands for 'demo.angular' will not work.");
+                }
+
+                if (!result.demoAngularFolder) {
+                    return console.log("An NS + Angular application is required in order to be able to debug your source code.");
+                }
+
+                inputParams.demoAngularFolder = result.demoAngularFolder;
                 writeToSrcJson();
             });
         } else {
@@ -156,7 +217,7 @@ function configurePlugin() {
         var path = inputParams.pluginSrcFolder + "/package.json";
         let jsonFile = fs.readFileSync(path);
         var jsonObject = JSON.parse(jsonFile);
-        var predefinedScripts = predefinedScriptsModule.getPluginPreDefinedScripts(demoFolder, demoAngularFolder, inputParams.pluginPlatformFolder, inputParams.pluginIosSrcFolder, inputParams.pluginAndroidSrcFolder, inputParams.androidLibraryName);
+        var predefinedScripts = predefinedScriptsModule.getPluginPreDefinedScripts(inputParams.demoFolder, inputParams.demoAngularFolder, inputParams.pluginPlatformFolder, inputParams.pluginIosSrcFolder, inputParams.pluginAndroidSrcFolder, inputParams.androidLibraryName);
         var predefinedDevDependencies = predefinedDepsModule.getDevDependencies();
 
         var jsonScripts = jsonObject[scriptsTag];
@@ -169,9 +230,9 @@ function configurePlugin() {
         fs.writeFileSync(path, JSON.stringify(jsonObject, null, "\t"));
 
         var ndJson = {};
-        var pluginScriptsJson = { };
-        var pluginDescriptionsJson = { };
-        var pluginCategoriesJson = { };
+        var pluginScriptsJson = {};
+        var pluginDescriptionsJson = {};
+        var pluginCategoriesJson = {};
         var pluginScripts = updateJson(predefinedScripts, pluginScriptsJson);
         var descriptions = updateDescriptions(predefinedScripts, pluginDescriptionsJson);
         var categories = updateCategories(predefinedScripts, pluginCategoriesJson);
@@ -216,5 +277,9 @@ function configurePlugin() {
         });
 
         return json;
+    }
+
+    function isDeclineInput(input) {
+        return input == "" || input == "no";
     }
 }
