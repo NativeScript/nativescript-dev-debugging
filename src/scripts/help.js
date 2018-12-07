@@ -33,7 +33,7 @@ const questions = [
         name: inputCategoryKey,
         default: "main",
         message: "What type of commands do you need help with ?",
-        suggest: suggestLicenses,
+        suggest: suggestHelpCategories,
     }];
 
 prompter(questions, (err, values) => {
@@ -49,9 +49,9 @@ prompter(questions, (err, values) => {
 })
 
 
-function suggestLicenses({ input }, cb) {
-    const suggested = uniqueCategories;
-    cb(null, suggested)
+function suggestHelpCategories({ input }, cb) {
+    const suggestions = uniqueCategories;
+    cb(null, suggestions)
 }
 
 

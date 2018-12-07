@@ -7,6 +7,8 @@ var predefinedDepsModule = require('./predefined-dev-deps');
 const defaultDemoPath = "../demo";
 const defaultDemoAngularPath = "../demo-angular";
 
+const inputIsConfiguredKey = "isConfigured";
+const inputInputPluginFolderKeyKey = "inputPluginFolderKey";
 const inputPluginSrcFolderKey = "pluginSrcFolder";
 const inputPluginIosSrcFolderKey = "pluginIosSrcFolder";
 const inputPluginAndroidSrcFolderKey = "pluginAndroidSrcFolder";
@@ -19,31 +21,73 @@ console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration start
 console.log(chalk.blue("Notes: If you want to configure the plugin from scratch execute: $ node node_modules/nativescript-dev-debugging/index.js"));
 
 if (!isLocalTesting()) {
-    prompt.start();
-    prompt.get({
-        name: 'already_configured',
-        description: "Did you already setup the plugin configuration? (y/n)"
-    }, function (err, result) {
+    const yes = "Yes";
+    const no = "No";
+    const suggestions = [yes, no];
+
+    const questions = [
+        {
+            type: 'autocomplete',
+            name: inputIsConfiguredKey,
+            message: "Do you want to setup the plugin's configuration?",
+            default: yes,
+            suggest: suggestYesNoAnswer,
+        }];
+
+    prompter(questions, (err, values) => {
         if (err) {
-            return writeErrorMessage(err);
+            writeErrorMessage(err);;
         }
 
-        if (!isAgreeInput(result.already_configured.toLowerCase())) {
+        if (values[inputIsConfiguredKey] == yes) {
+            configureJson();
+        } else {
+            writeErrorMessage("Plugin configuration aborted.");;
+        }
+    });
+
+    function suggestYesNoAnswer({ input }, cb) {
+        cb(null, suggestions)
+    }
+
+    function configureJson() {
+        const questions = [
+            {
+                type: 'autocomplete',
+                name: inputIsConfiguredKey,
+                message: "Do you want to configure your repository structure manually or use the predefined 'plugin seed' repository structure?",
+                default: yes,
+                suggest: suggestYesNoAnswer,
+            }];
+    
+        prompter(questions, (err, values) => {
+            if (err) {
+                writeErrorMessage(err);;
+            }
+
+            if (values[inputIsConfiguredKey] == yes) {
+                configureFromInput();
+            } else {
+                configureFromPluginSeed();
+            }
+        });
+
+        function configureFromInput() {
             const questions = [
                 {
                     type: 'text',
                     name: inputPluginSrcFolderKey,
-                    message: "What the path to your plugin's TS/JS source code ?"
+                    message: "What is the path to your plugin's TS/JS source code ?"
                 },
                 {
                     type: 'text',
                     name: inputPluginIosSrcFolderKey,
-                    message: "What the path to your plugin's native iOS source code ?"
+                    message: "What is the path to your plugin's native iOS source code ?"
                 },
                 {
                     type: 'text',
                     name: inputPluginAndroidSrcFolderKey,
-                    message: "What the path to your plugin's native Android source code ?"
+                    message: "What is the path to your plugin's native Android source code ?"
                 },
                 {
                     type: 'text',
@@ -68,12 +112,12 @@ if (!isLocalTesting()) {
                     message: "What is the 'Apple Developer Provisioning profile' that is required for the demo and demo-angular apps ? (press 'enter' if not required)",
                     default: "none"
                 }];
-
+    
             prompter(questions, (err, values) => {
                 if (err) {
                     writeErrorMessage(err);;
                 }
-
+    
                 var inputParams = {
                     pluginPlatformFolder: undefined,
                     pluginIosSrcFolder: undefined,
@@ -90,9 +134,53 @@ if (!isLocalTesting()) {
                 inputParams.demoAngularFolder = values[inputDemoAngularFolderKey];
                 inputParams.provisioningProfile = values[inputProvisioningProfileKey];
                 writeToSrcJson(inputParams);
-            })
+            });
         }
-    });
+
+        function configureFromPluginSeed() {
+            const questions = [
+                {
+                    type: 'text',
+                    name: inputInputPluginFolderKeyKey,
+                    message: "What is the path to your plugin's repository ?"
+                },
+                {
+                    type: 'text',
+                    name: inputAndroidLibraryNameKey,
+                    message: "What is the name (no spaces) of the native Android library (.arr file) of your Android Studio proj ?"
+                },
+                {
+                    type: 'text',
+                    name: inputProvisioningProfileKey,
+                    message: "What is the 'Apple Developer Provisioning profile' that is required for the demo and demo-angular apps ? (press 'enter' if not required)",
+                    default: "none"
+                }];
+    
+            prompter(questions, (err, values) => {
+                if (err) {
+                    writeErrorMessage(err);;
+                }
+    
+                var inputParams = {
+                    pluginPlatformFolder: undefined,
+                    pluginIosSrcFolder: undefined,
+                    pluginAndroidSrcFolder: undefined,
+                    scripts_dir: undefined,
+                    provisioningProfile: undefined
+                };
+                var pluginRepositoryPath = values[inputInputPluginFolderKeyKey];
+                inputParams.pluginAndroidSrcFolder = pluginRepositoryPath + "/src-native/android";
+                inputParams.pluginIosSrcFolder = pluginRepositoryPath + "/src-native/ios";
+                inputParams.pluginSrcFolder = pluginRepositoryPath + "/src";
+                inputParams.pluginPlatformFolder = pluginRepositoryPath + "/src/platforms";
+                inputParams.androidLibraryName = values[inputAndroidLibraryNameKey];
+                inputParams.demoFolder = pluginRepositoryPath + "/demo";
+                inputParams.demoAngularFolder = pluginRepositoryPath + "/demo-angular";
+                inputParams.provisioningProfile = values[inputProvisioningProfileKey];
+                writeToSrcJson(inputParams);
+            });
+        }
+    }
 } else {
     // Expected input from user. This is for local development purpose and is coupled with the nativescript-ui-listview plugin's source code
     var values = {};
