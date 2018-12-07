@@ -38,37 +38,37 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
         key: "nd.demo.debug.native.attach.android",
         value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.run.android",
         description: "Runs your 'demo' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
-        category: "run"
+        category: "main run"
     },
     {
         key: "nd.demo.debug.native.attach.ios",
         value: "npm run nd.build.debug.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
-        category: "run"
+        category: "main run"
     },
     {
         key: "nd.demo.debug.native.attach.ios.device",
         value: "npm run nd.build.debug.device.native.ios && npm run nd.open.xcode && npm run nd.demo.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
-        category: "run"
+        category: "main run"
     },
     {
         key: "nd.demo.angular.debug.native.attach.android",
         value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.angular.run.android",
         description: "Runs your 'demo-angular' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
-        category: "run"
+        category: "main run"
     },
     {
         key: "nd.demo.angular.debug.native.attach.ios",
         value: "npm run nd.build.debug.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
-        category: "run"
+        category: "main run"
     },
     {
         key: "nd.demo.angular.debug.native.attach.ios.device",
         value: "npm run nd.build.debug.device.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
-        category: "run"
+        category: "main run"
     },
     {
         key: "nd.open.xcode",

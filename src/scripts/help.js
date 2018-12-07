@@ -10,9 +10,19 @@ const inputCategoryKey = "category";
 var categories = jsonHelper.getCategoriesDictionary(jsonObject);
 var tempArray = ["all"];
 categories.forEach(category => {
-    tempArray.push(category.value);
+    var words = category.value.split(" ");
+    words.forEach(word => {
+        tempArray.push(word);
+    });
 });
 var uniqueCategories = tempArray.filter(onlyUniqueComparer);
+uniqueCategories = uniqueCategories.sort(function (a, b) {
+    if (a == "main" || b == "main") {
+        return 1;
+    } else {
+        return a.localeCompare(b);
+    }
+});
 
 const questions = [
     {
@@ -52,7 +62,7 @@ function writeCommandsToConsole(scriptsDict, category) {
         if (!category) {
             log(chalk.green(command) + " : " + chalk.yellow(description));
         } else {
-            if (category == categories[i].value || category == "all") {
+            if (categories[i].value.includes(category) || category == "all") {
                 log(chalk.green(command) + " : " + chalk.yellow(description));
             }
         }
