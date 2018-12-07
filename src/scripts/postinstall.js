@@ -42,7 +42,7 @@ if (!isLocalTesting()) {
         if (values[inputIsConfiguredKey] == yes) {
             configureJson();
         } else {
-            writeErrorMessage("Plugin configuration aborted.");;
+            writeErrorMessage("Plugin configuration aborted.");
         }
     });
 
