@@ -20,6 +20,9 @@ uniqueCategories = uniqueCategories.sort(function (a, b) {
     if (a == "main" || b == "main") {
         return 1;
     } else {
+        if (a == "secondary" || b == "secondary") {
+            return 1;
+        }
         return a.localeCompare(b);
     }
 });
@@ -28,7 +31,7 @@ const questions = [
     {
         type: 'autocomplete',
         name: inputCategoryKey,
-        default: "all",
+        default: "main",
         message: "What type of commands do you need help with ?",
         suggest: suggestLicenses,
     }];
