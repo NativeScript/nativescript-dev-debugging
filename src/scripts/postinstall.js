@@ -3,6 +3,7 @@ var prompt = require('prompt');
 const chalk = require('chalk');
 const prompter = require('cli-prompter');
 var predefinedScriptsModule = require('./predefined-scripts');
+var predefinedWatchersModule = require('./predefied-watchers');
 var predefinedDepsModule = require('./predefined-dev-deps');
 const defaultDemoPath = "../demo";
 const defaultDemoAngularPath = "../demo-angular";
@@ -59,7 +60,7 @@ if (!isLocalTesting()) {
                 default: yes,
                 suggest: suggestYesNoAnswer,
             }];
-    
+
         prompter(questions, (err, values) => {
             if (err) {
                 writeErrorMessage(err);;
@@ -112,12 +113,12 @@ if (!isLocalTesting()) {
                     message: "What is the 'Apple Developer Provisioning profile' that is required for the demo and demo-angular apps ? (press 'enter' if not required)",
                     default: "none"
                 }];
-    
+
             prompter(questions, (err, values) => {
                 if (err) {
                     writeErrorMessage(err);;
                 }
-    
+
                 var inputParams = {
                     pluginPlatformFolder: undefined,
                     pluginIosSrcFolder: undefined,
@@ -155,12 +156,12 @@ if (!isLocalTesting()) {
                     message: "What is the 'Apple Developer Provisioning profile' that is required for the demo and demo-angular apps ? (press 'enter' if not required)",
                     default: "none"
                 }];
-    
+
             prompter(questions, (err, values) => {
                 if (err) {
                     writeErrorMessage(err);;
                 }
-    
+
                 var inputParams = {
                     pluginPlatformFolder: undefined,
                     pluginIosSrcFolder: undefined,
@@ -168,7 +169,7 @@ if (!isLocalTesting()) {
                     scripts_dir: undefined,
                     provisioningProfile: undefined
                 };
-                var pluginRepositoryPath = values[inputInputPluginFolderKeyKey];
+                var pluginRepositoryPath = trimTrailingChar(values[inputInputPluginFolderKeyKey], '/');;
                 inputParams.pluginAndroidSrcFolder = pluginRepositoryPath + "/src-native/android";
                 inputParams.pluginIosSrcFolder = pluginRepositoryPath + "/src-native/ios";
                 inputParams.pluginSrcFolder = pluginRepositoryPath + "/src";
@@ -201,6 +202,7 @@ function isLocalTesting() {
 
 function writeToSrcJson(inputParams) {
     const scriptsTag = "scripts";
+    const watchTag = "watch"
     const devDepsTag = "devDependencies";
     const descriptionsTag = "descriptions";
     const categoriesTag = "categories";
@@ -216,14 +218,18 @@ function writeToSrcJson(inputParams) {
         inputParams.pluginAndroidSrcFolder,
         inputParams.androidLibraryName,
         inputParams.provisioningProfile);
+    var predefinedWatchers = predefinedWatchersModule.getPluginPreDefinedWatchers(inputParams.demoFolder, inputParams.demoAngularFolder);
     var predefinedDevDependencies = predefinedDepsModule.getDevDependencies();
 
-    var jsonScripts = jsonObject[scriptsTag];
-    var jsonDevDeps = jsonObject[devDepsTag];
-    var newScripts = updateJson(predefinedScripts, jsonScripts);
+    var jsonScripts = ensureJsonObject(jsonObject[scriptsTag]);
+    var jsonWatch = ensureJsonObject(jsonObject[watchTag]);
+    var jsonDevDeps = ensureJsonObject(jsonObject[devDepsTag]);
+    var newScripts = updateScripts(predefinedScripts, jsonScripts);
+    var newWatch = updateWatch(predefinedWatchers, jsonWatch);
     var newDevDeps = updateDevDependencies(predefinedDevDependencies, jsonDevDeps);
 
     jsonObject[scriptsTag] = newScripts;
+    jsonObject[watchTag] = newWatch;
     jsonObject[devDepsTag] = newDevDeps;
     fs.writeFileSync(path, JSON.stringify(jsonObject, null, "\t"));
 
@@ -231,7 +237,7 @@ function writeToSrcJson(inputParams) {
     var pluginScriptsJson = {};
     var pluginDescriptionsJson = {};
     var pluginCategoriesJson = {};
-    var pluginScripts = updateJson(predefinedScripts, pluginScriptsJson);
+    var pluginScripts = updateScripts(predefinedScripts, pluginScriptsJson);
     var descriptions = updateDescriptions(predefinedScripts, pluginDescriptionsJson);
     var categories = updateCategories(predefinedScripts, pluginCategoriesJson);
     ndJson[scriptsTag] = pluginScripts;
@@ -243,6 +249,14 @@ function writeToSrcJson(inputParams) {
 
     console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration Successful"));
     console.log(chalk.blue("'nativescript-dev-debugging': Run") + chalk.yellow(' $ npm run nd.help') + chalk.blue(" to see the available functionality"));
+}
+
+function ensureJsonObject(jsonSection) {
+    if (!jsonSection) {
+        return {};
+    }
+
+    return jsonSection;
 }
 
 function cleanUpInput(input) {
@@ -277,7 +291,7 @@ function addPrefixChar(input, char) {
     return input;
 }
 
-function updateJson(newScripts, jsonScripts) {
+function updateScripts(newScripts, jsonScripts) {
     newScripts.forEach((script) => {
         jsonScripts[script.key] = script.value;
     });
@@ -291,6 +305,14 @@ function updateDevDependencies(newDevDependencies, jsonDevDeps) {
     });
 
     return jsonDevDeps;
+}
+
+function updateWatch(newWatch, jsonWatch) {
+    newWatch.forEach((watch) => {
+        jsonWatch[watch.key] = { patterns: watch.patterns, extensions: watch.extensions };
+    });
+
+    return jsonWatch;
 }
 
 function updateDescriptions(newDevDependencies, jsonDevDeps) {

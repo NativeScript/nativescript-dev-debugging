@@ -125,28 +125,76 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
         category: "prepare"
     },
     {
-        key: "nd.demo.debug.native.ios",
+        key: "nd.run.demo.app.ios",
+        value: "cd " + demoFolder + " && tns run ios",
+        description: "Executes 'tns prepare ios' for the 'demo' app",
+        category: "helper"
+    },
+    {
+        key: "nd.run.demo.app.android",
+        value: "cd " + demoFolder + " && tns run android",
+        description: "Executes 'tns prepare android' for the 'demo' app",
+        category: "helper"
+    },
+    {
+        key: "nd.run.demo.angular.app.ios",
+        value: "cd " + demoAngularFolder + " && tns run ios",
+        description: "Executes 'tns prepare ios' for the 'demo angular' app",
+        category: "helper"
+    },
+    {
+        key: "nd.run.demo.angular.app.android",
+        value: "cd " + demoAngularFolder + " && tns run android",
+        description: "Executes 'tns prepare android' for the 'demo angular' app",
+        category: "helper"
+    },
+    {
+        key: "nd.demo.watch.native.ios",
         value: "npm-watch nd.prepare.demo.app.ios",
-        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app and runs it. (COMING SOON)",
-        category: "run"
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds ('tns prepare') the 'demo' app. (COMING SOON)",
+        category: "prepare debug"
     },
     {
-        key: "nd.demo.debug.native.android",
+        key: "nd.demo.watch.android",
         value: "npm-watch nd.prepare.demo.app.android",
-        description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo' app and runs it. (COMING SOON)",
-        category: "run"
+        description: "Triggers file watcher for the native Android source code, when change is detected rebuilds ('tns prepare') the 'demo' app. (COMING SOON)",
+        category: "prepare debug"
     },
     {
-        key: "nd.demo.angular.debug.native.ios",
+        key: "nd.demo.angular.watch.native.ios",
         value: "npm-watch nd.prepare.demo.angular.app.ios",
-        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-angular' app and runs it. (COMING SOON)",
-        category: "run"
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds ('tns prepare') the 'demo-angular' app. (COMING SOON)",
+        category: "prepare debug"
     },
     {
-        key: "nd.demo.angular.debug.native.android",
+        key: "nd.demo.angular.watch.native.android",
         value: "npm-watch nd.prepare.demo.angular.app.android",
-        description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo-angular' app and runs it. (COMING SOON)",
-        category: "run"
+        description: "Triggers file watcher for the native Android source code, when change is detected rebuilds ('tns prepare') the 'demo-angular' app. (COMING SOON)",
+        category: "prepare debug"
+    },
+    {
+        key: "nd.demo.watch.run.native.ios",
+        value: "npm-watch nd.run.demo.app.ios",
+        description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed. (COMING SOON)",
+        category: "run debug"
+    },
+    {
+        key: "nd.demo.watch.run.android",
+        value: "npm-watch nd.run.demo.app.android",
+        description: "Triggers file watcher for the native Android source code, when change is detected the 'demo' app is build and deployed. (COMING SOON)",
+        category: "run debug"
+    },
+    {
+        key: "nd.demo.angular.watch.run.native.ios",
+        value: "npm-watch nd.run.demo.angular.app.ios",
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. (COMING SOON)",
+        category: "run debug"
+    },
+    {
+        key: "nd.demo.angular.watch.run.native.android",
+        value: "npm-watch nd.run.demo.angular.app.android",
+        description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo' app is build and deployed. (COMING SOON)",
+        category: "run debug"
     },
     {
         key: "nd.demo.tns.run.android",
