@@ -5,6 +5,10 @@ This package allows the developer of an **NativeScript plugin** to use a **workf
 Note
 > This dev nodejs package has been developed on Mac and has not been tested on Windows.
 
+
+Note
+> Using the package's scripts will open both Android Studio and XCode so be aware that those applications will open during the executing of the scripts.
+
 # Contributing
 
 In order to test the node package locally:

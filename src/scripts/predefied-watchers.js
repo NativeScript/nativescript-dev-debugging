@@ -1,34 +1,64 @@
-function getPluginPreDefinedWatchers(demoFolder, demoAngularFolder) {
+function getPluginPreDefinedWatchers(demoFolder, demoAngularFolder, iosSourceFolder, androidSourceFolder, iosLibraryName, androidLibraryName) {
     const demoPath = demoFolder + "/app";
     const demoAngularPath = demoAngularFolder + "/app";
-    return [{
-        key: "nd.prepare.demo.angular.app.android",
-        patterns: [
-            demoAngularPath
-        ],
-        extensions: ".ts"
-    },
-    {
-        key: "nd.prepare.demo.angular.app.ios",
-        patterns: [
-            demoAngularPath
-        ],
-        extensions: ".ts"
-    },
-    {
-        key: "nd.prepare.demo.app.android",
-        patterns: [
-            demoPath
-        ],
-        extensions: ""
-    },
-    {
-        key: "nd.prepare.demo.app.ios",
-        patterns: [
-            demoPath
-        ],
-        extensions: ".ts"
-    }];
+    const iosSourcePath = iosSourceFolder + "/" + iosLibraryName;
+    const androidSourcePath = androidSourceFolder + "/" + androidLibraryName;
+    return [
+        {
+            key: "nd.prepare.demo.app.android",
+            patterns: [
+                demoPath
+            ],
+            extensions: ".ts"
+        }, , {
+            key: "nd.prepare.demo.angular.app.android",
+            patterns: [
+                demoAngularPath
+            ],
+            extensions: ".ts"
+        },
+        {
+            key: "nd.prepare.demo.app.ios",
+            patterns: [
+                demoPath
+            ],
+            extensions: ".ts"
+        },
+        {
+            key: "nd.prepare.demo.angular.app.ios",
+            patterns: [
+                demoAngularPath
+            ],
+            extensions: ".ts"
+        },
+        {
+            key: "nd.run.demo.app.android",
+            patterns: [
+                androidSourcePath
+            ],
+            extensions: "java"
+        },
+        {
+            key: "nd.run.demo.angular.app.android",
+            patterns: [
+                androidSourcePath
+            ],
+            extensions: "java"
+        },
+        {
+            key: "nd.run.demo.app.ios",
+            patterns: [
+                iosSourcePath
+            ],
+            extensions: "h,m"
+        },
+        {
+            key: "nd.run.demo.angular.app.ios",
+            patterns: [
+                iosSourcePath
+            ],
+            extensions: "h,m"
+        },];
 }
 
 module.exports.getPluginPreDefinedWatchers = getPluginPreDefinedWatchers;

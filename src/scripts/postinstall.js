@@ -14,6 +14,7 @@ const inputPluginSrcFolderKey = "pluginSrcFolder";
 const inputPluginIosSrcFolderKey = "pluginIosSrcFolder";
 const inputPluginAndroidSrcFolderKey = "pluginAndroidSrcFolder";
 const inputAndroidLibraryNameKey = "androidLibraryName";
+const inputIOSLibraryNameKey = "iosLibraryName";
 const inputDemoFolderKey = "demoFolder";
 const inputDemoAngularFolderKey = "demoAngularFolder";
 const inputProvisioningProfileKey = "provisioningProfile";
@@ -92,6 +93,11 @@ if (!isLocalTesting()) {
                 },
                 {
                     type: 'text',
+                    name: inputIOSLibraryNameKey,
+                    message: "What is the name (no spaces) of the native iOS library (.framework file) of your Xcode proj ?"
+                },
+                {
+                    type: 'text',
                     name: inputAndroidLibraryNameKey,
                     message: "What is the name (no spaces) of the native Android library (.arr file) of your Android Studio proj ?"
                 },
@@ -131,6 +137,7 @@ if (!isLocalTesting()) {
                 inputParams.pluginSrcFolder = values[inputPluginSrcFolderKey];
                 inputParams.pluginPlatformFolder = inputParams.pluginSrcFolder + "/platforms";
                 inputParams.androidLibraryName = values[inputAndroidLibraryNameKey];
+                inputParams.iosLibraryName = values[inputIOSLibraryNameKey];
                 inputParams.demoFolder = values[inputDemoFolderKey];
                 inputParams.demoAngularFolder = values[inputDemoAngularFolderKey];
                 inputParams.provisioningProfile = values[inputProvisioningProfileKey];
@@ -144,6 +151,11 @@ if (!isLocalTesting()) {
                     type: 'text',
                     name: inputInputPluginFolderKeyKey,
                     message: "What is the path to your plugin's repository ?"
+                },
+                {
+                    type: 'text',
+                    name: inputIOSLibraryNameKey,
+                    message: "What is the name (no spaces) of the native iOS library (.framework file) of your Xcode proj ?"
                 },
                 {
                     type: 'text',
@@ -175,6 +187,7 @@ if (!isLocalTesting()) {
                 inputParams.pluginSrcFolder = pluginRepositoryPath + "/src";
                 inputParams.pluginPlatformFolder = pluginRepositoryPath + "/src/platforms";
                 inputParams.androidLibraryName = values[inputAndroidLibraryNameKey];
+                inputParams.iosLibraryName = values[inputIOSLibraryNameKey];
                 inputParams.demoFolder = pluginRepositoryPath + "/demo";
                 inputParams.demoAngularFolder = pluginRepositoryPath + "/demo-angular";
                 inputParams.provisioningProfile = values[inputProvisioningProfileKey];
@@ -190,6 +203,7 @@ if (!isLocalTesting()) {
     values[inputPluginSrcFolderKey] = "/Users/amiorkov/Desktop/Work/nativescript-dev-debugging/app";
     values.pluginPlatformFolder = values[inputPluginSrcFolderKey] + "/platforms";
     values[inputAndroidLibraryNameKey] = "TNSListView";
+    values[inputIOSLibraryNameKey] = "TNSListView";
     values[inputDemoFolderKey] = defaultDemoPath;
     values[inputDemoAngularFolderKey] = defaultDemoAngularPath;
     values[inputProvisioningProfileKey] = "NativeScriptDevProfile";
@@ -217,8 +231,9 @@ function writeToSrcJson(inputParams) {
         inputParams.pluginIosSrcFolder,
         inputParams.pluginAndroidSrcFolder,
         inputParams.androidLibraryName,
+        inputParams.iosLibraryName,
         inputParams.provisioningProfile);
-    var predefinedWatchers = predefinedWatchersModule.getPluginPreDefinedWatchers(inputParams.demoFolder, inputParams.demoAngularFolder);
+    var predefinedWatchers = predefinedWatchersModule.getPluginPreDefinedWatchers(inputParams.demoFolder, inputParams.demoAngularFolder, inputParams.pluginIosSrcFolder, inputParams.pluginAndroidSrcFolder, inputParams.iosLibraryName, inputParams.androidLibraryName);
     var predefinedDevDependencies = predefinedDepsModule.getDevDependencies();
 
     var jsonScripts = ensureJsonObject(jsonObject[scriptsTag]);

@@ -16,16 +16,23 @@ categories.forEach(category => {
     });
 });
 var uniqueCategories = tempArray.filter(onlyUniqueComparer);
-uniqueCategories = uniqueCategories.sort(function (a, b) {
-    if (a == "main" || b == "main") {
-        return 1;
+uniqueCategories.sort();
+uniqueCategories = uniqueCategories.reduce((acc, element) => {
+    if (element === "main") {
+        return [element, ...acc];
     } else {
-        if (a == "secondary" || b == "secondary") {
-            return 1;
+        if (element === "developNative") {
+            return [element, ...acc];
         }
-        return a.localeCompare(b);
+
+        if (element === "debugNative") {
+            return [element, ...acc];
+        }
     }
-});
+    return [...acc, element];
+}, []);
+
+console.log(uniqueCategories.length);
 
 const questions = [
     {
@@ -54,9 +61,9 @@ function suggestHelpCategories({ input }, cb) {
     cb(null, suggestions)
 }
 
-
 function writeCommandsToConsole(scriptsDict, category) {
-    log(chalk.blue("Available Commands:\n \n"));
+    log(chalk.blue("Available Commands for: ") + chalk.yellow(category));
+    log("\n");
     log(chalk.green("NPM command") + " : " + chalk.yellow("Description\n"));
     for (i = 0; i < scriptsDict.length; i++) {
         var scriptPair = scriptsDict[i];
