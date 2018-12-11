@@ -33,7 +33,7 @@ function getPluginPreDefinedWatchers(demoFolder, demoAngularFolder, iosSourceFol
             extensions: ".ts"
         },
         {
-            key: "nd.run.demo.app.android",
+            key: "nd.build.run.demo.app.android",
             patterns: [
                 androidSourcePath
             ],
@@ -41,7 +41,7 @@ function getPluginPreDefinedWatchers(demoFolder, demoAngularFolder, iosSourceFol
             extensions: "java"
         },
         {
-            key: "nd.run.demo.angular.app.android",
+            key: "nd.build.run.demo.angular.app.android",
             patterns: [
                 androidSourcePath
             ],
@@ -49,14 +49,14 @@ function getPluginPreDefinedWatchers(demoFolder, demoAngularFolder, iosSourceFol
             extensions: "java"
         },
         {
-            key: "nd.run.demo.app.ios",
+            key: "nd.build.run.device.demo.app.ios",
             patterns: [
                 iosSourcePath
             ],
             extensions: "h,m"
         },
         {
-            key: "nd.run.demo.angular.app.ios",
+            key: "nd.build.run.demo.angular.app.ios",
             patterns: [
                 iosSourcePath
             ],

@@ -88,13 +88,13 @@ if (!isLocalTesting()) {
                 },
                 {
                     type: 'text',
-                    name: inputPluginAndroidSrcFolderKey,
-                    message: "What is the path to your plugin's native Android source code ?"
+                    name: inputIOSLibraryNameKey,
+                    message: "What is the name (no spaces) of the native iOS library (.framework file) of your Xcode proj ?"
                 },
                 {
                     type: 'text',
-                    name: inputIOSLibraryNameKey,
-                    message: "What is the name (no spaces) of the native iOS library (.framework file) of your Xcode proj ?"
+                    name: inputPluginAndroidSrcFolderKey,
+                    message: "What is the path to your plugin's native Android source code ?"
                 },
                 {
                     type: 'text',

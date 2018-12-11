@@ -32,8 +32,6 @@ uniqueCategories = uniqueCategories.reduce((acc, element) => {
     return [...acc, element];
 }, []);
 
-console.log(uniqueCategories.length);
-
 const questions = [
     {
         type: 'autocomplete',
