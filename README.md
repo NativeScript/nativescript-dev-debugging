@@ -1,6 +1,6 @@
 # nativescript-dev-debugging
 
-This dev plugin allows an __NativeScript plugin authors__ to use a **predefined workflow** with which you can **develop** and **debug** both the **native iOS/Android** and the **TypeScript/JavaScript** wrapper source code of their NS plugin. THe main API that this plugin exposes is through `npm scripts` which will be saved to your package.json of your plugin's source code.
+This dev plugin allows an __NativeScript plugin authors__ to use a **predefined workflow** with which you can **develop** and **debug** both the **native iOS/Android** and the **TypeScript/JavaScript** wrapper source code of their NS plugin. The main API that this plugin exposes is through `npm scripts` which will be saved to your package.json of your plugin's source code.
 
 Note
 > - This NS dev plugin has been developed on Mac and has not been tested on Windows.
