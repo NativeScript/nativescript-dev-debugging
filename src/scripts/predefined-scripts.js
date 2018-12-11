@@ -149,6 +149,12 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
         category: "secondary"
     },
     {
+        key: "nd.build.run.simulator.demo.angular.app.ios",
+        value: "npm run nd.build.simulator.native.ios " + " && npm run nd.demo.tns.run.ios",
+        description: "Executes 'tns run ios' for the 'demo angular' app",
+        category: "secondary"
+    },
+    {
         key: "nd.build.run.demo.angular.app.android",
         value: "npm run nd.build.native.android " + " && npm run nd.demo.angular.tns.run.android",
         description: "Executes 'tns run android' for the 'demo angular' app",
@@ -204,7 +210,7 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
     },
     {
         key: "nd.demo.angular.run.simulator.watch.ios",
-        value: "npm run nd.open.xcode && npm-watch nd.build.run.demo.angular.app.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },

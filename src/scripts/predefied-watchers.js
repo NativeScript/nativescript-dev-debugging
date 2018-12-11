@@ -56,12 +56,26 @@ function getPluginPreDefinedWatchers(demoFolder, demoAngularFolder, iosSourceFol
             extensions: "h,m"
         },
         {
+            key: "nd.build.run.simulator.demo.app.ios",
+            patterns: [
+                iosSourcePath
+            ],
+            extensions: "h,m"
+        },
+        {
             key: "nd.build.run.demo.angular.app.ios",
             patterns: [
                 iosSourcePath
             ],
             extensions: "h,m"
-        },];
+        },
+        {
+            key: "nd.build.run.simulator.demo.angular.app.ios",
+            patterns: [
+                iosSourcePath
+            ],
+            extensions: "h,m"
+        }];
 }
 
 module.exports.getPluginPreDefinedWatchers = getPluginPreDefinedWatchers;
