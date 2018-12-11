@@ -185,33 +185,21 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
         category: "secondary"
     },
     {
-        key: "nd.demo.run.device.watch.ios",
-        value: "npm run nd.open.xcode && npm-watch nd.build.run.device.demo.app.ios",
-        description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
-        category: "main ios developNative"
-    },
-    {
-        key: "nd.demo.run.simulator.watch.ios",
-        value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.app.ios",
-        description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
-        category: "main ios developNative"
-    },
-    {
         key: "nd.demo.run.watch.android",
         value: "npm run nd.open.android.studio && npm-watch nd.build.run.demo.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
         category: "main android developNative"
     },
     {
-        key: "nd.demo.angular.run.device.watch.ios",
-        value: "npm run nd.open.xcode && npm-watch nd.build.run.demo.angular.app.ios",
-        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
+        key: "nd.demo.run.watch.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.app.ios",
+        description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },
     {
-        key: "nd.demo.angular.run.simulator.watch.ios",
-        value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.angular.app.ios",
-        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
+        key: "nd.demo.run.watch.device.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.device.demo.app.ios",
+        description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },
     {
@@ -219,6 +207,18 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
         value: "npm run nd.open.android.studio && npm-watch nd.build.run.demo.angular.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
         category: "main android developNative"
+    },
+    {
+        key: "nd.demo.angular.run.watch.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.angular.app.ios",
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
+        category: "main ios developNative"
+    },
+    {
+        key: "nd.demo.angular.run.watch.device.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.demo.angular.app.ios",
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
+        category: "main ios developNative"
     },
     {
         key: "nd.demo.tns.run.android",
