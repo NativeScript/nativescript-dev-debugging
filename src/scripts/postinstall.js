@@ -231,7 +231,6 @@ function writeToSrcJson(inputParams) {
         inputParams.pluginIosSrcFolder,
         inputParams.pluginAndroidSrcFolder,
         inputParams.androidLibraryName,
-        inputParams.iosLibraryName,
         inputParams.provisioningProfile);
     var predefinedWatchers = predefinedWatchersModule.getPluginPreDefinedWatchers(inputParams.demoFolder, inputParams.demoAngularFolder, inputParams.pluginIosSrcFolder, inputParams.pluginAndroidSrcFolder, inputParams.iosLibraryName, inputParams.androidLibraryName);
     var predefinedDevDependencies = predefinedDepsModule.getDevDependencies();
