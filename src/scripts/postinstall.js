@@ -252,10 +252,13 @@ function writeToSrcJson(inputParams) {
     var pluginScriptsJson = {};
     var pluginDescriptionsJson = {};
     var pluginCategoriesJson = {};
+    var pluginWatchJson = {};
     var pluginScripts = updateScripts(predefinedScripts, pluginScriptsJson);
     var descriptions = updateDescriptions(predefinedScripts, pluginDescriptionsJson);
     var categories = updateCategories(predefinedScripts, pluginCategoriesJson);
+    var pluginWatch = updateWatch(predefinedWatchers, pluginWatchJson);
     ndJson[scriptsTag] = pluginScripts;
+    ndJson[watchTag] = pluginWatch;
     ndJson[devDepsTag] = newDevDeps;
     ndJson[descriptionsTag] = descriptions;
     ndJson[categoriesTag] = categories;
@@ -324,7 +327,11 @@ function updateDevDependencies(newDevDependencies, jsonDevDeps) {
 
 function updateWatch(newWatch, jsonWatch) {
     newWatch.forEach((watch) => {
-        jsonWatch[watch.key] = { patterns: watch.patterns, extensions: watch.extensions };
+        var value = { patterns: watch.patterns, extensions: watch.extensions };
+        if (watch.ignore) {
+            value = { patterns: value.patterns, extensions: value.extensions, ignore: watch.ignore };
+        }
+        jsonWatch[watch.key] = value;
     });
 
     return jsonWatch;
@@ -344,10 +351,6 @@ function updateCategories(newDevDependencies, json) {
     });
 
     return json;
-}
-
-function isAgreeInput(input) {
-    return input.toLowerCase() == "y";
 }
 
 function writeErrorMessage(message) {

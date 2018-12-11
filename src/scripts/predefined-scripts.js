@@ -180,31 +180,31 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
     },
     {
         key: "nd.demo.run.simulator.watch.ios",
-        value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm-watch nd.run.demo.app.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.run.demo.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },
     {
         key: "nd.demo.run.watch.android",
-        value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm-watch nd.run.demo.app.android",
+        value: "npm run nd.open.android.studio && npm-watch nd.run.demo.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
         category: "main android developNative"
     },
     {
         key: "nd.demo.angular.run.device.watch.ios",
-        value: "npm run npm run nd.build.device.native.ios && npm run nd.open.xcode npm-watch nd.run.demo.angular.app.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.run.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },
     {
         key: "nd.demo.angular.run.simulator.watch.ios",
-        value: "npm run npm run nd.build.simulator.native.ios && npm run nd.open.xcode npm-watch nd.run.demo.angular.app.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.run.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },
     {
         key: "nd.demo.angular.run.watch.android",
-        value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm-watch nd.run.demo.angular.app.android",
+        value: "npm run nd.open.android.studio && npm-watch nd.run.demo.angular.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
         category: "main android developNative"
     },

@@ -3,6 +3,7 @@ function getPluginPreDefinedWatchers(demoFolder, demoAngularFolder, iosSourceFol
     const demoAngularPath = demoAngularFolder + "/app";
     const iosSourcePath = iosSourceFolder + "/" + iosLibraryName;
     const androidSourcePath = androidSourceFolder + "/" + androidLibraryName;
+    const androidSourceBuildFolder = androidSourcePath + "/build";
     return [
         {
             key: "nd.prepare.demo.app.android",
@@ -36,6 +37,7 @@ function getPluginPreDefinedWatchers(demoFolder, demoAngularFolder, iosSourceFol
             patterns: [
                 androidSourcePath
             ],
+            ignore: androidSourceBuildFolder,
             extensions: "java"
         },
         {
@@ -43,6 +45,7 @@ function getPluginPreDefinedWatchers(demoFolder, demoAngularFolder, iosSourceFol
             patterns: [
                 androidSourcePath
             ],
+            ignore: androidSourceBuildFolder,
             extensions: "java"
         },
         {
