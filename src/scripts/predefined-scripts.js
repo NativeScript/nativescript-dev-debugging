@@ -125,26 +125,32 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
         category: "helper"
     },
     {
-        key: "nd.run.demo.app.ios",
-        value: "npm run nd.build.device.native.ios && cd " + demoFolder + " && tns run ios --syncAllFiles",
+        key: "nd.build.run.device.demo.app.ios",
+        value: "npm run nd.build.device.native.ios" + " && npm run nd.demo.tns.run.ios",
         description: "Executes 'tns run ios' for the 'demo' app",
         category: "helper"
     },
     {
-        key: "nd.run.demo.app.android",
-        value: "npm run nd.build.native.android && cd " + demoFolder + " && tns run android --syncAllFiles",
+        key: "nd.build.run.simulator.demo.app.ios",
+        value: "npm run nd.build.simulator.native.ios" + " && npm run nd.demo.tns.run.ios",
+        description: "Executes 'tns run ios' for the 'demo' app",
+        category: "helper"
+    },
+    {
+        key: "nd.build.run.demo.app.android",
+        value: "npm run nd.build.native.android" + " && npm run nd.demo.tns.run.android",
         description: "Executes 'tns run android' for the 'demo' app",
         category: "helper"
     },
     {
-        key: "nd.run.demo.angular.app.ios",
-        value: "npm run nd.build.device.native.ios && cd " + demoAngularFolder + " && tns run ios --syncAllFiles",
+        key: "nd.build.run.demo.angular.app.ios",
+        value: "npm run nd.build.device.native.ios " + " && npm run nd.demo.tns.run.ios",
         description: "Executes 'tns run ios' for the 'demo angular' app",
         category: "helper"
     },
     {
-        key: "nd.run.demo.angular.app.android",
-        value: "npm run nd.build.native.android && cd " + demoAngularFolder + " && tns run android --syncAllFiles",
+        key: "nd.build.run.demo.angular.app.android",
+        value: "npm run nd.build.native.android " + " && npm run nd.demo.angular.tns.run.android",
         description: "Executes 'tns run android' for the 'demo angular' app",
         category: "helper"
     },
@@ -174,37 +180,37 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
     },
     {
         key: "nd.demo.run.device.watch.ios",
-        value: "npm run nd.open.xcode && npm-watch nd.run.demo.app.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.device.demo.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },
     {
         key: "nd.demo.run.simulator.watch.ios",
-        value: "npm run nd.open.xcode && npm-watch nd.run.demo.app.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },
     {
         key: "nd.demo.run.watch.android",
-        value: "npm run nd.open.android.studio && npm-watch nd.run.demo.app.android",
+        value: "npm run nd.open.android.studio && npm-watch nd.build.run.demo.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
         category: "main android developNative"
     },
     {
         key: "nd.demo.angular.run.device.watch.ios",
-        value: "npm run nd.open.xcode && npm-watch nd.run.demo.angular.app.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },
     {
         key: "nd.demo.angular.run.simulator.watch.ios",
-        value: "npm run nd.open.xcode && npm-watch nd.run.demo.angular.app.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative"
     },
     {
         key: "nd.demo.angular.run.watch.android",
-        value: "npm run nd.open.android.studio && npm-watch nd.run.demo.angular.app.android",
+        value: "npm run nd.open.android.studio && npm-watch nd.build.run.demo.angular.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
         category: "main android developNative"
     },
@@ -222,13 +228,13 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
     },
     {
         key: "nd.demo.angular.tns.run.android",
-        value: "cd " + demoFolder + " && tns run android --syncAllFiles",
+        value: "cd " + demoAngularFolder + " && tns run android --syncAllFiles",
         description: "Runs the 'demo-angular' app on Android with '--syncAllFiles' argument",
         category: "helper"
     },
     {
         key: "nd.demo.angular.tns.run.ios",
-        value: "cd " + demoFolder + " && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoAngularFolder + " && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo-angular' app on iOS with '--syncAllFiles' argument",
         category: "helper"
     },
