@@ -12,9 +12,11 @@ Note
 The first thing you need to do is install the plugin:
 
 - npm install nativescript-dev-debugging --save-dev
-- After that configuration wizard will be started. You have the option to use "completely manual configuration" or "plugin seed friendly configuration"
+- After that configuration wizard will be started. You have the option to use "manual configuration" or "plugin seed friendly configuration"
 
-### Completely manual configuration
+### Manual configuration
+
+Recommended for plugins that **have not used** the [NativeScript plugin seed](https://github.com/NativeScript/nativescript-plugin-seed) as a starting point. The post install script will ask for the following configuration settings of your plugin's structure:
 
 - The "path" to the folder which hold your plugin's TypeScript/JavaScript and package.json
 - The "path" to the native iOS source code of the Xcode project from which the iOS framework of your plugin has been build
@@ -25,7 +27,11 @@ The first thing you need to do is install the plugin:
 - The "path" to the folder which hold the NativeScript + Angular application used as demo of your plugin (optional)
 - The Apple provisioning profile that is required for the above NativeScript application (optional) 
 
-### Plugin seed friendly configuration
+### "Plugin seed" friendly configuration
+
+Recommended for plugins that **have used** the [NativeScript plugin seed](https://github.com/NativeScript/nativescript-plugin-seed) as a starting point. The post install script will ask for the following configuration settings of your plugin's structure:
+
+The post install script will ask for the following configuration settings of your plugin's structure:
 
 - The "path" to the folder which hold your plugin's TypeScript/JavaScript and package.json
 - The name of the name of the iOS framework of your plugin
