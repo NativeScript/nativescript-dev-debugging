@@ -3,12 +3,9 @@
 This dev plugin allows an __NativeScript plugin authors__ to use a **predefined workflow** with which you can **develop** and **debug** both the **native iOS/Android** and the **TypeScript/JavaScript** wrapper source code of their NS plugin. THe main API that this plugin exposes is through `npm scripts` which will be saved to your package.json of your plugin's source code.
 
 Note
-> This NS dev plugin has been developed on Mac and has not been tested on Windows.
-
-
-Note
-> Using the plugin's scripts will open both Android Studio and XCode so be aware that those applications will open during the executing of the scripts.
-> This plugin uses the `--syncAllFiles` to ensure that all of your NS plugin source code changes are transferred when changes are detected.
+> - This NS dev plugin has been developed on Mac and has not been tested on Windows.
+> - Using the plugin's scripts will open both Android Studio and XCode so be aware that those applications will open during the executing of the scripts.
+> - This plugin uses the `--syncAllFiles` to ensure that all of your NS plugin source code changes are transferred when changes are detected.
 
 ## Installation
 
