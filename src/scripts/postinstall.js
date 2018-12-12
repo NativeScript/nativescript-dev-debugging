@@ -18,11 +18,47 @@ const inputIOSLibraryNameKey = "iosLibraryName";
 const inputDemoFolderKey = "demoFolder";
 const inputDemoAngularFolderKey = "demoAngularFolder";
 const inputProvisioningProfileKey = "provisioningProfile";
+const configurationFilePath = getConfigFilePath();
+const emptyProvisioningProfileValue = "none";
 
 console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration started ..."));
 console.log(chalk.blue("Notes: If you want to configure the plugin from scratch execute: $ node node_modules/nativescript-dev-debugging/index.js"));
 
-if (!isLocalTesting()) {
+if (fs.existsSync(configurationFilePath)) {
+    const configFile = fs.readFileSync(configurationFilePath);
+    try {
+        var configJsonObject = JSON.parse(configFile);
+        var inputParams = {
+            pluginAndroidSrcFolder: undefined,
+            pluginIosSrcFolder: undefined,
+            pluginSrcFolder: undefined,
+            pluginPlatformFolder: undefined,
+            androidLibraryName: undefined,
+            iosLibraryName: undefined,
+            demoFolder: undefined,
+            demoAngularFolder: undefined,
+            provisioningProfile: undefined
+        };
+        inputParams.pluginAndroidSrcFolder = configJsonObject[inputPluginAndroidSrcFolderKey];
+        inputParams.pluginIosSrcFolder = configJsonObject[inputPluginIosSrcFolderKey];
+        inputParams.pluginSrcFolder = configJsonObject[inputPluginSrcFolderKey];
+        inputParams.pluginPlatformFolder = inputParams.pluginSrcFolder + "/platforms";
+        inputParams.androidLibraryName = configJsonObject[inputAndroidLibraryNameKey];
+        inputParams.iosLibraryName = configJsonObject[inputIOSLibraryNameKey];
+        inputParams.demoFolder = configJsonObject[inputDemoFolderKey];
+        inputParams.demoAngularFolder = configJsonObject[inputDemoAngularFolderKey];
+        inputParams.provisioningProfile = configJsonObject[inputProvisioningProfileKey];
+
+        writeToSrcJson(inputParams);
+    } catch (e) {
+        console.log(chalk.red("The " + configurationFilePath + " file is corrupted. Proceeding with post install configuration."));
+        initConfig();
+    }
+} else {
+    initConfig();
+}
+
+function initConfig() {
     const yes = "Yes";
     const no = "No";
     const suggestions = [yes, no];
@@ -117,7 +153,7 @@ if (!isLocalTesting()) {
                     type: 'text',
                     name: inputProvisioningProfileKey,
                     message: "What is the 'Apple Developer Provisioning profile' that is required for the demo and demo-angular apps ? (press 'enter' if not required)",
-                    default: "none"
+                    default: emptyProvisioningProfileValue
                 }];
 
             prompter(questions, (err, values) => {
@@ -126,10 +162,14 @@ if (!isLocalTesting()) {
                 }
 
                 var inputParams = {
-                    pluginPlatformFolder: undefined,
-                    pluginIosSrcFolder: undefined,
                     pluginAndroidSrcFolder: undefined,
-                    scripts_dir: undefined,
+                    pluginIosSrcFolder: undefined,
+                    pluginSrcFolder: undefined,
+                    pluginPlatformFolder: undefined,
+                    androidLibraryName: undefined,
+                    iosLibraryName: undefined,
+                    demoFolder: undefined,
+                    demoAngularFolder: undefined,
                     provisioningProfile: undefined
                 };
                 inputParams.pluginAndroidSrcFolder = values[inputPluginAndroidSrcFolderKey];
@@ -141,6 +181,7 @@ if (!isLocalTesting()) {
                 inputParams.demoFolder = values[inputDemoFolderKey];
                 inputParams.demoAngularFolder = values[inputDemoAngularFolderKey];
                 inputParams.provisioningProfile = values[inputProvisioningProfileKey];
+                saveConfigurationToLocal(configurationFilePath, inputParams);
                 writeToSrcJson(inputParams);
             });
         }
@@ -166,7 +207,7 @@ if (!isLocalTesting()) {
                     type: 'text',
                     name: inputProvisioningProfileKey,
                     message: "What is the 'Apple Developer Provisioning profile' that is required for the demo and demo-angular apps ? (press 'enter' if not required)",
-                    default: "none"
+                    default: emptyProvisioningProfileValue
                 }];
 
             prompter(questions, (err, values) => {
@@ -175,10 +216,14 @@ if (!isLocalTesting()) {
                 }
 
                 var inputParams = {
-                    pluginPlatformFolder: undefined,
-                    pluginIosSrcFolder: undefined,
                     pluginAndroidSrcFolder: undefined,
-                    scripts_dir: undefined,
+                    pluginIosSrcFolder: undefined,
+                    pluginSrcFolder: undefined,
+                    pluginPlatformFolder: undefined,
+                    androidLibraryName: undefined,
+                    iosLibraryName: undefined,
+                    demoFolder: undefined,
+                    demoAngularFolder: undefined,
                     provisioningProfile: undefined
                 };
                 var pluginRepositoryPath = trimTrailingChar(values[inputInputPluginFolderKeyKey], '/');;
@@ -191,27 +236,21 @@ if (!isLocalTesting()) {
                 inputParams.demoFolder = pluginRepositoryPath + "/demo";
                 inputParams.demoAngularFolder = pluginRepositoryPath + "/demo-angular";
                 inputParams.provisioningProfile = values[inputProvisioningProfileKey];
+                saveConfigurationToLocal(configurationFilePath, inputParams);
                 writeToSrcJson(inputParams);
             });
         }
     }
-} else {
-    // Expected input from user. This is for local development purpose and is coupled with the nativescript-ui-listview plugin's source code
-    var values = {};
-    values[inputPluginAndroidSrcFolderKey] = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/android";
-    values[inputPluginIosSrcFolderKey] = "/Users/amiorkov/Desktop/Work/nativescript-ui-listview/src-native/ios";
-    values[inputPluginSrcFolderKey] = "/Users/amiorkov/Desktop/Work/nativescript-dev-debugging/app";
-    values.pluginPlatformFolder = values[inputPluginSrcFolderKey] + "/platforms";
-    values[inputAndroidLibraryNameKey] = "TNSListView";
-    values[inputIOSLibraryNameKey] = "TNSListView";
-    values[inputDemoFolderKey] = defaultDemoPath;
-    values[inputDemoAngularFolderKey] = defaultDemoAngularPath;
-    values[inputProvisioningProfileKey] = "NativeScriptDevProfile";
-    writeToSrcJson(values);
 }
 
-function isLocalTesting() {
-    return process.argv[2] == "dev";
+function getConfigFilePath() {
+    const arg = process.argv[2];
+    if (arg && arg != "") {
+        return arg;
+    } else {
+        return "nd-config.json";
+    }
+    return;
 }
 
 function writeToSrcJson(inputParams) {
@@ -268,6 +307,24 @@ function writeToSrcJson(inputParams) {
     console.log(chalk.blue("'nativescript-dev-debugging': Run") + chalk.yellow(' $ npm run nd.help') + chalk.blue(" to see the available functionality"));
 }
 
+function saveConfigurationToLocal(filePath, config) {
+    const configInputsArray = {
+        "pluginSrcFolder": config.pluginSrcFolder,
+        "pluginIosSrcFolder": config.pluginIosSrcFolder,
+        "iosLibraryName": config.iosLibraryName,
+        "pluginAndroidSrcFolder": config.pluginAndroidSrcFolder,
+        "androidLibraryName": config.androidLibraryName,
+        "demoFolder": config.demoFolder,
+        "demoAngularFolder": config.demoAngularFolder,
+
+    };
+
+    if (config.provisioningProfile != emptyProvisioningProfileValue) {
+        configInputsArray.provisioningProfile = config.provisioningProfile
+    }
+    fs.writeFileSync(filePath, JSON.stringify(configInputsArray, null, "\t"));
+}
+
 function ensureJsonObject(jsonSection) {
     if (!jsonSection) {
         return {};
@@ -284,7 +341,6 @@ function cleanUpInput(input) {
     if (input.demoAngularFolder != defaultDemoAngularPath) {
         input.demoAngularFolder = trimTrailingChar(input.demoAngularFolder, '/');
     }
-
     input.pluginPlatformFolder = trimTrailingChar(input.pluginPlatformFolder, '/');
     input.pluginIosSrcFolder = trimTrailingChar(input.pluginIosSrcFolder, '/');
     input.pluginAndroidSrcFolder = trimTrailingChar(input.pluginAndroidSrcFolder, '/');
