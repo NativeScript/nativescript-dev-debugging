@@ -44,6 +44,14 @@ The exposed API of this dev plugin is though the use of npm scripts. After the i
 
 For full details regarding the build-in functionality of this plugin execute `npm run nd.help`.
 
+## Workflow for "Changes to NS app and the TypeScript/JavaScript of your plugin"
+
+When you would like to make changes to your NativeScript application and the "wrapper" TypeScript/JavaScript of your plugin and also be able to attach your native source code to the deployed app you should use the commands from the `debugNative` section of the help, to see all commands run `npm run nd.help` and choose the `debugNative` option.
+
+## Workflow for "Changes to native iOS/Android source code and the NS app and the TypeScript/JavaScript of your plugin"
+
+When you would like to make changes to your NativeScript application and the "wrapper" TypeScript/JavaScript of your plugin and also be able to attach your native source code to the deployed app you should use the commands from the `developNative` section of the help, to see all commands run `npm run nd.help` and choose the `developNative` option.
+
 # Contributing
 
 In order to test the node package locally:
