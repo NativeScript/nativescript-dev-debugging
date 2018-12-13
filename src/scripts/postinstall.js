@@ -1,5 +1,4 @@
 var fs = require('fs');
-var prompt = require('prompt');
 const chalk = require('chalk');
 const prompter = require('cli-prompter');
 var predefinedScriptsModule = require('./predefined-scripts');
@@ -51,6 +50,7 @@ if (fs.existsSync(configurationFilePath)) {
 
         writeToSrcJson(inputParams);
     } catch (e) {
+        console.log(chalk.red("Error reading nd.config.json: " + e));
         console.log(chalk.red("The " + configurationFilePath + " file is corrupted. Proceeding with post install configuration."));
         initConfig();
     }
@@ -245,12 +245,17 @@ function initConfig() {
 
 function getConfigFilePath() {
     const arg = process.argv[2];
-    if (arg && arg != "") {
+    const configFileName = "nd-config.json";
+    if (arg && arg != "" && arg != "dev") {
         return arg;
     } else {
-        return "nd-config.json";
+        if (arg != "dev") {
+            return configFileName;
+
+        } else {
+            return process.cwd() + "/app/" + configFileName;
+        }
     }
-    return;
 }
 
 function writeToSrcJson(inputParams) {
@@ -308,19 +313,17 @@ function writeToSrcJson(inputParams) {
 }
 
 function saveConfigurationToLocal(filePath, config) {
-    const configInputsArray = {
-        "pluginSrcFolder": config.pluginSrcFolder,
-        "pluginIosSrcFolder": config.pluginIosSrcFolder,
-        "iosLibraryName": config.iosLibraryName,
-        "pluginAndroidSrcFolder": config.pluginAndroidSrcFolder,
-        "androidLibraryName": config.androidLibraryName,
-        "demoFolder": config.demoFolder,
-        "demoAngularFolder": config.demoAngularFolder,
-
-    };
+    const configInputsArray = { };
+    configInputsArray[inputPluginSrcFolderKey] = config.pluginSrcFolder;
+    configInputsArray[inputPluginIosSrcFolderKey] = config.pluginIosSrcFolder;
+    configInputsArray[inputIOSLibraryNameKey] = config.iosLibraryName;
+    configInputsArray[inputPluginAndroidSrcFolderKey] = config.pluginAndroidSrcFolder;
+    configInputsArray[inputAndroidLibraryNameKey] = config.androidLibraryName;
+    configInputsArray[inputDemoFolderKey] = config.demoFolder;
+    configInputsArray[inputDemoAngularFolderKey] = config.demoAngularFolder;
 
     if (config.provisioningProfile != emptyProvisioningProfileValue) {
-        configInputsArray.provisioningProfile = config.provisioningProfile
+        configInputsArray[inputProvisioningProfileKey] = config.provisioningProfile
     }
     fs.writeFileSync(filePath, JSON.stringify(configInputsArray, null, "\t"));
 }
@@ -338,7 +341,7 @@ function cleanUpInput(input) {
         input.demoFolder = trimTrailingChar(input.demoFolder, '/');
     }
 
-    if (input.demoAngularFolder != defaultDemoAngularPath) {
+    if (input.demoAngularFolder && input.demoAngularFolder != defaultDemoAngularPath) {
         input.demoAngularFolder = trimTrailingChar(input.demoAngularFolder, '/');
     }
     input.pluginPlatformFolder = trimTrailingChar(input.pluginPlatformFolder, '/');
