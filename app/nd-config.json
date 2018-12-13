@@ -1,0 +1,10 @@
+{
+	"pluginSrcFolder": "/Users/amiorkov/Desktop/Work/nativescript-dev-debugging/app",
+	"pluginIosSrcFolder": "<placeholder for ios src path>",
+	"iosLibraryName": "<placeholder ios framework name>",
+	"pluginAndroidSrcFolder": "<placeholder for android src path>",
+	"androidLibraryName": "<placeholder for android library name>",
+	"demoFolder": "<placeholder for demo path>",
+	"demoAngularFolder": "<placeholder for demo angular path>",
+	"provisioningProfile": "<placeholder for Apple provisioning profile>"
+}

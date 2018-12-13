@@ -8,4 +8,3 @@ platforms/
 *.zip
 *.tgz
 nd-package.json
-nd-config.json
