@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index",
 	"scripts": {
-		"test": "node node_modules/nativescript-dev-debugging/index.js"
+		"install": "node node_modules/nativescript-dev-debugging/index.js",
+		"run": "node node_modules/nativescript-dev-debugging/scripts/run.js"
 	},
 	"devDependencies": {
 		"nativescript-dev-debugging": "../src"

@@ -1,7 +1,7 @@
 function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, pluginPlatformFolder, pluginIosSrcFolder, pluginAndroidSrcFolder, androidLibraryName, provisioningProfile) {
     var provisioningParam = "";
     if (provisioningProfile && provisioningProfile != "none") {
-        provisioningParam = "  --provision " + provisioningProfile;
+        provisioningParam = " --provision " + provisioningProfile;
     }
 
     return [{
@@ -15,6 +15,12 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         value: "node node_modules/nativescript-dev-debugging/index.js",
         description: "Start the interactive configuration of the 'nativescript-dev-debugging' plugin",
         category: "help"
+    },
+    {
+        key: "nd.run",
+        value: "node node_modules/nativescript-dev-debugging/scripts/run.js",
+        description: "Interactive run. Provided guide execution of the main commands",
+        category: "main"
     },
     {
         key: "nd.build.release",
@@ -38,37 +44,43 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         key: "nd.demo.android",
         value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.tns.run.android",
         description: "Runs your 'demo' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
-        category: "main android debugNative"
+        category: "main android debugNative",
+        shortCommands: ["ns android simulator attach", "ns android device attach"]
     },
     {
         key: "nd.demo.ios",
         value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
-        category: "main ios debugNative"
+        category: "main ios debugNative",
+        shortCommands: ["ns ios simulator attach"]
     },
     {
         key: "nd.demo.ios.device",
         value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
-        category: "main ios debugNative"
+        category: "main ios debugNative",
+        shortCommands: ["ns ios device attach"]
     },
     {
         key: "nd.demo.angular.android",
         value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.angular.tns.run.android",
         description: "Runs your 'demo-angular' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
-        category: "main android debugNative"
+        category: "main android debugNative",
+        shortCommands: ["ng android simulator attach", "ng android device attach"]
     },
     {
         key: "nd.demo.angular.ios",
         value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
-        category: "main ios debugNative"
+        category: "main ios debugNative",
+        shortCommands: ["ng ios simulator attach"]
     },
     {
         key: "nd.demo.angular.ios.device",
         value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
-        category: "main ios debugNative"
+        category: "main ios debugNative",
+        shortCommands: ["ng ios device attach"]
     },
     {
         key: "nd.open.xcode",
@@ -188,37 +200,43 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         key: "nd.demo.run.watch.android",
         value: "npm run nd.open.android.studio && npm-watch nd.build.run.demo.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
-        category: "main android developNative"
+        category: "main android developNative",
+        shortCommands: ["ns android simulator watch", "ns android device watch"]
     },
     {
         key: "nd.demo.run.watch.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
-        category: "main ios developNative"
+        category: "main ios developNative",
+        shortCommands: ["ns ios simulator watch"]
     },
     {
         key: "nd.demo.run.watch.device.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.device.demo.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
-        category: "main ios developNative"
+        category: "main ios developNative",
+        shortCommands: ["ns ios device watch"]
     },
     {
         key: "nd.demo.angular.run.watch.android",
         value: "npm run nd.open.android.studio && npm-watch nd.build.run.demo.angular.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
-        category: "main android developNative"
+        category: "main android developNative",
+        shortCommands: ["ng android simulator watch", "ng android device watch"]
     },
     {
         key: "nd.demo.angular.run.watch.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
-        category: "main ios developNative"
+        category: "main ios developNative",
+        shortCommands: ["ng ios simulator watch"]
     },
     {
         key: "nd.demo.angular.run.watch.device.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
-        category: "main ios developNative"
+        category: "main ios developNative",
+        shortCommands: ["ng ios device watch"]
     },
     {
         key: "nd.demo.tns.run.android",
@@ -228,7 +246,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
     },
     {
         key: "nd.demo.tns.run.ios",
-        value: "cd " + demoFolder + " && tns run ios" + provisioningParam,
+        value: "cd " + demoFolder + " && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
@@ -272,6 +290,18 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         key: "nd.build.release.native.android",
         value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-android.sh -b Release -t " + pluginPlatformFolder + " -n " + pluginAndroidSrcFolder + " -f " + androidLibraryName + " pdf ",
         description: "Builds the native Android source code in release mode. (preferably use 'nd.build')",
+        category: "secondary"
+    },
+    {
+        key: "nd.clean.demo",
+        value: "rm -rf " + demoFolder + "/node_modules " + demoFolder + "/platforms",
+        description: "Clears the node_modules and platforms folder of the Vanila NS app",
+        category: "secondary"
+    },
+    {
+        key: "nd.clean.demo.angular",
+        value: "rm -rf " + demoAngularFolder + "/node_modules " + demoAngularFolder + "/platforms",
+        description: "Clears the node_modules and platforms folder of the Angular NS app",
         category: "secondary"
     }];
 }

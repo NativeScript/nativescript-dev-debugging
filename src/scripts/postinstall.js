@@ -269,12 +269,13 @@ function writeToSrcJson(inputParams) {
     const watchTag = "watch"
     const devDepsTag = "devDependencies";
     const descriptionsTag = "descriptions";
+    const shortCommandsTag = "shortCommands";
     const categoriesTag = "categories";
     var path = inputParams.pluginSrcFolder + "/package.json";
     let jsonFile = fs.readFileSync(path);
     var jsonObject = JSON.parse(jsonFile);
     inputParams = cleanUpInput(inputParams);
-    var predefinedScripts = predefinedScriptsModule.getPluginPreDefinedScripts(
+    const predefinedScripts = predefinedScriptsModule.getPluginPreDefinedScripts(
         inputParams.pluginSrcFolder,
         inputParams.demoFolder,
         inputParams.demoAngularFolder,
@@ -301,16 +302,19 @@ function writeToSrcJson(inputParams) {
     var ndJson = {};
     var pluginScriptsJson = {};
     var pluginDescriptionsJson = {};
+    var pluginDShortCommandsJson = {};
     var pluginCategoriesJson = {};
     var pluginWatchJson = {};
     var pluginScripts = updateScripts(predefinedScripts, pluginScriptsJson);
     var descriptions = updateDescriptions(predefinedScripts, pluginDescriptionsJson);
+    var shortCommands = updateShortCommands(predefinedScripts, pluginDShortCommandsJson);
     var categories = updateCategories(predefinedScripts, pluginCategoriesJson);
     var pluginWatch = updateWatch(predefinedWatchers, pluginWatchJson);
     ndJson[scriptsTag] = pluginScripts;
     ndJson[watchTag] = pluginWatch;
     ndJson[devDepsTag] = newDevDeps;
     ndJson[descriptionsTag] = descriptions;
+    ndJson[shortCommandsTag] = shortCommands;
     ndJson[categoriesTag] = categories;
     var ndJsonPath = inputParams.pluginSrcFolder + "/node_modules/nativescript-dev-debugging/scripts/nd-package.json";
     fs.writeFileSync(ndJsonPath, JSON.stringify(ndJson, null, "\t"));
@@ -406,6 +410,14 @@ function updateWatch(newWatch, jsonWatch) {
 function updateDescriptions(newDevDependencies, jsonDevDeps) {
     newDevDependencies.forEach((dep) => {
         jsonDevDeps[dep.key] = dep.description;
+    });
+
+    return jsonDevDeps;
+}
+
+function updateShortCommands(scripts, jsonDevDeps) {
+    scripts.forEach((script) => {
+        jsonDevDeps[script.key] = script.shortCommands;
     });
 
     return jsonDevDeps;

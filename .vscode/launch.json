@@ -7,15 +7,22 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Dev",
+            "name": "Launch 'Post install'",
             "program": "${workspaceFolder}/app/index.js",
             "args": ["dev"]
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Help",
+            "name": "Launch 'Help'",
             "program": "${workspaceFolder}/app/help.js",
+            "args": [""]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch 'Run'",
+            "program": "${workspaceFolder}/app/run.js",
             "args": [""]
         }
     ]
