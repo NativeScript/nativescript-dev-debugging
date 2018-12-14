@@ -19,6 +19,7 @@ The first thing you need to do is install the plugin:
 Recommended for plugins that **have not used** the [NativeScript plugin seed](https://github.com/NativeScript/nativescript-plugin-seed) as a starting point. The post install script will ask for the following configuration settings of your plugin's structure:
 
 - The "path" to the folder which hold your plugin's TypeScript/JavaScript and package.json
+- The "path" to the folder which hold your plugin's 'platforms' contents ('android' and 'ios' folders)
 - The "path" to the native iOS source code of the Xcode project from which the iOS framework of your plugin has been build
 - The name of the name of the iOS framework of your plugin
 - The "path" to the native Android source code of the Android Studio project from which the Android library of your plugin has been build
@@ -57,5 +58,5 @@ When you would like to make changes to your NativeScript application and the "wr
 In order to test the node package locally:
 - Open the app folder `cd app`
 - Run `npm i`
-- Run `npm run test` - will execute the package's postinstall scrip like it is being installed in the app folder for the first time
-- Run `npm run test <full path to a 'nd-config.json' file>` - will execute the package's postinstall scrip with the configuration of the `nd-config.json` file
+- Run `npm run install` - will execute the package's postinstall scrip like it is being installed in the app folder for the first time
+- Run `npm run install <full path to a 'nd-config.json' file>` - will execute the package's postinstall scrip with the configuration of the `nd-config.json` file
