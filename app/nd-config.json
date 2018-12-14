@@ -1,5 +1,6 @@
 {
 	"pluginSrcFolder": "/Users/amiorkov/Desktop/Work/nativescript-dev-debugging/app",
+	"pluginPlatformFolder": "<placeholder for ios platforms path>",
 	"pluginIosSrcFolder": "<placeholder for ios src path>",
 	"iosLibraryName": "<placeholder ios framework name>",
 	"pluginAndroidSrcFolder": "<placeholder for android src path>",
