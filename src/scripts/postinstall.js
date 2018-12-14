@@ -10,6 +10,7 @@ const defaultDemoAngularPath = "../demo-angular";
 const inputIsConfiguredKey = "isConfigured";
 const inputInputPluginFolderKeyKey = "inputPluginFolderKey";
 const inputPluginSrcFolderKey = "pluginSrcFolder";
+const inputPluginPlatformFolderKey = "pluginPlatformFolder";
 const inputPluginIosSrcFolderKey = "pluginIosSrcFolder";
 const inputPluginAndroidSrcFolderKey = "pluginAndroidSrcFolder";
 const inputAndroidLibraryNameKey = "androidLibraryName";
@@ -41,7 +42,7 @@ if (fs.existsSync(configurationFilePath)) {
         inputParams.pluginAndroidSrcFolder = configJsonObject[inputPluginAndroidSrcFolderKey];
         inputParams.pluginIosSrcFolder = configJsonObject[inputPluginIosSrcFolderKey];
         inputParams.pluginSrcFolder = configJsonObject[inputPluginSrcFolderKey];
-        inputParams.pluginPlatformFolder = inputParams.pluginSrcFolder + "/platforms";
+        inputParams.pluginPlatformFolder = configJsonObject[inputPluginPlatformFolderKey];
         inputParams.androidLibraryName = configJsonObject[inputAndroidLibraryNameKey];
         inputParams.iosLibraryName = configJsonObject[inputIOSLibraryNameKey];
         inputParams.demoFolder = configJsonObject[inputDemoFolderKey];
@@ -119,6 +120,11 @@ function initConfig() {
                 },
                 {
                     type: 'text',
+                    name: inputPluginPlatformFolderKey,
+                    message: "What is the path to your plugin's platforms directory?"
+                },
+                {
+                    type: 'text',
                     name: inputPluginIosSrcFolderKey,
                     message: "What is the path to your plugin's native iOS source code ?"
                 },
@@ -175,7 +181,7 @@ function initConfig() {
                 inputParams.pluginAndroidSrcFolder = values[inputPluginAndroidSrcFolderKey];
                 inputParams.pluginIosSrcFolder = values[inputPluginIosSrcFolderKey];
                 inputParams.pluginSrcFolder = values[inputPluginSrcFolderKey];
-                inputParams.pluginPlatformFolder = inputParams.pluginSrcFolder + "/platforms";
+                inputParams.pluginPlatformFolder = configJsonObject[inputPluginPlatformFolderKey];
                 inputParams.androidLibraryName = values[inputAndroidLibraryNameKey];
                 inputParams.iosLibraryName = values[inputIOSLibraryNameKey];
                 inputParams.demoFolder = values[inputDemoFolderKey];
@@ -269,6 +275,7 @@ function writeToSrcJson(inputParams) {
     var jsonObject = JSON.parse(jsonFile);
     inputParams = cleanUpInput(inputParams);
     var predefinedScripts = predefinedScriptsModule.getPluginPreDefinedScripts(
+        inputParams.pluginSrcFolder,
         inputParams.demoFolder,
         inputParams.demoAngularFolder,
         inputParams.pluginPlatformFolder,
@@ -315,6 +322,7 @@ function writeToSrcJson(inputParams) {
 function saveConfigurationToLocal(filePath, config) {
     const configInputsArray = { };
     configInputsArray[inputPluginSrcFolderKey] = config.pluginSrcFolder;
+    configInputsArray[inputPluginPlatformFolderKey] = config.pluginPlatformFolder;
     configInputsArray[inputPluginIosSrcFolderKey] = config.pluginIosSrcFolder;
     configInputsArray[inputIOSLibraryNameKey] = config.iosLibraryName;
     configInputsArray[inputPluginAndroidSrcFolderKey] = config.pluginAndroidSrcFolder;

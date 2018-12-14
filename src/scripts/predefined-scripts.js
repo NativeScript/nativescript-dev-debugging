@@ -1,4 +1,4 @@
-function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatformFolder, pluginIosSrcFolder, pluginAndroidSrcFolder, androidLibraryName, provisioningProfile) {
+function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, pluginPlatformFolder, pluginIosSrcFolder, pluginAndroidSrcFolder, androidLibraryName, provisioningProfile) {
     var provisioningParam = "";
     if (provisioningProfile && provisioningProfile != "none") {
         provisioningParam = "  --provision " + provisioningProfile;
@@ -72,31 +72,31 @@ function getPluginPreDefinedScripts(demoFolder, demoAngularFolder, pluginPlatfor
     },
     {
         key: "nd.open.xcode",
-        value: "cd ../src-native/ios && open *.xcodeproj && cd ../../src",
+        value: "cd " + pluginIosSrcFolder + " && open *.xcodeproj && cd " + srcPath,
         description: "Opens your plugin's native iOS source code in Xcode",
         category: "secondary"
     },
     {
         key: "nd.open.android.studio",
-        value: "open -a /Applications/Android\\ Studio.app ../src-native/android",
+        value: "open -a /Applications/Android\\ Studio.app " + pluginAndroidSrcFolder,
         description: "Opens your plugin's native Android source code in Android Studio",
         category: "secondary"
     },
     {
         key: "nd.native.debugger.android",
-        value: "npm run nd.build.native.android && cd ../src-native/ios && npm run nd.open.android.studio && cd ../../src",
+        value: "npm run nd.build.native.android && npm run nd.open.android.studio",
         description: "Rebuilds the plugin's native source code and opens it in Android Studio",
         category: "secondary"
     },
     {
         key: "nd.native.debugger.ios",
-        value: "npm run nd.build.simulator.native.ios && cd ../src-native/ios && run nd.open.xcode && cd ../../src",
+        value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && cd " + srcPath,
         description: "Rebuilds the plugin's native source code and opens it in Xcode. (for simulator)",
         category: "secondary"
     },
     {
         key: "nd.native.debugger.ios.device",
-        value: "npm run nd.build.device.native.ios && cd ../src-native/ios && run nd.open.xcode && cd ../../src",
+        value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && cd " + srcPath,
         description: "Rebuilds the plugin's native source code and opens it in Xcode. (for real device)",
         category: "secondary"
     },
