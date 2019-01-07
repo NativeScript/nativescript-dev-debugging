@@ -22,7 +22,7 @@ const configurationFilePath = getConfigFilePath();
 const emptyProvisioningProfileValue = "none";
 
 console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration started ..."));
-console.log(chalk.blue("Notes: If you want to configure the plugin from scratch execute: $ node node_modules/nativescript-dev-debugging/index.js"));
+console.log(chalk.blue("Note: If you want to configure the plugin from scratch execute: " + chalk.yellow("$ node node_modules/nativescript-dev-debugging/index.js")));
 
 if (fs.existsSync(configurationFilePath)) {
     const configFile = fs.readFileSync(configurationFilePath);
@@ -319,8 +319,9 @@ function writeToSrcJson(inputParams) {
     var ndJsonPath = inputParams.pluginSrcFolder + "/node_modules/nativescript-dev-debugging/scripts/nd-package.json";
     fs.writeFileSync(ndJsonPath, JSON.stringify(ndJson, null, "\t"));
 
-    console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration Successful"));
-    console.log(chalk.blue("'nativescript-dev-debugging': Run") + chalk.yellow(' $ npm run nd.help') + chalk.blue(" to see the available functionality"));
+    console.log(chalk.green("Plugin Configuration Successful"));
+    console.log(chalk.green("To get started execute:" + chalk.yellow(" & npm run nd.run")));
+    console.log(chalk.green("For full documentation and available commands run") + chalk.yellow(' $ npm run nd.help'));
 }
 
 function saveConfigurationToLocal(filePath, config) {
