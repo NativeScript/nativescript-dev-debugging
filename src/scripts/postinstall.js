@@ -251,7 +251,11 @@ function initConfig() {
 
 function getConfigFilePath() {
     const arg = process.argv[2];
-    const configFileName = "nd-config.json";
+    let configFileName = "nd-config.json";
+    if (process.env.INIT_CWD) {
+        configFileName = process.env.INIT_CWD + "/nd-config.json";
+    }
+
     if (arg && arg != "" && arg != "dev") {
         return arg;
     } else {
