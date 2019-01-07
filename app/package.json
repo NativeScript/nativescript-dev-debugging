@@ -4,8 +4,8 @@
 	"description": "",
 	"main": "index",
 	"scripts": {
-		"install": "node node_modules/nativescript-dev-debugging/index.js",
-		"run": "node node_modules/nativescript-dev-debugging/scripts/run.js"
+		"nd.install": "node node_modules/nativescript-dev-debugging/index.js",
+		"nd.run": "node node_modules/nativescript-dev-debugging/scripts/run.js"
 	},
 	"devDependencies": {
 		"nativescript-dev-debugging": "../src"
