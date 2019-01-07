@@ -9,6 +9,13 @@ Note
 
 ## Installation
 
+### Requirements
+
+- npm 6.4.1 or above (`npm --version`)
+- NativeScript 5.1.0 or above (`$ tns --version`)
+- Xcode 10.1 Build version 10B61 (`$ xcodebuild -version`)
+- Android Studio 3.2.1 or above (`$ mdls -name kMDItemVersion /Applications/Android\ Studio.app`)
+
 The first thing you need to do is install the plugin:
 
 - npm install nativescript-dev-debugging --save-dev
