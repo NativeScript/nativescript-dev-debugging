@@ -44,7 +44,25 @@ The post install script will ask for the following configuration settings of you
 - The "path" to the folder which hold your plugin's TypeScript/JavaScript and package.json
 - The name of the name of the iOS framework of your plugin
 - The name of the name of the Android library of your plugin
-- The Apple provisioning profile that is required for the above NativeScript application (optional) 
+- The Apple provisioning profile that is required for the above NativeScript application (optional)
+
+### Configuration file
+
+After either of the above configuration stages the configuration parameters you have entered will be written locally to an configuration json file called `nd-config.json`. You cna manually create this file in the root (where the package.json of your {N} plugin source code is) and pre-configure it so that when the npm postinstall script is ran it will skip app prompts of the nativescript-dev-debugging plugin configuration stage. Here are all the require configuration key/value pairs:
+
+```
+{
+	"pluginSrcFolder": "/Users/USER/plugin_repo/src",
+	"pluginPlatformFolder": "/Users/USER/plugin_repo/src/platforms",
+	"pluginIosSrcFolder": "/Users/USER/plugin_repo/src-native/ios",
+	"iosLibraryName": "LibraryName",
+	"pluginAndroidSrcFolder": "/Users/USER/plugin_repo/src-native/android",
+	"androidLibraryName": "LibraryName",
+	"demoFolder": "/Users/USER/plugin_repo/demo",
+	"demoAngularFolder": "/Users/USER/plugin_repo/demo-angular",
+	"provisioningProfile": "TestProfile"
+}
+```
 
 # Usage and workflow
 
