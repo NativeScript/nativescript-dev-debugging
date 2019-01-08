@@ -264,13 +264,13 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
     },
     {
         key: "nd.build.simulator.native.ios",
-        value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Simulator -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf",
+        value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Release -d Simulator -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf",
         description: "Builds the native iOS source code in debug mode for simulator. (preferably use 'nd.build.simulator')",
         category: "secondary"
     },
     {
         key: "nd.build.device.native.ios",
-        value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Debug -d Device -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf",
+        value: "sh ./node_modules/nativescript-dev-debugging/scripts/build-ios.sh -b Release -d Device -t " + pluginPlatformFolder + " -n " + pluginIosSrcFolder + " pdf",
         description: "Builds the native iOS source code in debug mode for real device. (preferably use 'nd.build.simulator')",
         category: "secondary"
     },

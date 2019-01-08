@@ -32,6 +32,7 @@ FRAMEWORK_DSYM_FILE=$FRAMEWORK_NAME.framework.dSYM
 BUILD_DIR="$IOS_SOURCE_DIR/build/intermediates/${FRAMEWORK_NAME}"
 BUILD_FOR_SIMULATOR_DIR="$BUILD_DIR/$FLAVOR-iphonesimulator"
 BUILD_OUTPUT_DIR="$IOS_SOURCE_DIR/build/outputs"
+HAS_DSYM="yes"  
 
 PLUGIN_TARGET_SUBDIR="$PLUGIN_TARGET_DIR/ios"
 
@@ -76,16 +77,15 @@ mkdir -p "$BUILD_OUTPUT_DIR/$FRAMEWORK_FILE"
 
 cp -fr "$DEVICE_DIR/$FRAMEWORK_FILE" "$BUILD_OUTPUT_DIR"
 
-if [ $BUILD_FLAVOR = "Debug" ]; then
-    if [ "$DEVICE_FLAVOR" = "Simulator" ]; then
-        echo "Debug info enabled: Coping dSYM for Simulator"
-        cp -fr "$BUILD_FOR_SIMULATOR_DIR/$FRAMEWORK_DSYM_FILE" "$BUILD_OUTPUT_DIR"
-    elif [ "$DEVICE_FLAVOR" = "Device" ]; then
-        echo "Debug info enabled: Coping dSYM for Device"
-        cp -fr "$DEVICE_DIR/$FRAMEWORK_DSYM_FILE" "$BUILD_OUTPUT_DIR"
-    else
-        echo "Debug info disabled: Cannot copy dSYM for 'fat framework', please specify second arg (Simulator/Device)"
-    fi
+if [ "$DEVICE_FLAVOR" = "Simulator" ]; then
+    echo "Debug info enabled: Coping dSYM for Simulator"
+    cp -fr "$BUILD_FOR_SIMULATOR_DIR/$FRAMEWORK_DSYM_FILE" "$BUILD_OUTPUT_DIR"
+elif [ "$DEVICE_FLAVOR" = "Device" ]; then
+    echo "Debug info enabled: Coping dSYM for Device"
+    cp -fr "$DEVICE_DIR/$FRAMEWORK_DSYM_FILE" "$BUILD_OUTPUT_DIR"
+else
+    HAS_DSYM="no"
+    echo "Debug info disabled: Cannot copy dSYM for 'fat framework', please specify second arg (Simulator/Device)"
 fi
 
 echo "Build fat framework"
@@ -116,7 +116,7 @@ fi
 
 cp -R "$BUILD_OUTPUT_DIR/$FRAMEWORK_FILE" $PLUGIN_TARGET_SUBDIR
 echo "iOS $FRAMEWORK_FILE was copied to $PLUGIN_TARGET_SUBDIR"
-if [ $BUILD_FLAVOR = "Debug" ]
+if [ $HAS_DSYM = "yes" ]
 then
     cp -R "$BUILD_OUTPUT_DIR/$FRAMEWORK_DSYM_FILE" $PLUGIN_TARGET_SUBDIR 
     echo "iOS $FRAMEWORK_DSYM_FILE was copied to $PLUGIN_TARGET_SUBDIR"
