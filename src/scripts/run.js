@@ -13,7 +13,7 @@ const inputPlatformKey = "platform";
 const inputDeviceKey = "device";
 const inputActionKey = "action";
 
-const appTypes = ["ns", "ng"];
+const appTypes = ["demo", "demo-angular"];
 const platformTypes = ["ios", "android"];
 const targetTypes = ["simulator", "device"];
 const actionTypes = ["attach", "watch"];
@@ -100,6 +100,7 @@ function getActionTypes({ input }, cb) {
 
 function parseInput(inputParams) {
     const inputCommand = inputParams.inputDemo + " " + inputParams.inputPlatform + " " + inputParams.inputDevice + " " + inputParams.inputAction;
+    console.log(inputCommand);
     var ndBuildReleasePair = getShortCommandPair(inputCommand);
     return "npm run " + ndBuildReleasePair.key;
 }

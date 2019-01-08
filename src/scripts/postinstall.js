@@ -181,7 +181,7 @@ function initConfig() {
                 inputParams.pluginAndroidSrcFolder = values[inputPluginAndroidSrcFolderKey];
                 inputParams.pluginIosSrcFolder = values[inputPluginIosSrcFolderKey];
                 inputParams.pluginSrcFolder = values[inputPluginSrcFolderKey];
-                inputParams.pluginPlatformFolder = configJsonObject[inputPluginPlatformFolderKey];
+                inputParams.pluginPlatformFolder = values[inputPluginPlatformFolderKey];
                 inputParams.androidLibraryName = values[inputAndroidLibraryNameKey];
                 inputParams.iosLibraryName = values[inputIOSLibraryNameKey];
                 inputParams.demoFolder = values[inputDemoFolderKey];

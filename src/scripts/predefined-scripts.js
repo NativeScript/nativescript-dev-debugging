@@ -45,42 +45,42 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.tns.run.android",
         description: "Runs your 'demo' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
         category: "main android debugNative",
-        shortCommands: ["ns android simulator attach", "ns android device attach"]
+        shortCommands: ["demo android simulator attach", "demo android device attach"]
     },
     {
         key: "nd.demo.ios",
         value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
         category: "main ios debugNative",
-        shortCommands: ["ns ios simulator attach"]
+        shortCommands: ["demo ios simulator attach"]
     },
     {
         key: "nd.demo.ios.device",
         value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
         category: "main ios debugNative",
-        shortCommands: ["ns ios device attach"]
+        shortCommands: ["demo ios device attach"]
     },
     {
         key: "nd.demo.angular.android",
         value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.angular.tns.run.android",
         description: "Runs your 'demo-angular' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
         category: "main android debugNative",
-        shortCommands: ["ng android simulator attach", "ng android device attach"]
+        shortCommands: ["demo-angular android simulator attach", "demo-angular android device attach"]
     },
     {
         key: "nd.demo.angular.ios",
         value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
         category: "main ios debugNative",
-        shortCommands: ["ng ios simulator attach"]
+        shortCommands: ["demo-angular ios simulator attach"]
     },
     {
         key: "nd.demo.angular.ios.device",
         value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
         category: "main ios debugNative",
-        shortCommands: ["ng ios device attach"]
+        shortCommands: ["demo-angular ios device attach"]
     },
     {
         key: "nd.open.xcode",
@@ -201,42 +201,42 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         value: "npm run nd.open.android.studio && npm-watch nd.build.run.demo.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
         category: "main android developNative",
-        shortCommands: ["ns android simulator watch", "ns android device watch"]
+        shortCommands: ["demo android simulator watch", "demo android device watch"]
     },
     {
         key: "nd.demo.run.watch.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
-        shortCommands: ["ns ios simulator watch"]
+        shortCommands: ["demo ios simulator watch"]
     },
     {
         key: "nd.demo.run.watch.device.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.device.demo.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
-        shortCommands: ["ns ios device watch"]
+        shortCommands: ["demo ios device watch"]
     },
     {
         key: "nd.demo.angular.run.watch.android",
         value: "npm run nd.open.android.studio && npm-watch nd.build.run.demo.angular.app.android",
         description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's Android source code",
         category: "main android developNative",
-        shortCommands: ["ng android simulator watch", "ng android device watch"]
+        shortCommands: ["demo-angular android simulator watch", "demo-angular android device watch"]
     },
     {
         key: "nd.demo.angular.run.watch.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
-        shortCommands: ["ng ios simulator watch"]
+        shortCommands: ["demo-angular ios simulator watch"]
     },
     {
         key: "nd.demo.angular.run.watch.device.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
-        shortCommands: ["ng ios device watch"]
+        shortCommands: ["demo-angular ios device watch"]
     },
     {
         key: "nd.demo.tns.run.android",
