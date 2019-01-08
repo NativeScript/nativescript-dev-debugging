@@ -64,9 +64,13 @@ After either of the above configuration stages the configuration parameters you 
 }
 ```
 
-# Usage and workflow
+# Usage of the build-in 'workflows'
 
 The exposed API of this dev plugin is though the use of npm scripts. After the installation and configuration steps the package.json of your plugin will be modified with scripts, watchers and some dev dependencies. You should keep all of them and not manually change them to make sure that the functionality of the `nativescript-dev-debugging` is working as expected. If you want to reconfigure the plugin simply execute `npm run nd.config`
+
+## Starting a 'workflow'
+
+In order to start a 'workflow' you can use the separate npm scripts like `npm run nd.demo.ios.device` and `npm run nd.demo.android` or use the 'interactive script command' `nd.run`. If you are not aware of which workflow you want to start it is best to use `npm run nd.run` and follow the prompts.
 
 For full details regarding the build-in functionality of this plugin execute `npm run nd.help`.
 
