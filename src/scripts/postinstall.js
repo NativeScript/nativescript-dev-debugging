@@ -25,6 +25,7 @@ console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration start
 console.log(chalk.blue("Note: If you want to configure the plugin from scratch execute: " + chalk.yellow("$ node node_modules/nativescript-dev-debugging/index.js")));
 
 if (fs.existsSync(configurationFilePath)) {
+    console.log(chalk.green("Configuring from local nd.config.json"));
     const configFile = fs.readFileSync(configurationFilePath);
     try {
         var configJsonObject = JSON.parse(configFile);
