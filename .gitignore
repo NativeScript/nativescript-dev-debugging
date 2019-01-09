@@ -8,3 +8,4 @@ platforms/
 *.zip
 *.tgz
 nd-package.json
+publish/src/
