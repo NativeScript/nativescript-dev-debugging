@@ -19,7 +19,18 @@ Note
 The first thing you need to do is install the plugin:
 
 - npm install nativescript-dev-debugging --save-dev
-- After that configuration wizard will be started. You have the option to use "manual configuration" or "plugin seed friendly configuration"
+- During installation the plugin requires you to provide configuration of the location and relative information about your source code. Here there are two options you can use 
+
+**A fresh configuration**
+
+Simply install the package and follow the prompts, there are two options one of which minimizes the asked inputs by following the 'plugin seed' structure and a second option which is fully manual configuration and is recommended if you have not followed the NativeScript plugin seed structure.
+
+or
+
+**Configuration using a nd.config.json file**
+
+You can take a look at ["Configuration file"](#config_file) section bellow for details about the required contents of the configuration file. To use an nd.config.json file during package installation simply create a file named __nd.config.json__ in the root of your plugins source code (where its package.json file is) and install the package as normally.
+
 
 ### Manual configuration
 
@@ -46,7 +57,7 @@ The post install script will ask for the following configuration settings of you
 - The name of the name of the Android library of your plugin
 - The Apple provisioning profile that is required for the above NativeScript application (optional)
 
-### Configuration file
+### <a name="config_file"></a>Configuration file
 
 After either of the above configuration stages the configuration parameters you have entered will be written locally to an configuration json file called `nd-config.json`. You cna manually create this file in the root (where the package.json of your {N} plugin source code is) and pre-configure it so that when the npm postinstall script is ran it will skip app prompts of the nativescript-dev-debugging plugin configuration stage. Here are all the require configuration key/value pairs:
 
