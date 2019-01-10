@@ -45,13 +45,13 @@ function initPrompter() {
         {
             type: 'autocomplete',
             name: inputPlatformKey,
-            message: "On which platform do you want ot run it ?",
+            message: "On which platform do you want to run it ?",
             suggest: getPlatformTypes
         },
         {
             type: 'autocomplete',
             name: inputDeviceKey,
-            message: "On what device you do you want to run it ?",
+            message: "On what device do you want to run it ?",
             suggest: getTargetTypes
         },
         {
