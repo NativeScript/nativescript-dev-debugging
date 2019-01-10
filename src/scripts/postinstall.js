@@ -6,6 +6,7 @@ var predefinedWatchersModule = require('./predefined-watchers');
 var predefinedDepsModule = require('./predefined-dev-deps');
 const defaultDemoPath = "../demo";
 const defaultDemoAngularPath = "../demo-angular";
+const defaultDemoVuePath = "../demo-vue";
 
 const inputIsConfiguredKey = "isConfigured";
 const inputInputPluginFolderKeyKey = "inputPluginFolderKey";
@@ -17,6 +18,7 @@ const inputAndroidLibraryNameKey = "androidLibraryName";
 const inputIOSLibraryNameKey = "iosLibraryName";
 const inputDemoFolderKey = "demoFolder";
 const inputDemoAngularFolderKey = "demoAngularFolder";
+const inputDemoVueFolderKey = "demoVueFolder";
 const inputProvisioningProfileKey = "provisioningProfile";
 const configurationFilePath = getConfigFilePath();
 const emptyProvisioningProfileValue = "none";
@@ -38,6 +40,7 @@ if (fs.existsSync(configurationFilePath)) {
             iosLibraryName: undefined,
             demoFolder: undefined,
             demoAngularFolder: undefined,
+            demoVueFolder: undefined,
             provisioningProfile: undefined
         };
         inputParams.pluginAndroidSrcFolder = configJsonObject[inputPluginAndroidSrcFolderKey];
@@ -48,6 +51,7 @@ if (fs.existsSync(configurationFilePath)) {
         inputParams.iosLibraryName = configJsonObject[inputIOSLibraryNameKey];
         inputParams.demoFolder = configJsonObject[inputDemoFolderKey];
         inputParams.demoAngularFolder = configJsonObject[inputDemoAngularFolderKey];
+        inputParams.demoVueFolder = configJsonObject[inputDemoVueFolderKey];
         inputParams.provisioningProfile = configJsonObject[inputProvisioningProfileKey];
 
         writeToSrcJson(inputParams);
@@ -147,13 +151,18 @@ function initConfig() {
                 {
                     type: 'text',
                     name: inputDemoFolderKey,
-                    message: "Where is the NS application you want to use ?",
-                    default: "<not configured>"
+                    message: "Where is the NS application you want to use ?"
                 },
                 {
                     type: 'text',
                     name: inputDemoAngularFolderKey,
                     message: "Where is the NS + Angular application you want to use ?",
+                    default: "<not configured>"
+                },
+                {
+                    type: 'text',
+                    name: inputDemoVueFolderKey,
+                    message: "Where is the NS + Vue application you want to use ?",
                     default: "<not configured>"
                 },
                 {
@@ -177,6 +186,7 @@ function initConfig() {
                     iosLibraryName: undefined,
                     demoFolder: undefined,
                     demoAngularFolder: undefined,
+                    demoVueFolder: undefined,
                     provisioningProfile: undefined
                 };
                 inputParams.pluginAndroidSrcFolder = values[inputPluginAndroidSrcFolderKey];
@@ -187,6 +197,7 @@ function initConfig() {
                 inputParams.iosLibraryName = values[inputIOSLibraryNameKey];
                 inputParams.demoFolder = values[inputDemoFolderKey];
                 inputParams.demoAngularFolder = values[inputDemoAngularFolderKey];
+                inputParams.demoVueFolder = values[inputDemoVueFolderKey];
                 inputParams.provisioningProfile = values[inputProvisioningProfileKey];
                 saveConfigurationToLocal(configurationFilePath, inputParams);
                 writeToSrcJson(inputParams);
@@ -231,6 +242,7 @@ function initConfig() {
                     iosLibraryName: undefined,
                     demoFolder: undefined,
                     demoAngularFolder: undefined,
+                    demoVueFolder: undefined,
                     provisioningProfile: undefined
                 };
                 var pluginRepositoryPath = trimTrailingChar(values[inputInputPluginFolderKeyKey], '/');;
@@ -242,6 +254,7 @@ function initConfig() {
                 inputParams.iosLibraryName = values[inputIOSLibraryNameKey];
                 inputParams.demoFolder = pluginRepositoryPath + "/demo";
                 inputParams.demoAngularFolder = pluginRepositoryPath + "/demo-angular";
+                inputParams.demoVueFolder = pluginRepositoryPath + "/demo-vue";
                 inputParams.provisioningProfile = values[inputProvisioningProfileKey];
                 saveConfigurationToLocal(configurationFilePath, inputParams);
                 writeToSrcJson(inputParams);
@@ -284,12 +297,13 @@ function writeToSrcJson(inputParams) {
         inputParams.pluginSrcFolder,
         inputParams.demoFolder,
         inputParams.demoAngularFolder,
+        inputParams.demoVueFolder,
         inputParams.pluginPlatformFolder,
         inputParams.pluginIosSrcFolder,
         inputParams.pluginAndroidSrcFolder,
         inputParams.androidLibraryName,
         inputParams.provisioningProfile);
-    var predefinedWatchers = predefinedWatchersModule.getPluginPreDefinedWatchers(inputParams.demoFolder, inputParams.demoAngularFolder, inputParams.pluginIosSrcFolder, inputParams.pluginAndroidSrcFolder, inputParams.iosLibraryName, inputParams.androidLibraryName);
+    var predefinedWatchers = predefinedWatchersModule.getPluginPreDefinedWatchers(inputParams.demoFolder, inputParams.demoAngularFolder, inputParams.demoVueFolder, inputParams.pluginIosSrcFolder, inputParams.pluginAndroidSrcFolder, inputParams.iosLibraryName, inputParams.androidLibraryName);
     var predefinedDevDependencies = predefinedDepsModule.getDevDependencies();
 
     var jsonScripts = ensureJsonObject(jsonObject[scriptsTag]);
@@ -339,6 +353,7 @@ function saveConfigurationToLocal(filePath, config) {
     configInputsArray[inputAndroidLibraryNameKey] = config.androidLibraryName;
     configInputsArray[inputDemoFolderKey] = config.demoFolder;
     configInputsArray[inputDemoAngularFolderKey] = config.demoAngularFolder;
+    configInputsArray[inputDemoVueFolderKey] = config.demoVueFolder;
 
     if (config.provisioningProfile != emptyProvisioningProfileValue) {
         configInputsArray[inputProvisioningProfileKey] = config.provisioningProfile
@@ -361,6 +376,10 @@ function cleanUpInput(input) {
 
     if (input.demoAngularFolder && input.demoAngularFolder != defaultDemoAngularPath) {
         input.demoAngularFolder = trimTrailingChar(input.demoAngularFolder, '/');
+    }
+
+    if (input.demoVueFolder && input.demoVueFolder != defaultDemoVuePath) {
+        input.demoVueFolder = trimTrailingChar(input.demoVueFolder, '/');
     }
     input.pluginPlatformFolder = trimTrailingChar(input.pluginPlatformFolder, '/');
     input.pluginIosSrcFolder = trimTrailingChar(input.pluginIosSrcFolder, '/');

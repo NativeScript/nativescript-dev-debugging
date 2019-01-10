@@ -72,6 +72,7 @@ After either of the above configuration stages the configuration parameters you 
 	"androidLibraryName": "LibraryName",
 	"demoFolder": "/Users/USER/plugin_repo/demo",
 	"demoAngularFolder": "/Users/USER/plugin_repo/demo-angular",
+	"demoVueFolder": "/Users/USER/plugin_repo/demo-vue",
 	"provisioningProfile": "TestProfile"
 }
 ```

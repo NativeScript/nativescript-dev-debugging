@@ -1,4 +1,4 @@
-function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, pluginPlatformFolder, pluginIosSrcFolder, pluginAndroidSrcFolder, androidLibraryName, provisioningProfile) {
+function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demoVueFolder, pluginPlatformFolder, pluginIosSrcFolder, pluginAndroidSrcFolder, androidLibraryName, provisioningProfile) {
     var provisioningParam = "";
     if (provisioningProfile && provisioningProfile != "none") {
         provisioningParam = " --provision " + provisioningProfile;
@@ -71,16 +71,37 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
     {
         key: "nd.demo.angular.ios",
         value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
-        description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
+        description: "Runs your 'demo-angular' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
         category: "main ios debugNative",
         shortCommands: ["demo-angular ios simulator attach"]
     },
     {
         key: "nd.demo.angular.ios.device",
         value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
-        description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
+        description: "Runs your 'demo-angular' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
         category: "main ios debugNative",
         shortCommands: ["demo-angular ios device attach"]
+    },
+    {
+        key: "nd.demo.vue.android",
+        value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.vue.tns.run.android",
+        description: "Runs your 'demo-vue' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
+        category: "main android debugNative",
+        shortCommands: ["demo-vue android simulator attach", "demo-vue android device attach"]
+    },
+    {
+        key: "nd.demo.vue.ios",
+        value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.vue.tns.run.ios",
+        description: "Runs your 'demo-vue' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
+        category: "main ios debugNative",
+        shortCommands: ["demo-vue ios simulator attach"]
+    },
+    {
+        key: "nd.demo.vue.ios.device",
+        value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && npm run nd.demo.vue.tns.run.ios",
+        description: "Runs your 'demo-vue' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
+        category: "main ios debugNative",
+        shortCommands: ["demo-vue ios device attach"]
     },
     {
         key: "nd.open.xcode",
@@ -137,6 +158,18 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         category: "secondary"
     },
     {
+        key: "nd.prepare.demo.vue.app.ios",
+        value: "cd " + demoVueFolder + " && tns prepare ios",
+        description: "Executes 'tns prepare ios' for the 'demo vue' app",
+        category: "secondary"
+    },
+    {
+        key: "nd.prepare.demo.vue.app.android",
+        value: "cd " + demoVueFolder + " && tns prepare android",
+        description: "Executes 'tns prepare android' for the 'demo vue' app",
+        category: "secondary"
+    },
+    {
         key: "nd.build.run.device.demo.app.ios",
         value: "npm run nd.build.device.native.ios" + " && npm run nd.demo.tns.run.ios",
         description: "Executes 'tns run ios' for the 'demo' app",
@@ -173,6 +206,24 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         category: "secondary"
     },
     {
+        key: "nd.build.run.demo.vue.app.ios",
+        value: "npm run nd.build.device.native.ios " + " && npm run nd.demo.vue.tns.run.ios",
+        description: "Executes 'tns run ios' for the 'demo vue' app",
+        category: "secondary"
+    },
+    {
+        key: "nd.build.run.simulator.demo.vue.app.ios",
+        value: "npm run nd.build.simulator.native.ios " + " && npm run nd.demo.vue.tns.run.ios",
+        description: "Executes 'tns run ios' for the 'demo vue' app",
+        category: "secondary"
+    },
+    {
+        key: "nd.build.run.demo.vue.app.android",
+        value: "npm run nd.build.native.android " + " && npm run nd.demo.vue.tns.run.android",
+        description: "Executes 'tns run android' for the 'demo vue' app",
+        category: "secondary"
+    },
+    {
         key: "nd.demo.prepare.watch.ios",
         value: "npm-watch nd.prepare.demo.app.ios",
         description: "Triggers file watcher for the 'Demo' app source code, when change is detected rebuilds ('tns prepare ios') the 'demo' app for iOS",
@@ -194,6 +245,18 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         key: "nd.demo.prepare.angular.watch.android",
         value: "npm-watch nd.prepare.demo.angular.app.android",
         description: "Triggers file watcher for the 'Demo-Angular' app source code, when change is detected rebuilds ('tns prepare android') the 'demo' app for android",
+        category: "secondary"
+    },
+    {
+        key: "nd.demo.prepare.vue.watch.ios",
+        value: "npm-watch nd.prepare.demo.vue.app.ios",
+        description: "Triggers file watcher for the 'Demo-Vue' app source code, when change is detected rebuilds ('tns prepare ios') the 'demo' app for iOS",
+        category: "secondary"
+    },
+    {
+        key: "nd.demo.prepare.vue.watch.android",
+        value: "npm-watch nd.prepare.demo.vue.app.android",
+        description: "Triggers file watcher for the 'Demo-Vue' app source code, when change is detected rebuilds ('tns prepare android') the 'demo' app for android",
         category: "secondary"
     },
     {
@@ -227,16 +290,37 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
     {
         key: "nd.demo.angular.run.watch.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.angular.app.ios",
-        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-angular' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
         shortCommands: ["demo-angular ios simulator watch"]
     },
     {
         key: "nd.demo.angular.run.watch.device.ios",
         value: "npm run nd.open.xcode && npm-watch nd.build.run.demo.angular.app.ios",
-        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-angular' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
         shortCommands: ["demo-angular ios device watch"]
+    },
+    {
+        key: "nd.demo.vue.run.watch.android",
+        value: "npm run nd.open.android.studio && npm-watch nd.build.run.demo.vue.app.android",
+        description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo-vue' app is build and deployed. Useful to debug and develop your plugin's Android source code",
+        category: "main android developNative",
+        shortCommands: ["demo-vue android simulator watch", "demo-vue android device watch"]
+    },
+    {
+        key: "nd.demo.vue.run.watch.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.simulator.demo.vue.app.ios",
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-vue' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
+        category: "main ios developNative",
+        shortCommands: ["demo-vue ios simulator watch"]
+    },
+    {
+        key: "nd.demo.vue.run.watch.device.ios",
+        value: "npm run nd.open.xcode && npm-watch nd.build.run.demo.vue.app.ios",
+        description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-vue' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
+        category: "main ios developNative",
+        shortCommands: ["demo-vue ios device watch"]
     },
     {
         key: "nd.demo.tns.run.android",
@@ -260,6 +344,18 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
         key: "nd.demo.angular.tns.run.ios",
         value: "cd " + demoAngularFolder + " && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo-angular' app on iOS with '--syncAllFiles' argument",
+        category: "secondary"
+    },
+    {
+        key: "nd.demo.vue.tns.run.android",
+        value: "cd " + demoVueFolder + " && tns run android --syncAllFiles",
+        description: "Runs the 'demo-vue' app on Android with '--syncAllFiles' argument",
+        category: "secondary"
+    },
+    {
+        key: "nd.demo.vue.tns.run.ios",
+        value: "cd " + demoVueFolder + " && tns run ios --syncAllFiles" + provisioningParam,
+        description: "Runs the 'demo-vue' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
     {
@@ -301,6 +397,12 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, plug
     {
         key: "nd.clean.demo.angular",
         value: "rm -rf " + demoAngularFolder + "/node_modules " + demoAngularFolder + "/platforms",
+        description: "Clears the node_modules and platforms folder of the Angular NS app",
+        category: "secondary"
+    },
+    {
+        key: "nd.clean.demo.vue",
+        value: "rm -rf " + demoVueFolder + "/node_modules " + demoVueFolder + "/platforms",
         description: "Clears the node_modules and platforms folder of the Angular NS app",
         category: "secondary"
     }];

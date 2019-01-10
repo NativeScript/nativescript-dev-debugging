@@ -7,5 +7,6 @@
 	"androidLibraryName": "<placeholder for android library name>",
 	"demoFolder": "<placeholder for demo path>",
 	"demoAngularFolder": "<placeholder for demo angular path>",
+	"demoVueFolder": "<placeholder for demo vue path>",
 	"provisioningProfile": "<placeholder for Apple provisioning profile>"
 }

@@ -13,7 +13,7 @@ const inputPlatformKey = "platform";
 const inputDeviceKey = "device";
 const inputActionKey = "action";
 
-const appTypes = ["demo", "demo-angular"];
+const appTypes = ["demo", "demo-angular", "demo-vue"];
 const platformTypes = ["ios", "android"];
 const targetTypes = ["simulator", "device"];
 const actionTypes = ["attach", "watch"];
