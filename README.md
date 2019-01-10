@@ -15,6 +15,7 @@ Note
 - NativeScript 5.1.0 or above (`$ tns --version`)
 - Xcode 10.1 Build version 10B61 (`$ xcodebuild -version`)
 - Android Studio 3.2.1 or above (`$ mdls -name kMDItemVersion /Applications/Android\ Studio.app`)
+- The Xcode project of your plugin has to have a build schema with the name of the framework that it creates (for example the project that creates 'TNSWidgets.framework' has a schema named 'TNSWidgets')
 
 The first thing you need to do is install the plugin:
 
