@@ -4,7 +4,13 @@ const prompter = require('cli-prompter');
 const log = console.log;
 var jsonHelper = require('./json-tags-helper');
 let jsonFile = fs.readFileSync(__dirname + "/nd-package.json");
-var jsonObject = JSON.parse(jsonFile);
+var jsonObject;
+try {
+    jsonObject = JSON.parse(jsonFile);
+} catch (e) {
+    console.log(chalk.red("Error reading " + jsonFile + ": " + e));
+    console.log(chalk.red("The nativescript-dev-debugging plugin installation is corrupted. Please execute: " + chalk.yellow("$ node node_modules/nativescript-dev-debugging/index.js")));
+}
 const inputCategoryKey = "category";
 
 var categories = jsonHelper.getCategoriesDictionary(jsonObject);
