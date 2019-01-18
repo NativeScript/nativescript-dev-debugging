@@ -28,9 +28,9 @@ Simply install the package and follow the prompts, there are two options one of 
 
 or
 
-**Configuration using a nd.config.json file**
+**Configuration using a nd-config.json file**
 
-You can take a look at ["Configuration file"](#config_file) section bellow for details about the required contents of the configuration file. To use an nd.config.json file during package installation simply create a file named __nd.config.json__ in the root of your plugins source code (where its package.json file is) and install the package as normally.
+You can take a look at ["Configuration file"](#config_file) section bellow for details about the required contents of the configuration file. To use an nd-config.json file during package installation simply create a file named __nd-config.json__ in the root of your plugins source code (where its package.json file is) and install the package as normally.
 
 
 ### Manual configuration
