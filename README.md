@@ -28,9 +28,9 @@ Simply install the package and follow the prompts, there are two options one of 
 
 or
 
-**Configuration using a nd-config.json file**
+**Configuration using a n.debug.config.json file**
 
-You can take a look at ["Configuration file"](#config_file) section bellow for details about the required contents of the configuration file. To use an nd-config.json file during package installation simply create a file named __nd-config.json__ in the root of your plugins source code (where its package.json file is) and install the package as normally.
+You can take a look at ["Configuration file"](#config_file) section bellow for details about the required contents of the configuration file. To use an `n.debug.config.json` file during package installation simply create a file named __n.debug.config.json__ in the root of your plugins source code (where its package.json file is) and install the package as normally.
 
 
 ### Manual configuration
@@ -60,7 +60,7 @@ The post install script will ask for the following configuration settings of you
 
 ### <a name="config_file"></a>Configuration file
 
-After either of the above configuration stages the configuration parameters you have entered will be written locally to an configuration json file called `nd-config.json`. You cna manually create this file in the root (where the package.json of your {N} plugin source code is) and pre-configure it so that when the npm postinstall script is ran it will skip app prompts of the nativescript-dev-debugging plugin configuration stage. Here are all the require configuration key/value pairs:
+After either of the above configuration stages the configuration parameters you have entered will be written locally to an configuration json file called `n.debug.config.json`. You cna manually create this file in the root (where the package.json of your {N} plugin source code is) and pre-configure it so that when the npm postinstall script is ran it will skip app prompts of the nativescript-dev-debugging plugin configuration stage. Here are all the require configuration key/value pairs:
 
 ```
 {
@@ -101,4 +101,4 @@ In order to test the node package locally:
 - Open the app folder `cd app`
 - Run `npm i`
 - Run `npm run install` - will execute the package's postinstall scrip like it is being installed in the app folder for the first time
-- Run `npm run install <full path to a 'nd-config.json' file>` - will execute the package's postinstall scrip with the configuration of the `nd-config.json` file
+- Run `npm run install <full path to a 'n.debug.config.json' file>` - will execute the package's postinstall scrip with the configuration of the `n.debug.config.json` file

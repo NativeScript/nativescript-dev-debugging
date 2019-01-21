@@ -27,7 +27,7 @@ console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration start
 console.log(chalk.blue("Note: If you want to configure the plugin from scratch execute: " + chalk.yellow("$ node node_modules/nativescript-dev-debugging/index.js")));
 
 if (fs.existsSync(configurationFilePath)) {
-    console.log(chalk.green("Configuring from local nd-config.json"));
+    console.log(chalk.green("Configuring from local n.debug.config.json"));
     const configFile = fs.readFileSync(configurationFilePath);
     try {
         var configJsonObject = JSON.parse(configFile);
@@ -56,7 +56,7 @@ if (fs.existsSync(configurationFilePath)) {
 
         writeToSrcJson(inputParams);
     } catch (e) {
-        console.log(chalk.red("Error reading nd-config.json: " + e));
+        console.log(chalk.red("Error reading n.debug.config.json: " + e));
         console.log(chalk.red("The " + configurationFilePath + " file is corrupted. Proceeding with post install configuration."));
         initConfig();
     }
@@ -265,9 +265,9 @@ function initConfig() {
 
 function getConfigFilePath() {
     const arg = process.argv[2];
-    let configFileName = "nd-config.json";
+    let configFileName = "n.debug.config.json";
     if (process.env.INIT_CWD) {
-        configFileName = process.env.INIT_CWD + "/nd-config.json";
+        configFileName = process.env.INIT_CWD + "/n.debug.config.json";
     }
 
     if (arg && arg != "" && arg != "dev") {
