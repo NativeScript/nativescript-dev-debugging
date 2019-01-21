@@ -22,10 +22,66 @@ const inputDemoVueFolderKey = "demoVueFolder";
 const inputProvisioningProfileKey = "provisioningProfile";
 const configurationFilePath = getConfigFilePath();
 const emptyProvisioningProfileValue = "none";
+const pluginSrcFolderQuestion = {
+    type: 'text',
+    name: inputPluginSrcFolderKey,
+    message: "What is the path to your plugin's TS/JS source code ?"
+};
+const inputPluginPlatformFolderQuestion = {
+    type: 'text',
+    name: inputPluginPlatformFolderKey,
+    message: "What is the path to your plugin's platforms directory?"
+};
+const inputPluginIosSrcFolderQuestion = {
+    type: 'text',
+    name: inputPluginIosSrcFolderKey,
+    message: "What is the path to your plugin's native iOS source code ?"
+};
+const inputIOSLibraryNameQuestion = {
+    type: 'text',
+    name: inputIOSLibraryNameKey,
+    message: "What is the name (no spaces) of the native iOS library (.framework file) of your Xcode proj ?"
+};
+const inputPluginAndroidSrcFolderQuestion = {
+    type: 'text',
+    name: inputPluginAndroidSrcFolderKey,
+    message: "What is the path to your plugin's native Android source code ?"
+};
+const inputAndroidLibraryNameQuestion = {
+    type: 'text',
+    name: inputAndroidLibraryNameKey,
+    message: "What is the name (no spaces) of the native Android library (.arr file) of your Android Studio proj ?"
+};
+const inputDemoFolderQuestion =  {
+    type: 'text',
+    name: inputDemoFolderKey,
+    message: "Where is the NS application you want to use ?"
+};
+const inputDemoAngularFolderQuestion = {
+    type: 'text',
+    name: inputDemoAngularFolderKey,
+    message: "Where is the NS + Angular application you want to use ?",
+    default: "<not configured>"
+};
+const inputDemoVueFolderQuestion = {
+    type: 'text',
+    name: inputDemoVueFolderKey,
+    message: "Where is the NS + Vue application you want to use ?",
+    default: "<not configured>"
+};
+const inputProvisioningProfileQuestion = {
+    type: 'text',
+    name: inputProvisioningProfileKey,
+    message: "What is the 'Apple Developer Provisioning profile' that is required for the demo and demo-angular apps ? (press 'enter' if not required)",
+    default: emptyProvisioningProfileValue
+};
 
 console.log(chalk.blue("'nativescript-dev-debugging': Plugin Configuration started ..."));
 console.log(chalk.blue("Note: If you want to configure the plugin from scratch execute: " + chalk.yellow("$ node node_modules/nativescript-dev-debugging/index.js")));
 
+let isJsonValid = true;
+let missingValuesQuestions = [];
+let configInputs;
 if (fs.existsSync(configurationFilePath)) {
     console.log(chalk.green("Configuring from local 'n.debug.config.json'"));
     const configFile = fs.readFileSync(configurationFilePath);
@@ -43,18 +99,23 @@ if (fs.existsSync(configurationFilePath)) {
             demoVueFolder: undefined,
             provisioningProfile: undefined
         };
-        inputParams.pluginAndroidSrcFolder = configJsonObject[inputPluginAndroidSrcFolderKey];
-        inputParams.pluginIosSrcFolder = configJsonObject[inputPluginIosSrcFolderKey];
-        inputParams.pluginSrcFolder = configJsonObject[inputPluginSrcFolderKey];
-        inputParams.pluginPlatformFolder = configJsonObject[inputPluginPlatformFolderKey];
-        inputParams.androidLibraryName = configJsonObject[inputAndroidLibraryNameKey];
-        inputParams.iosLibraryName = configJsonObject[inputIOSLibraryNameKey];
-        inputParams.demoFolder = configJsonObject[inputDemoFolderKey];
-        inputParams.demoAngularFolder = configJsonObject[inputDemoAngularFolderKey];
-        inputParams.demoVueFolder = configJsonObject[inputDemoVueFolderKey];
-        inputParams.provisioningProfile = configJsonObject[inputProvisioningProfileKey];
+        inputParams.pluginSrcFolder = setReadJsonValue(configJsonObject[inputPluginSrcFolderKey], pluginSrcFolderQuestion);
+        inputParams.pluginPlatformFolder = setReadJsonValue(configJsonObject[inputPluginPlatformFolderKey], inputPluginPlatformFolderQuestion);
+        inputParams.pluginIosSrcFolder = setReadJsonValue(configJsonObject[inputPluginIosSrcFolderKey], inputPluginIosSrcFolderQuestion);
+        inputParams.iosLibraryName = setReadJsonValue(configJsonObject[inputIOSLibraryNameKey], inputIOSLibraryNameQuestion);
+        inputParams.pluginAndroidSrcFolder = setReadJsonValue(configJsonObject[inputPluginAndroidSrcFolderKey], inputPluginAndroidSrcFolderQuestion);
+        inputParams.androidLibraryName = setReadJsonValue(configJsonObject[inputAndroidLibraryNameKey], inputAndroidLibraryNameQuestion);
+        inputParams.demoFolder = setReadJsonValue(configJsonObject[inputDemoFolderKey], inputDemoFolderQuestion);
+        inputParams.demoAngularFolder = setReadJsonValue(configJsonObject[inputDemoAngularFolderKey], inputDemoAngularFolderQuestion);
+        inputParams.demoVueFolder = setReadJsonValue(configJsonObject[inputDemoVueFolderKey], inputDemoVueFolderQuestion);
+        inputParams.provisioningProfile = setReadJsonValue(configJsonObject[inputProvisioningProfileKey], inputProvisioningProfileQuestion);
 
-        writeToSrcJson(inputParams);
+        if (isJsonValid) {
+            writeToSrcJson(inputParams);
+        } else {
+            configInputs = inputParams;
+            askForMissingJsonValues();
+        }
     } catch (e) {
         console.log(chalk.red("Error reading n.debug.config.json: " + e));
         console.log(chalk.red("The " + configurationFilePath + " file is corrupted. Proceeding with post install configuration."));
@@ -62,6 +123,30 @@ if (fs.existsSync(configurationFilePath)) {
     }
 } else {
     initConfig();
+}
+
+function setReadJsonValue(value, question) {
+    if (typeof value === "undefined") {
+        isJsonValid = false;
+        missingValuesQuestions.push(question);
+    }
+
+    return value;
+}
+
+function askForMissingJsonValues() {
+    console.log(chalk.red("Warring: ") + chalk.yellow(missingValuesQuestions.length + chalk.green(" fields from the expected configuration inside 'n.debug.config.json' are missing. Please enter them bellow:")));
+    prompter(missingValuesQuestions, (err, values) => {
+        if (err) {
+            writeErrorMessage(err);;
+        }
+        missingValuesQuestions.forEach(element => {
+            configInputs[element.name] = values[element.name];
+        });
+        
+        writeToSrcJson(configInputs);
+        saveConfigurationToLocal(configurationFilePath, configInputs);
+    });
 }
 
 function initConfig() {
@@ -118,59 +203,16 @@ function initConfig() {
 
         function configureFromInput() {
             const questions = [
-                {
-                    type: 'text',
-                    name: inputPluginSrcFolderKey,
-                    message: "What is the path to your plugin's TS/JS source code ?"
-                },
-                {
-                    type: 'text',
-                    name: inputPluginPlatformFolderKey,
-                    message: "What is the path to your plugin's platforms directory?"
-                },
-                {
-                    type: 'text',
-                    name: inputPluginIosSrcFolderKey,
-                    message: "What is the path to your plugin's native iOS source code ?"
-                },
-                {
-                    type: 'text',
-                    name: inputIOSLibraryNameKey,
-                    message: "What is the name (no spaces) of the native iOS library (.framework file) of your Xcode proj ?"
-                },
-                {
-                    type: 'text',
-                    name: inputPluginAndroidSrcFolderKey,
-                    message: "What is the path to your plugin's native Android source code ?"
-                },
-                {
-                    type: 'text',
-                    name: inputAndroidLibraryNameKey,
-                    message: "What is the name (no spaces) of the native Android library (.arr file) of your Android Studio proj ?"
-                },
-                {
-                    type: 'text',
-                    name: inputDemoFolderKey,
-                    message: "Where is the NS application you want to use ?"
-                },
-                {
-                    type: 'text',
-                    name: inputDemoAngularFolderKey,
-                    message: "Where is the NS + Angular application you want to use ?",
-                    default: "<not configured>"
-                },
-                {
-                    type: 'text',
-                    name: inputDemoVueFolderKey,
-                    message: "Where is the NS + Vue application you want to use ?",
-                    default: "<not configured>"
-                },
-                {
-                    type: 'text',
-                    name: inputProvisioningProfileKey,
-                    message: "What is the 'Apple Developer Provisioning profile' that is required for the demo and demo-angular apps ? (press 'enter' if not required)",
-                    default: emptyProvisioningProfileValue
-                }];
+                pluginSrcFolderQuestion,
+                inputPluginPlatformFolderQuestion,
+                inputPluginIosSrcFolderQuestion,
+                inputIOSLibraryNameQuestion,
+                inputPluginAndroidSrcFolderQuestion,
+                inputAndroidLibraryNameQuestion,
+                inputDemoFolderQuestion,
+                inputDemoAngularFolderQuestion,
+                inputDemoVueFolderQuestion,
+                inputProvisioningProfileQuestion];
 
             prompter(questions, (err, values) => {
                 if (err) {
