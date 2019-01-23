@@ -381,7 +381,7 @@ function writeToSrcJson(inputParams) {
     fs.writeFileSync(ndJsonPath, JSON.stringify(ndJson, null, "\t"));
 
     console.log(chalk.green("Plugin Configuration Successful"));
-    console.log(chalk.green("To get started execute:" + chalk.yellow(" & npm run nd.run")));
+    console.log(chalk.green("To get started execute:" + chalk.yellow(" $ npm run nd.run")));
     console.log(chalk.green("For full documentation and available commands run") + chalk.yellow(' $ npm run nd.help'));
 }
 
