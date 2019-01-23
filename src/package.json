@@ -14,8 +14,8 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/VladimirAmiorkov/nativescript-dev-debugging.git"
+		"url": "https://github.com/NativeScript/nativescript-dev-debugging.git"
 	},
 	"author": "Vladimir Amiorkov <v.amiorkov@gmail.com>",
-	"license": "ISC"
+	"license": "Apache-2.0"
 }
