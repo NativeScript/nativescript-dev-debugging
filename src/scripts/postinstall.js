@@ -122,6 +122,7 @@ if (fs.existsSync(configurationFilePath)) {
         initConfig();
     }
 } else {
+    console.log(chalk.green("No local 'n.debug.config.json' file was found. Proceeding with manual configuration."));
     initConfig();
 }
 
