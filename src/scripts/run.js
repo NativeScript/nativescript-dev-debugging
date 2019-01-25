@@ -16,7 +16,7 @@ const inputActionKey = "action";
 const appTypes = ["demo", "demo-angular", "demo-vue"];
 const platformTypes = ["ios", "android"];
 const targetTypes = ["simulator", "device"];
-const actionTypes = ["attach", "watch"];
+const actionTypes = ["attach", "attach & watch"];
 
 initPrompter();
 
