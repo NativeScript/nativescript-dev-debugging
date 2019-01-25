@@ -8,6 +8,9 @@
 		"cli-prompter": "1.0.0",
 		"prompt": "1.0.0"
 	},
+	"peerDependencies": {
+		"npm-watch": "0.6.0"
+	},
 	"scripts": {
 		"config": "node ./scripts/postinstall.js",
 		"postinstall": "node ./scripts/postinstall.js"

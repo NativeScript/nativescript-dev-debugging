@@ -52,7 +52,7 @@ const inputAndroidLibraryNameQuestion = {
     name: inputAndroidLibraryNameKey,
     message: "What is the name (no spaces) of the native Android library (.arr file) of your Android Studio proj ?"
 };
-const inputDemoFolderQuestion =  {
+const inputDemoFolderQuestion = {
     type: 'text',
     name: inputDemoFolderKey,
     message: "Where is the NS application you want to use ?"
@@ -144,7 +144,7 @@ function askForMissingJsonValues() {
         missingValuesQuestions.forEach(element => {
             configInputs[element.name] = values[element.name];
         });
-        
+
         writeToSrcJson(configInputs);
         saveConfigurationToLocal(configurationFilePath, configInputs);
     });
@@ -384,10 +384,11 @@ function writeToSrcJson(inputParams) {
     console.log(chalk.green("Plugin Configuration Successful"));
     console.log(chalk.green("To get started execute:" + chalk.yellow(" $ npm run nd.run")));
     console.log(chalk.green("For full documentation and available commands run") + chalk.yellow(' $ npm run nd.help'));
+    console.log(chalk.green("IMPORTANT: ") + chalk.yellow("make sure to run 'npm install' now to install the newly added dependencies."));
 }
 
 function saveConfigurationToLocal(filePath, config) {
-    const configInputsArray = { };
+    const configInputsArray = {};
     configInputsArray[inputPluginSrcFolderKey] = config.pluginSrcFolder;
     configInputsArray[inputPluginPlatformFolderKey] = config.pluginPlatformFolder;
     configInputsArray[inputPluginIosSrcFolderKey] = config.pluginIosSrcFolder;
@@ -467,8 +468,13 @@ function updateWatch(newWatch, jsonWatch) {
     newWatch.forEach((watch) => {
         var value = { patterns: watch.patterns, extensions: watch.extensions };
         if (watch.ignore) {
-            value = { patterns: value.patterns, extensions: value.extensions, ignore: watch.ignore };
+            value["ignore"] = watch.ignore;
         }
+
+        if (watch.delay) {
+            value["delay"] = watch.delay;
+        }
+
         jsonWatch[watch.key] = value;
     });
 
