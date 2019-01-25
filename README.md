@@ -77,6 +77,8 @@ After either of the above configuration stages the configuration parameters you 
 }
 ```
 
+> Note: If you make manual changes to the above `n.debug.config.json` file you need to "re-configure" the __nativescript-dev-debugging__ plugin by executing the `npm run nd.config` command.
+
 # Usage of the build-in 'workflows'
 
 The exposed API of this dev plugin is though the use of npm scripts. After the installation and configuration steps the package.json of your plugin will be modified with scripts, watchers and some dev dependencies. You should keep all of them and not manually change them to make sure that the functionality of the `nativescript-dev-debugging` is working as expected. If you want to reconfigure the plugin simply execute `npm run nd.config`
