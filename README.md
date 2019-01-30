@@ -97,6 +97,10 @@ When you would like to make changes to your NativeScript application and the "wr
 
 When you would like to make changes to your NativeScript application and the "wrapper" TypeScript/JavaScript of your plugin and also be able to attach your native source code to the deployed app you should use the commands from the `developNative` section of the help, to see all commands run `npm run nd.help` and choose the `developNative` option.
 
+# Troubleshooting
+
+Due to the nature of the `nativescript-dev-debugging` plugin and the way it is using multiple third party solutions to provide its workflows (xcode build, gradle, NativeScript CLI etc.) it is possible that in specific environment setups some issues can occur. While the fact that the plugin simply start and manages processes that will use those third party solutions in most cases if an error occurs the console output will be the original one from those solutions and should be helpful in determining the cause of the error, there are cases when the plugin's code could be causing strange behaviors. When using the `npm run nd.run` command you could pass an first attribute `log` to view additional information about the executed processes and their status (how/what and why the file watchers are executing), simply run `npm run nd.run log`. 
+
 # Contributing
 
 In order to test the node package locally:

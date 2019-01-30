@@ -2,7 +2,6 @@ var fs = require('fs');
 const chalk = require('chalk');
 const prompter = require('cli-prompter');
 var predefinedScriptsModule = require('./predefined-scripts');
-var predefinedWatchersModule = require('./predefined-watchers');
 var predefinedDepsModule = require('./predefined-dev-deps');
 const defaultDemoPath = "../demo";
 const defaultDemoAngularPath = "../demo-angular";
@@ -345,19 +344,16 @@ function writeToSrcJson(inputParams) {
         inputParams.pluginIosSrcFolder,
         inputParams.pluginAndroidSrcFolder,
         inputParams.androidLibraryName,
-        inputParams.provisioningProfile);
-    var predefinedWatchers = predefinedWatchersModule.getPluginPreDefinedWatchers(inputParams.demoFolder, inputParams.demoAngularFolder, inputParams.demoVueFolder, inputParams.pluginIosSrcFolder, inputParams.pluginAndroidSrcFolder, inputParams.iosLibraryName, inputParams.androidLibraryName);
+        inputParams.provisioningProfile,
+        inputParams.iosLibraryName,
+        inputParams.androidLibraryName);
     var predefinedDevDependencies = predefinedDepsModule.getDevDependencies();
-
     var jsonScripts = ensureJsonObject(jsonObject[scriptsTag]);
-    var jsonWatch = ensureJsonObject(jsonObject[watchTag]);
     var jsonDevDeps = ensureJsonObject(jsonObject[devDepsTag]);
     var newScripts = updateScripts(predefinedScripts, jsonScripts);
-    var newWatch = updateWatch(predefinedWatchers, jsonWatch);
     var newDevDeps = updateDevDependencies(predefinedDevDependencies, jsonDevDeps);
 
     jsonObject[scriptsTag] = newScripts;
-    jsonObject[watchTag] = newWatch;
     jsonObject[devDepsTag] = newDevDeps;
     fs.writeFileSync(path, JSON.stringify(jsonObject, null, "\t"));
 
@@ -371,7 +367,7 @@ function writeToSrcJson(inputParams) {
     var descriptions = updateDescriptions(predefinedScripts, pluginDescriptionsJson);
     var shortCommands = updateShortCommands(predefinedScripts, pluginDShortCommandsJson);
     var categories = updateCategories(predefinedScripts, pluginCategoriesJson);
-    var pluginWatch = updateWatch(predefinedWatchers, pluginWatchJson);
+    var pluginWatch = updateWatch(predefinedScripts, pluginWatchJson);
     ndJson[scriptsTag] = pluginScripts;
     ndJson[watchTag] = pluginWatch;
     ndJson[devDepsTag] = newDevDeps;
@@ -384,7 +380,7 @@ function writeToSrcJson(inputParams) {
     console.log(chalk.green("Plugin Configuration Successful"));
     console.log(chalk.green("To get started execute:" + chalk.yellow(" $ npm run nd.run")));
     console.log(chalk.green("For full documentation and available commands run") + chalk.yellow(' $ npm run nd.help'));
-    console.log(chalk.green("IMPORTANT: ") + chalk.yellow("make sure to run 'npm install' now to install the newly added dependencies."));
+    // console.log(chalk.green("IMPORTANT: ") + chalk.yellow("make sure to run 'npm install' now to install the newly added dependencies."));
 }
 
 function saveConfigurationToLocal(filePath, config) {
@@ -466,16 +462,18 @@ function updateDevDependencies(newDevDependencies, jsonDevDeps) {
 
 function updateWatch(newWatch, jsonWatch) {
     newWatch.forEach((watch) => {
-        var value = { patterns: watch.patterns, extensions: watch.extensions };
-        if (watch.ignore) {
-            value["ignore"] = watch.ignore;
+        if (watch.patterns && watch.extensions) {
+            var value = { patterns: watch.patterns, extensions: watch.extensions };
+            if (watch.ignore) {
+                value["ignore"] = watch.ignore;
+            }
+    
+            if (watch.delay) {
+                value["delay"] = watch.delay;
+            }
+    
+            jsonWatch[watch.key] = value;
         }
-
-        if (watch.delay) {
-            value["delay"] = watch.delay;
-        }
-
-        jsonWatch[watch.key] = value;
     });
 
     return jsonWatch;
