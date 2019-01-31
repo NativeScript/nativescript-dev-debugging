@@ -23,7 +23,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     {
         key: "nd.run",
         value: "node node_modules/nativescript-dev-debugging/scripts/run.js",
-        description: "Interactive run. Provides a guide execution of the plugin's commands",
+        description: "Interactive command that provides a guide execution of the plugin's workflows",
         category: "main"
     },
     {
