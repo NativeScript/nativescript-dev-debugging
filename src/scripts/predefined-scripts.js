@@ -157,13 +157,13 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.build.run.demo.angular.app.ios",
-        value: "npm run nd.build.device.native.ios " + " && npm run nd.demo.tns.run.ios",
+        value: "npm run nd.build.device.native.ios " + " && npm run nd.demo.angular.tns.run.ios",
         description: "Build the native code and executes 'tns run ios' for the 'demo angular' app",
         category: "secondary"
     },
     {
         key: "nd.build.run.simulator.demo.angular.app.ios",
-        value: "npm run nd.build.simulator.native.ios " + " && npm run nd.demo.tns.run.ios",
+        value: "npm run nd.build.simulator.native.ios " + " && npm run nd.demo.angular.tns.run.ios",
         description: "Build the native code and executes 'tns run ios' for the 'demo angular' app",
         category: "secondary"
     },
