@@ -14,6 +14,10 @@ function getShortCommandsDictionary(json) {
     return getDictionary(json["shortCommands"]);
 }
 
+function getWatchersDictionary(json) {
+    return getDictionary(json["watch"]);
+}
+
 function getDictionary(json) {
     var result = [];
     for (var i in json) {
@@ -27,3 +31,4 @@ module.exports.getScriptsDictionary = getScriptsDictionary;
 module.exports.getDescriptionsDictionary = getDescriptionsDictionary;
 module.exports.getCategoriesDictionary = getCategoriesDictionary;
 module.exports.getShortCommandsDictionary = getShortCommandsDictionary;
+module.exports.getWatchersDictionary = getWatchersDictionary;

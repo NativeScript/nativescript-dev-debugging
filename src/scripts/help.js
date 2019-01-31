@@ -76,7 +76,7 @@ function writeCommandsToConsole(scriptsDict, category) {
         if (!category) {
             log(chalk.green(command) + " : " + chalk.yellow(description));
         } else {
-            if (categories[i].value.includes(category) || category == "all") {
+            if (categories[i] && categories[i].value.includes(category) || category == "all") {
                 log(chalk.green(command) + " : " + chalk.yellow(description));
             }
         }

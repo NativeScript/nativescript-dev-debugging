@@ -89,13 +89,32 @@ In order to start a 'workflow' you can use the separate npm scripts like `npm ru
 
 For full details regarding the build-in functionality of this plugin execute `npm run nd.help`.
 
-## Workflow for "Changes to NS app and the TypeScript/JavaScript of your plugin"
+Example of expected workflows:
+> All of the bellow example are the same between iOS and Android, for simplicity I will explain them using iOS.
 
-When you would like to make changes to your NativeScript application and the "wrapper" TypeScript/JavaScript of your plugin and also be able to attach your native source code to the deployed app you should use the commands from the `debugNative` section of the help, to see all commands run `npm run nd.help` and choose the `debugNative` option.
+### Workflow for: Observing/debug the native code"
 
-## Workflow for "Changes to native iOS/Android source code and the NS app and the TypeScript/JavaScript of your plugin"
+- Run `npm run nd.run`
+- Choose `demo`
+- Choose `ios`
+- Choose `attach`
 
-When you would like to make changes to your NativeScript application and the "wrapper" TypeScript/JavaScript of your plugin and also be able to attach your native source code to the deployed app you should use the commands from the `developNative` section of the help, to see all commands run `npm run nd.help` and choose the `developNative` option.
+With this workflow (`demo ios attach`) the following will happen:
+- The native source code of the plugin will be build in debugging mode, Xcode will open that source code and the NativeScript app will be build and deployed (the same way tns run ios, actually this is what happens under the hood). This workflow is useful when you want to simply observe/debug the native iOS source code but do not expect to make changes to it, if such changes will be made (you want to fix/develop the native code of your plugin) you can use the next workflow.
+
+### Workflow for: "Changing/developing and debugging the native code"
+
+- Run `npm run nd.run`
+- Choose `demo`
+- Choose `ios`
+- Choose `attach & watch`
+
+With this workflow (`demo ios attach & watch`) the following will happen:
+- The native source code of the plugin will be build in debugging mode, Xcode will open that source code, the NativeScript app will be build and deployed and a file watcher will start on the native iOS source code of your plugin (by using the `pluginIosSrcFolder` path). This workflow is useful when you want to both observe/debug the native iOS source code and also make changes to it to fix/develop issues or new functionality.
+
+# Troubleshooting
+
+Due to the nature of the `nativescript-dev-debugging` plugin and the way it is using multiple third party solutions to provide its workflows (xcode build, gradle, NativeScript CLI etc.) it is possible that in specific environment setups some issues can occur. While the fact that the plugin simply start and manages processes that will use those third party solutions in most cases if an error occurs the console output will be the original one from those solutions and should be helpful in determining the cause of the error, there are cases when the plugin's code could be causing strange behaviors. When using the `npm run nd.run` command you could pass an first attribute `log` to view additional information about the executed processes and their status (how/what and why the file watchers are executing), simply run `npm run nd.run log`. 
 
 # Contributing
 

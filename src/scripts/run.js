@@ -2,11 +2,18 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const jsonHelper = require('./json-tags-helper');
+const logger = require('./helpers/logger');
 const prompter = require('cli-prompter');
+const chokidar = require('chokidar');
+const spawn = require('child_process').spawn;
+const exec = require('child_process').exec;
+const psTree = require('ps-tree');
+const _ = require('lodash');
 
 let jsonFile = fs.readFileSync(__dirname + "/nd-package.json");
 var jsonObject = JSON.parse(jsonFile);
 const shortCommands = jsonHelper.getShortCommandsDictionary(jsonObject);
+const watchers = jsonHelper.getWatchersDictionary(jsonObject);
 
 const inputDemoKey = "demo";
 const inputPlatformKey = "platform";
@@ -17,6 +24,14 @@ const appTypes = ["demo", "demo-angular", "demo-vue"];
 const platformTypes = ["ios", "android"];
 const targetTypes = ["simulator", "device"];
 const actionTypes = ["attach", "attach & watch"];
+logger.setIsEnabled(process.argv[2] == "log" ? true : false);
+
+let shouldStartNew = false;
+let runChildProcess;
+let processKilled = false;
+let startingProcess = false;
+let processTimeout;
+let watcherTimeout;
 
 initPrompter();
 
@@ -30,6 +45,14 @@ function getShortCommandPair(key) {
             }
         }
 
+        return found;
+    });
+}
+
+function getWatcherPair(key) {
+    return watchers.find(function (element) {
+        var found;
+        found = element.key == key;
         return found;
     });
 }
@@ -78,7 +101,8 @@ function initPrompter() {
         inputParams.inputAction = values[inputActionKey];
 
         const command = parseInput(inputParams);
-        execute(command);
+        const watcher = getWatcherDetails(inputParams);
+        execute(command, watcher);
     });
 }
 
@@ -99,14 +123,146 @@ function getActionTypes({ input }, cb) {
 }
 
 function parseInput(inputParams) {
-    const inputCommand = inputParams.inputDemo + " " + inputParams.inputPlatform + " " + inputParams.inputDevice + " " + inputParams.inputAction;
-    console.log(inputCommand);
-    var ndBuildReleasePair = getShortCommandPair(inputCommand);
-    return "npm run " + ndBuildReleasePair.key;
+    logger.logObject("parse input:", inputParams);
+    const inputCommand = formatInput(inputParams);
+    var ndCommandPair = getShortCommandPair(inputCommand);
+
+    return "npm run " + ndCommandPair.key;
 }
 
-function execute(command) {
-    console.log(chalk.blue("'nativescript-dev-debugging': Starting: ") + chalk.yellow(command));
-    const spawn = require('child_process').spawn;
-    spawn(command, [], { stdio: 'inherit', shell: true });
+function formatInput(params) {
+    return params.inputDemo + " " + params.inputPlatform + " " + params.inputDevice + " " + params.inputAction;
 }
+
+function getWatcherDetails(inputParams) {
+    logger.logObject("get watcher details for:", inputParams);
+    const inputCommand = formatInput(inputParams);
+    var ndCommandPair = getShortCommandPair(inputCommand);
+    var watcherPair = getWatcherPair(ndCommandPair.key);
+    if (watcherPair) {
+        return watcherPair.value;
+    }
+
+    logger.logObject("No watcher details found for:", inputParams);
+
+
+    return undefined;
+}
+
+let acceptedFileExtensions = [];
+
+function buildWildcardList(path) {
+    let result = [];
+    _.each(acceptedFileExtensions, (extension) => {
+        result.push(path + '**/*.' + extension);
+    });
+
+    return result.length > 0 ? result : undefined;
+}
+
+function execute(command, watcher) {
+    console.log(chalk.blue("'nativescript-dev-debugging': Starting: ") + chalk.yellow(command));
+    startingProcess = true;
+    startProcess(command);
+    startingProcess = false;
+
+    if (watcher && watcher.patterns) {
+        // Glob to ignore .dotfiles
+        let ignored = "/(^|[\/\\])\../";
+
+        // TODO: Not working, watcher is triggering for all files
+        // if (watcher.extensions) {
+        //     let extensionsArray = [];
+        //     watcher.extensions.forEach(element => {
+        //         extensionsArray.push(element);
+        //     });
+        //     acceptedFileExtensions = extensionsArray;
+        // }
+
+        let pattersWithExtensions = buildWildcardList(watcher.patterns);
+        let wildcardList = pattersWithExtensions ? pattersWithExtensions : watcher.patterns;
+        logger.logObject("Starting file watch on:", wildcardList);
+
+        // Currently cannot used paths to be ignored due to issue in chokidar https://github.com/paulmillr/chokidar/issues/773
+        // if (watcher.ignore) {
+        //     ignored = watcher.ignore;
+        // }
+
+        chokidar.watch(wildcardList, { ignored: ignored }).on('raw', (event, path, details) => {
+            logger.logMessage("File change detected:");
+            logger.logObject("Raw event info: ", event, path, details);
+            if (event !== "unknown") {
+                if (watcherTimeout) {
+                    clearTimeout(watcherTimeout);
+                }
+
+                watcherTimeout = setTimeout(() => {
+                    if (!processKilled) {
+                        shouldStartNew = true;
+    
+                        killChildProcess();
+                    }
+                }, 2000);
+            }
+        });
+    }
+}
+
+function startProcess(command) {
+    if (startingProcess) {
+        logger.logMessage("Starting child process")
+        runChildProcess = spawn(command, [], { stdio: 'inherit', shell: true, detached: true });
+        processKilled = false;
+        runChildProcess.on("close", function (code, signal) {
+            logger.logMessage("'nd.run' child process 'close' with code: " + code + " and signal " + signal);
+            if (shouldStartNew) {
+                shouldStartNew = false;
+                if (processTimeout) {
+                    clearTimeout(processTimeout);
+                }
+
+                processTimeout = setTimeout(() => {
+                    startingProcess = true;
+                    startProcess(command);
+                    startingProcess = false;
+                }, 1500);
+            }
+
+            processKilled = true;
+        });
+    }
+}
+
+function killChildProcess() {
+    logger.logMessage("Kill child process " + runChildProcess.pid);
+
+    // Starts new child_process by closing the previous one
+    killProcessTree(runChildProcess.pid);
+    process.kill(-runChildProcess.pid);
+}
+
+function killProcessTree(pid) {
+    psTree(pid, (error, children) => {
+        if (error) {
+            logger.logErrorObject(error);
+        }
+        const processChildren = _.map(children, "PID");
+        const killCmd = `kill -9 ${processChildren.join(" ")}`;
+
+        logger.logObject("Kill all child processes:", killCmd);
+        execAsUser(killCmd);
+    });
+}
+
+function execAsUser(cmd) {
+    exec(cmd);
+}
+
+process.on('SIGINT', function () {
+    logger.logMessage("Stopping 'nativescript-dev-debugging")
+    if (!processKilled) {
+        killChildProcess();
+    }
+
+    process.exit();
+});
