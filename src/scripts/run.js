@@ -167,6 +167,7 @@ function execute(command, watcher) {
     startingProcess = false;
 
     if (watcher && watcher.patterns) {
+        // Glob to ignore .dotfiles
         let ignored = "/(^|[\/\\])\../";
 
         // TODO: Not working, watcher is triggering for all files
@@ -179,7 +180,6 @@ function execute(command, watcher) {
         // }
 
         let pattersWithExtensions = buildWildcardList(watcher.patterns);
-        logger.logObject("pattersWithExtensions", pattersWithExtensions);
         let wildcardList = pattersWithExtensions ? pattersWithExtensions : watcher.patterns;
         logger.logObject("Starting file watch on:", wildcardList);
 
