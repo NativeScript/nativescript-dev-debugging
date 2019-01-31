@@ -11,6 +11,7 @@
 
 - New file watcher implemented
 - Added new sections describing how to use the `nd.run` command to start a workflow and what those workflows can and should be used for. More details [here](https://github.com/NativeScript/nativescript-dev-debugging/tree/master#workflow-for-observingdebug-the-native-code)
+- Optimized the output of the `nd.help` command
 
 # Version 0.1.0
 
