@@ -138,80 +138,22 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         category: "secondary"
     },
     {
-        key: "nd.prepare.demo.app.ios",
-        value: "cd " + demoFolder + " && tns prepare ios",
-        description: "Executes 'tns prepare ios' for the 'demo' app",
-        category: "secondary",
-        patterns: [
-            demoFolder
-        ],
-        extensions: ["ts"]
-    },
-    {
         key: "nd.prepare.demo.app.android",
         value: "cd " + demoFolder + " && tns prepare android",
         description: "Executes 'tns prepare android' for the 'demo' app",
         category: "secondary"
     },
     {
-        key: "nd.prepare.demo.angular.app.ios",
-        value: "cd " + demoAngularFolder + " && tns prepare ios",
-        description: "Executes 'tns prepare ios' for the 'demo angular' app",
-        category: "secondary",
-        patterns: [
-            demoAngularFolder
-        ],
-        extensions: ["ts"]
-    },
-    {
-        key: "nd.prepare.demo.angular.app.android",
-        value: "cd " + demoAngularFolder + " && tns prepare android",
-        description: "Executes 'tns prepare android' for the 'demo angular' app",
-        category: "secondary",
-        patterns: [
-            demoAngularFolder
-        ],
-        extensions: ["ts"]
-    },
-    {
-        key: "nd.prepare.demo.vue.app.ios",
-        value: "cd " + demoVueFolder + " && tns prepare ios",
-        description: "Executes 'tns prepare ios' for the 'demo vue' app",
-        category: "secondary",
-        patterns: [
-            demoVueFolder
-        ],
-        extensions: ["ts"]
-    },
-    {
-        key: "nd.prepare.demo.vue.app.android",
-        value: "cd " + demoVueFolder + " && tns prepare android",
-        description: "Executes 'tns prepare android' for the 'demo vue' app",
-        category: "secondary",
-        patterns: [
-            demoVueFolder
-        ],
-        extensions: ["ts"]
-    },
-    {
         key: "nd.build.run.device.demo.app.ios",
         value: "npm run nd.build.device.native.ios" + " && npm run nd.demo.tns.run.ios",
         description: "Executes 'tns run ios' for the 'demo' app",
-        category: "secondary",
-        patterns: [
-            iosSourcePath
-        ],
-        extensions: ["h", "m"]
+        category: "secondary"
     },
     {
         key: "nd.build.run.simulator.demo.app.ios",
         value: "npm run nd.build.simulator.native.ios" + " && npm run nd.demo.tns.run.ios",
         description: "Executes 'tns run ios' for the 'demo' app",
-        category: "secondary",
-        patterns: [
-            iosSourcePath
-        ],
-        extensions: ["h", "m"]
+        category: "secondary"
     },
     {
         key: "nd.build.run.demo.app.android",
@@ -223,21 +165,13 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         key: "nd.build.run.demo.angular.app.ios",
         value: "npm run nd.build.device.native.ios " + " && npm run nd.demo.tns.run.ios",
         description: "Executes 'tns run ios' for the 'demo angular' app",
-        category: "secondary",
-        patterns: [
-            iosSourcePath
-        ],
-        extensions: ["h", "m"]
+        category: "secondary"
     },
     {
         key: "nd.build.run.simulator.demo.angular.app.ios",
         value: "npm run nd.build.simulator.native.ios " + " && npm run nd.demo.tns.run.ios",
         description: "Executes 'tns run ios' for the 'demo angular' app",
-        category: "secondary",
-        patterns: [
-            iosSourcePath
-        ],
-        extensions: ["h", "m"]
+        category: "secondary"
     },
     {
         key: "nd.build.run.demo.angular.app.android",
@@ -249,66 +183,18 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         key: "nd.build.run.demo.vue.app.ios",
         value: "npm run nd.build.device.native.ios " + " && npm run nd.demo.vue.tns.run.ios",
         description: "Executes 'tns run ios' for the 'demo vue' app",
-        category: "secondary",
-        patterns: [
-            iosSourcePath
-        ],
-        extensions: ["h", "m"]
+        category: "secondary"
     },
     {
         key: "nd.build.run.simulator.demo.vue.app.ios",
         value: "npm run nd.build.simulator.native.ios " + " && npm run nd.demo.vue.tns.run.ios",
         description: "Executes 'tns run ios' for the 'demo vue' app",
-        category: "secondary",
-        patterns: [
-            iosSourcePath
-        ],
-        extensions: ["h", "m"]
+        category: "secondary"
     },
     {
         key: "nd.build.run.demo.vue.app.android",
         value: "npm run nd.build.native.android " + " && npm run nd.demo.vue.tns.run.android",
         description: "Executes 'tns run android' for the 'demo vue' app",
-        category: "secondary"
-    },
-    {
-        key: "nd.demo.prepare.watch.ios",
-        value: "npm run nd.prepare.demo.app.ios",
-        description: "Triggers file watcher for the 'Demo' app source code, when change is detected rebuilds ('tns prepare ios') the 'demo' app for iOS",
-        category: "secondary"
-    },
-    {
-        key: "nd.demo.prepare.watch.android",
-        value: "npm run nd.prepare.demo.app.android",
-        description: "Triggers file watcher for the 'Demo' app source code, when change is detected rebuilds ('tns prepare android') the 'demo' app for android",
-        category: "secondary",
-        patterns: [
-            demoFolder
-        ],
-        extensions: ["ts"]
-    },
-    {
-        key: "nd.demo.prepare.angular.watch.ios",
-        value: "npm run nd.prepare.demo.angular.app.ios",
-        description: "Triggers file watcher for the 'Demo-Angular' app source code, when change is detected rebuilds ('tns prepare ios') the 'demo' app for iOS",
-        category: "secondary"
-    },
-    {
-        key: "nd.demo.prepare.angular.watch.android",
-        value: "npm run nd.prepare.demo.angular.app.android",
-        description: "Triggers file watcher for the 'Demo-Angular' app source code, when change is detected rebuilds ('tns prepare android') the 'demo' app for android",
-        category: "secondary"
-    },
-    {
-        key: "nd.demo.prepare.vue.watch.ios",
-        value: "npm run nd.prepare.demo.vue.app.ios",
-        description: "Triggers file watcher for the 'Demo-Vue' app source code, when change is detected rebuilds ('tns prepare ios') the 'demo' app for iOS",
-        category: "secondary"
-    },
-    {
-        key: "nd.demo.prepare.vue.watch.android",
-        value: "npm run nd.prepare.demo.vue.app.android",
-        description: "Triggers file watcher for the 'Demo-Vue' app source code, when change is detected rebuilds ('tns prepare android') the 'demo' app for android",
         category: "secondary"
     },
     {
@@ -339,7 +225,11 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         value: "npm run nd.open.xcode && npm run nd.build.run.device.demo.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected the 'demo' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
-        shortCommands: ["demo ios device attach & watch"]
+        shortCommands: ["demo ios device attach & watch"],
+        patterns: [
+            iosSourcePath
+        ],
+        extensions: ["h", "m"]
     },
     {
         key: "nd.demo.angular.run.watch.android",
@@ -358,14 +248,22 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         value: "npm run nd.open.xcode && npm run nd.build.run.simulator.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-angular' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
-        shortCommands: ["demo-angular ios simulator attach & watch"]
+        shortCommands: ["demo-angular ios simulator attach & watch"],
+        patterns: [
+            iosSourcePath
+        ],
+        extensions: ["h", "m"]
     },
     {
         key: "nd.demo.angular.run.watch.device.ios",
         value: "npm run nd.open.xcode && npm run nd.build.run.demo.angular.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-angular' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
-        shortCommands: ["demo-angular ios device attach & watch"]
+        shortCommands: ["demo-angular ios device attach & watch"],
+        patterns: [
+            iosSourcePath
+        ],
+        extensions: ["h", "m"]
     },
     {
         key: "nd.demo.vue.run.watch.android",
@@ -373,8 +271,12 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         description: "Triggers file watcher for the native Android source code, when change is detected rebuilds the 'demo-vue' app is build and deployed. Useful to debug and develop your plugin's Android source code",
         category: "main android developNative",
         shortCommands: ["demo-vue android simulator attach & watch", "demo-vue android device attach & watch"],
-        patterns: [ androidSourcePath ],
-        ignore: [ androidSourceBuildFolder ],
+        patterns: [ 
+            androidSourcePath
+         ],
+        ignore: [ 
+            androidSourceBuildFolder
+         ],
         extensions: ["java"]
     },
     {
@@ -382,14 +284,22 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         value: "npm run nd.open.xcode && npm run nd.build.run.simulator.demo.vue.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-vue' app is build and deployed. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
-        shortCommands: ["demo-vue ios simulator attach & watch"]
+        shortCommands: ["demo-vue ios simulator attach & watch"],
+        patterns: [
+            iosSourcePath
+        ],
+        extensions: ["h", "m"]
     },
     {
         key: "nd.demo.vue.run.watch.device.ios",
         value: "npm run nd.open.xcode && npm run nd.build.run.demo.vue.app.ios",
         description: "Triggers file watcher for the native iOS source code, when change is detected rebuilds the 'demo-vue' app is build and deployed on real device. Useful to debug and develop your plugin's iOS source code",
         category: "main ios developNative",
-        shortCommands: ["demo-vue ios device attach & watch"]
+        shortCommands: ["demo-vue ios device attach & watch"],
+        patterns: [
+            iosSourcePath
+        ],
+        extensions: ["h", "m"]
     },
     {
         key: "nd.demo.tns.run.android",
