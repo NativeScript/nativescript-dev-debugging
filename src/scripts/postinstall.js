@@ -8,7 +8,7 @@ const defaultDemoAngularPath = "../demo-angular";
 const defaultDemoVuePath = "../demo-vue";
 
 const inputIsConfiguredKey = "isConfigured";
-const inputInputPluginFolderKeyKey = "inputPluginFolderKey";
+const inputPluginFolderKeyKey = "inputPluginFolderKey";
 const inputPluginSrcFolderKey = "pluginSrcFolder";
 const inputPluginPlatformFolderKey = "pluginPlatformFolder";
 const inputPluginIosSrcFolderKey = "pluginIosSrcFolder";
@@ -250,7 +250,7 @@ function initConfig() {
             const questions = [
                 {
                     type: 'text',
-                    name: inputInputPluginFolderKeyKey,
+                    name: inputPluginFolderKeyKey,
                     message: "What is the path to your plugin's repository ?"
                 },
                 {
@@ -287,7 +287,7 @@ function initConfig() {
                     demoVueFolder: undefined,
                     provisioningProfile: undefined
                 };
-                var pluginRepositoryPath = trimTrailingChar(values[inputInputPluginFolderKeyKey], '/');;
+                var pluginRepositoryPath = trimTrailingChar(values[inputPluginFolderKeyKey], '/');;
                 inputParams.pluginAndroidSrcFolder = pluginRepositoryPath + "/src-native/android";
                 inputParams.pluginIosSrcFolder = pluginRepositoryPath + "/src-native/ios";
                 inputParams.pluginSrcFolder = pluginRepositoryPath + "/src";
