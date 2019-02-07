@@ -21,8 +21,8 @@ _iOS/Android/Both (if applicable tell us the specific version of the platform)_
 ### Please provide the following version numbers that your issue occurs with:
 - **nativescript-dev-debugging:** (the version of nativescript-dev-debugging in the `package.json`)
 - **CLI:** (run `tns --version` to fetch it)
-- **Cross-platform modules:** (the version of tns-core-modules in the `package.json`)
-- **Runtime(s):** (the `"tns-android"` and `"tns-ios"` properties in the `package.json`)
+- **Cross-platform modules:** (the version of tns-core-modules in the `package.json` of the {N} app that is being worked on)
+- **Runtime(s):** (the `"tns-android"` and `"tns-ios"` properties in the `package.json`  of the {N} app that is being worked on)
 
 ### Please tell us how to recreate the issue in as much detail as possible.
 1. Start `nd.run` command
