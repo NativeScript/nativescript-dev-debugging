@@ -27,6 +27,3 @@ _iOS/Android/Both (if applicable tell us the specific version of the platform)_
 ### Please tell us how to recreate the issue in as much detail as possible.
 1. Start `nd.run` command
 2. ...
-
-### Is there code involved? If so, please share the minimal amount of code needed to recreate the problem.
-_(You can paste entire code snippets or attach a runnable project)_
