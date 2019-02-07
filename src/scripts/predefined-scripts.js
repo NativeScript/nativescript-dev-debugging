@@ -285,7 +285,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.tns.run.ios",
-        value: "cd " + demoFolder + " && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoFolder + " && tns build ios && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
@@ -297,7 +297,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.angular.tns.run.ios",
-        value: "cd " + demoAngularFolder + " && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoAngularFolder + " && tns build ios && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo-angular' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
@@ -309,7 +309,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.vue.tns.run.ios",
-        value: "cd " + demoVueFolder + " && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoVueFolder + " && tns build ios && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo-vue' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
