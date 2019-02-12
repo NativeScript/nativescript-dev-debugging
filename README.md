@@ -40,9 +40,9 @@ Recommended for plugins that **have not used** the [NativeScript plugin seed](ht
 - The "path" to the folder which hold your plugin's TypeScript/JavaScript and package.json
 - The "path" to the folder which hold your plugin's 'platforms' contents ('android' and 'ios' folders)
 - The "path" to the native iOS source code of the Xcode project from which the iOS framework of your plugin has been build
-- The name of the name of the iOS framework of your plugin
+- The name of the iOS framework of your plugin
 - The "path" to the native Android source code of the Android Studio project from which the Android library of your plugin has been build
-- The name of the name of the Android library of your plugin
+- The name of the Android library of your plugin
 - The "path" to the folder which hold the NativeScript Vanila application used as demo of your plugin
 - The "path" to the folder which hold the NativeScript + Angular application used as demo of your plugin (optional)
 - The Apple provisioning profile that is required for the above NativeScript application (optional) 
@@ -54,13 +54,13 @@ Recommended for plugins that **have used** the [NativeScript plugin seed](https:
 The post install script will ask for the following configuration settings of your plugin's structure:
 
 - The "path" to the folder which hold your plugin's TypeScript/JavaScript and package.json
-- The name of the name of the iOS framework of your plugin
-- The name of the name of the Android library of your plugin
+- The name of the iOS framework of your plugin
+- The name of the Android library of your plugin
 - The Apple provisioning profile that is required for the above NativeScript application (optional)
 
 ### <a name="config_file"></a>Configuration file
 
-After either of the above configuration stages the configuration parameters you have entered will be written locally to an configuration json file called `n.debug.config.json`. You cna manually create this file in the root (where the package.json of your {N} plugin source code is) and pre-configure it so that when the npm postinstall script is ran it will skip app prompts of the nativescript-dev-debugging plugin configuration stage. Here are all the require configuration key/value pairs:
+After either of the above configuration stages the configuration parameters you have entered will be written locally to an configuration json file called `n.debug.config.json`. You can manually create this file in the root (where the package.json of your {N} plugin source code is) and pre-configure it so that when the npm postinstall script is ran it will skip app prompts of the nativescript-dev-debugging plugin configuration stage. Here are all the require configuration key/value pairs:
 
 ```
 {
@@ -121,5 +121,5 @@ Due to the nature of the `nativescript-dev-debugging` plugin and the way it is u
 In order to test the node package locally:
 - Open the app folder `cd app`
 - Run `npm i`
-- Run `npm run install` - will execute the package's postinstall scrip like it is being installed in the app folder for the first time
-- Run `npm run install <full path to a 'n.debug.config.json' file>` - will execute the package's postinstall scrip with the configuration of the `n.debug.config.json` file
+- Run `npm run install` - will execute the package's postinstall script like it is being installed in the app folder for the first time
+- Run `npm run install <full path to a 'n.debug.config.json' file>` - will execute the package's postinstall script with the configuration of the `n.debug.config.json` file
