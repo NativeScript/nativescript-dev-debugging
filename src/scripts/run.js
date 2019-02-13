@@ -14,6 +14,7 @@ let jsonFile = fs.readFileSync(__dirname + "/nd-package.json");
 var jsonObject = JSON.parse(jsonFile);
 const shortCommands = jsonHelper.getShortCommandsDictionary(jsonObject);
 const watchers = jsonHelper.getWatchersDictionary(jsonObject);
+const buildCommands = jsonHelper.getBuildCommandsDictionary(jsonObject);
 
 const inputDemoKey = "demo";
 const inputPlatformKey = "platform";
@@ -26,10 +27,14 @@ const targetTypes = ["simulator", "device"];
 const actionTypes = ["attach", "attach & watch"];
 logger.setIsEnabled(process.argv[2] == "log" ? true : false);
 
-let shouldStartNew = false;
-let runChildProcess;
-let processKilled = false;
-let startingProcess = false;
+let shouldStartNewBuildProcess = false;
+let initialBuildProcess;
+let mainChildProcess;
+let buildChildProcess;
+let initialBuildProcessKilled = true;
+let mainProcessKilled = true;
+let buildProcessKilled = true;
+let buildProcessStarting = false;
 let processTimeout;
 let watcherTimeout;
 
@@ -51,6 +56,14 @@ function getShortCommandPair(key) {
 
 function getWatcherPair(key) {
     return watchers.find(function (element) {
+        var found;
+        found = element.key == key;
+        return found;
+    });
+}
+
+function getBuildCommandPair(key) {
+    return buildCommands.find(function (element) {
         var found;
         found = element.key == key;
         return found;
@@ -102,7 +115,10 @@ function initPrompter() {
 
         const command = parseInput(inputParams);
         const watcher = getWatcherDetails(inputParams);
-        execute(command, watcher);
+        const buildCommand = getBuildCommand(inputParams);
+        console.log(chalk.blue("'nativescript-dev-debugging': Starting: ") + chalk.yellow(command));
+
+        executeInitialBuild(command, watcher, buildCommand);
     });
 }
 
@@ -149,6 +165,20 @@ function getWatcherDetails(inputParams) {
     return undefined;
 }
 
+function getBuildCommand(inputParams) {
+    logger.logObject("get build command for:", inputParams);
+    const inputCommand = formatInput(inputParams);
+    var ndCommandPair = getShortCommandPair(inputCommand);
+    var buildCommandPair = getBuildCommandPair(ndCommandPair.key);
+    if (buildCommandPair) {
+        return buildCommandPair.value;
+    }
+
+    logger.logObject("No build command found for for:", inputParams);
+
+    return undefined;
+}
+
 let acceptedFileExtensions = [];
 
 function buildWildcardList(path) {
@@ -160,11 +190,20 @@ function buildWildcardList(path) {
     return result.length > 0 ? result : undefined;
 }
 
-function execute(command, watcher) {
-    console.log(chalk.blue("'nativescript-dev-debugging': Starting: ") + chalk.yellow(command));
-    startingProcess = true;
+function executeInitialBuild(command, watcher, buildCommand) {
+    logger.logMessage("Starting 'executeInitialBuild' child process");
+    initialBuildProcessKilled = false;
+    initialBuildProcess = spawn(buildCommand, [], { stdio: 'inherit', shell: true, detached: true });
+    initialBuildProcess.on("close", function (code, signal) {
+        logger.logMessage("CHILD PROCESS CLOSED: for 'initialBuildProcess' with code: " + code + " and signal " + signal);
+        executeMainCommandWatcher(command, watcher, buildCommand);
+        initialBuildProcessKilled = true;
+    });
+}
+
+function executeMainCommandWatcher(command, watcher, buildCommand) {
+    logger.logMessage("CHILD PROCESS STARTED: 'executeMainCommandWatcher'")
     startProcess(command);
-    startingProcess = false;
 
     if (watcher && watcher.patterns) {
         // Glob to ignore .dotfiles
@@ -197,10 +236,14 @@ function execute(command, watcher) {
                 }
 
                 watcherTimeout = setTimeout(() => {
-                    if (!processKilled) {
-                        shouldStartNew = true;
-    
-                        killChildProcess();
+                    if (!buildProcessKilled) {
+                        shouldStartNewBuildProcess = true;
+                        killBuildChildProcess();
+                    } else {
+                        shouldStartNewBuildProcess = false;
+                        buildProcessStarting = true;
+                        startProcessForWatcher(buildCommand);
+                        buildProcessStarting = false;
                     }
                 }, 2000);
             }
@@ -209,36 +252,66 @@ function execute(command, watcher) {
 }
 
 function startProcess(command) {
-    if (startingProcess) {
-        logger.logMessage("Starting child process")
-        runChildProcess = spawn(command, [], { stdio: 'inherit', shell: true, detached: true });
-        processKilled = false;
-        runChildProcess.on("close", function (code, signal) {
-            logger.logMessage("'nd.run' child process 'close' with code: " + code + " and signal " + signal);
-            if (shouldStartNew) {
+    mainProcessKilled = false;
+    mainChildProcess = spawn(command, [], { stdio: 'inherit', shell: true, detached: true });
+    mainChildProcess.on("close", function (code, signal) {
+        logger.logMessage("CHILD PROCESS CLOSED: for 'mainChildProcess' with code: " + code + " and signal " + signal);
+        mainProcessKilled = true;
+    });
+}
+
+function startProcessForWatcher(command) {
+    if (buildProcessStarting) {
+        logger.logMessage("CHILD PROCESS STARTED: for build with script: " + command)
+        buildProcessKilled = false;
+        buildChildProcess = spawn(command, [], { stdio: 'inherit', shell: true, detached: true });
+        buildChildProcess.on("close", function (code, signal) {
+            logger.logMessage("CHILD PROCESS CLOSED: for 'buildChildProcess' with code: " + code + " and signal " + signal);
+            if (shouldStartNewBuildProcess) {
                 shouldStartNew = false;
                 if (processTimeout) {
                     clearTimeout(processTimeout);
                 }
 
                 processTimeout = setTimeout(() => {
-                    startingProcess = true;
-                    startProcess(command);
-                    startingProcess = false;
+                    shouldStartNewBuildProcess = false;
+                    buildProcessStarting = true;
+                    startProcessForWatcher(command);
+                    buildProcessStarting = false;
                 }, 1500);
             }
 
-            processKilled = true;
+            buildProcessKilled = true;
         });
     }
 }
 
-function killChildProcess() {
-    logger.logMessage("Kill child process " + runChildProcess.pid);
+function killInitialBuildChildProcess() {
+    if (!initialBuildProcessKilled && initialBuildProcess) {
+        logger.logMessage("Kill initial build child process " + initialBuildProcess.pid);
 
-    // Starts new child_process by closing the previous one
-    killProcessTree(runChildProcess.pid);
-    process.kill(-runChildProcess.pid);
+        killProcessTree(initialBuildProcess.pid);
+        process.kill(-initialBuildProcess.pid);
+    }
+}
+
+function killBuildChildProcess() {
+    if (!buildProcessKilled && buildChildProcess) {
+        logger.logMessage("Kill build child process " + buildChildProcess.pid);
+
+        killProcessTree(buildChildProcess.pid);
+        process.kill(-buildChildProcess.pid);
+    }
+}
+
+function killMainChildProcess() {
+    if (!mainProcessKilled && mainChildProcess) {
+        logger.logMessage("Kill main child process " + mainChildProcess.pid);
+
+        // Starts new child_process by closing the previous one
+        killProcessTree(mainChildProcess.pid);
+        process.kill(-mainChildProcess.pid);
+    }
 }
 
 function killProcessTree(pid) {
@@ -260,9 +333,9 @@ function execAsUser(cmd) {
 
 process.on('SIGINT', function () {
     logger.logMessage("Stopping 'nativescript-dev-debugging")
-    if (!processKilled) {
-        killChildProcess();
-    }
+    killMainChildProcess();
+    killBuildChildProcess();
+    killInitialBuildChildProcess();
 
     process.exit();
 });

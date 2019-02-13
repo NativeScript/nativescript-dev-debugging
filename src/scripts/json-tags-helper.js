@@ -18,6 +18,10 @@ function getWatchersDictionary(json) {
     return getDictionary(json["watch"]);
 }
 
+function getBuildCommandsDictionary(json) {
+    return getDictionary(json["buildCommand"]);
+}
+
 function getDictionary(json) {
     var result = [];
     for (var i in json) {
@@ -32,3 +36,4 @@ module.exports.getDescriptionsDictionary = getDescriptionsDictionary;
 module.exports.getCategoriesDictionary = getCategoriesDictionary;
 module.exports.getShortCommandsDictionary = getShortCommandsDictionary;
 module.exports.getWatchersDictionary = getWatchersDictionary;
+module.exports.getBuildCommandsDictionary = getBuildCommandsDictionary;

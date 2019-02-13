@@ -46,64 +46,73 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.android",
-        value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.tns.run.android",
+        value: "npm run nd.open.android.studio && npm run nd.demo.tns.run.android",
         description: "Runs your 'demo' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
+        buildCommand: "npm run nd.build.native.android",
         category: "android debug",
         shortCommands: ["demo android simulator attach", "demo android device attach"]
     },
     {
         key: "nd.demo.ios",
-        value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
+        buildCommand: "npm run nd.build.simulator.native.ios",
         category: "ios debug",
         shortCommands: ["demo ios simulator attach"]
     },
     {
         key: "nd.demo.ios.device",
-        value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
         description: "Runs your 'demo' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
+        buildCommand: "npm run nd.build.device.native.ios",
         category: "ios debug",
         shortCommands: ["demo ios device attach"]
     },
     {
         key: "nd.demo.angular.android",
-        value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.angular.tns.run.android",
+        value: "npm run nd.open.android.studio && npm run nd.demo.angular.tns.run.android",
         description: "Runs your 'demo-angular' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
+        buildCommand: "npm run nd.build.native.android",
         category: "android debug",
         shortCommands: ["demo-angular android simulator attach", "demo-angular android device attach"]
     },
     {
         key: "nd.demo.angular.ios",
-        value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
         description: "Runs your 'demo-angular' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
+        buildCommand: "npm run nd.build.simulator.native.ios",
         category: "ios debug",
         shortCommands: ["demo-angular ios simulator attach"]
     },
     {
         key: "nd.demo.angular.ios.device",
-        value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
         description: "Runs your 'demo-angular' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
+        buildCommand: "npm run nd.build.device.native.ios",
         category: "ios debug",
         shortCommands: ["demo-angular ios device attach"]
     },
     {
         key: "nd.demo.vue.android",
-        value: "npm run nd.build.native.android && npm run nd.open.android.studio && npm run nd.demo.vue.tns.run.android",
+        value: "npm run nd.open.android.studio && npm run nd.demo.vue.tns.run.android",
         description: "Runs your 'demo-vue' app and opens Android Studio. After that use 'Attach debugger to Android process (demo)' to debug the native source code",
+        buildCommand: "npm run nd.build.native.android",
         category: "android debug",
         shortCommands: ["demo-vue android simulator attach", "demo-vue android device attach"]
     },
     {
         key: "nd.demo.vue.ios",
-        value: "npm run nd.build.simulator.native.ios && npm run nd.open.xcode && npm run nd.demo.vue.tns.run.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.vue.tns.run.ios",
         description: "Runs your 'demo-vue' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for simulator)",
+        buildCommand: "npm run nd.build.simulator.native.ios",
         category: "ios debug",
         shortCommands: ["demo-vue ios simulator attach"]
     },
     {
         key: "nd.demo.vue.ios.device",
-        value: "npm run nd.build.device.native.ios && npm run nd.open.xcode && npm run nd.demo.vue.tns.run.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.vue.tns.run.ios",
         description: "Runs your 'demo-vue' app and opens Xcode. After that use 'Attach to process by PID or Name (demo)' to debug the native source code. (for real device)",
+        buildCommand: "npm run nd.build.device.native.ios",
         category: "ios debug",
         shortCommands: ["demo-vue ios device attach"]
     },
@@ -138,63 +147,10 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         category: "secondary"
     },
     {
-        key: "nd.build.run.device.demo.app.ios",
-        value: "npm run nd.build.device.native.ios" + " && npm run nd.demo.tns.run.ios",
-        description: "Build the native code and executes 'tns run ios' for the 'demo' app",
-        category: "secondary"
-    },
-    {
-        key: "nd.build.run.simulator.demo.app.ios",
-        value: "npm run nd.build.simulator.native.ios" + " && npm run nd.demo.tns.run.ios",
-        description: "Build the native code and executes 'tns run ios' for the 'demo' app",
-        category: "secondary"
-    },
-    {
-        key: "nd.build.run.demo.app.android",
-        value: "npm run nd.build.native.android" + " && npm run nd.demo.tns.run.android",
-        description: "Build the native code and executes 'tns run android' for the 'demo' app",
-        category: "secondary"
-    },
-    {
-        key: "nd.build.run.demo.angular.app.ios",
-        value: "npm run nd.build.device.native.ios " + " && npm run nd.demo.angular.tns.run.ios",
-        description: "Build the native code and executes 'tns run ios' for the 'demo angular' app",
-        category: "secondary"
-    },
-    {
-        key: "nd.build.run.simulator.demo.angular.app.ios",
-        value: "npm run nd.build.simulator.native.ios " + " && npm run nd.demo.angular.tns.run.ios",
-        description: "Build the native code and executes 'tns run ios' for the 'demo angular' app",
-        category: "secondary"
-    },
-    {
-        key: "nd.build.run.demo.angular.app.android",
-        value: "npm run nd.build.native.android " + " && npm run nd.demo.angular.tns.run.android",
-        description: "Build the native code and executes 'tns run android' for the 'demo angular' app",
-        category: "secondary"
-    },
-    {
-        key: "nd.build.run.demo.vue.app.ios",
-        value: "npm run nd.build.device.native.ios " + " && npm run nd.demo.vue.tns.run.ios",
-        description: "Build the native code and executes 'tns run ios' for the 'demo vue' app",
-        category: "secondary"
-    },
-    {
-        key: "nd.build.run.simulator.demo.vue.app.ios",
-        value: "npm run nd.build.simulator.native.ios " + " && npm run nd.demo.vue.tns.run.ios",
-        description: "Build the native code and executes 'tns run ios' for the 'demo vue' app",
-        category: "secondary"
-    },
-    {
-        key: "nd.build.run.demo.vue.app.android",
-        value: "npm run nd.build.native.android " + " && npm run nd.demo.vue.tns.run.android",
-        description: "Build the native code and executes 'tns run android' for the 'demo vue' app",
-        category: "secondary"
-    },
-    {
         key: "nd.demo.run.watch.android",
-        value: "npm run nd.open.android.studio && npm run nd.build.run.demo.app.android",
+        value: "npm run nd.open.android.studio && npm run nd.demo.tns.run.android",
         shortCommands: ["demo android simulator attach & watch", "demo android device attach & watch"],
+        buildCommand: "npm run nd.build.native.android",
         patterns: [
             androidSourcePath
         ],
@@ -203,8 +159,9 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.run.watch.ios",
-        value: "npm run nd.open.xcode && npm run nd.build.run.simulator.demo.app.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
         shortCommands: ["demo ios simulator attach & watch"],
+        buildCommand: "npm run nd.build.simulator.native.ios",
         patterns: [
             iosSourcePath
         ],
@@ -212,8 +169,9 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.run.watch.device.ios",
-        value: "npm run nd.open.xcode && npm run nd.build.run.device.demo.app.ios",
+        value: "npm run nd.open.xcode && npm run npm run nd.demo.tns.run.ios",
         shortCommands: ["demo ios device attach & watch"],
+        buildCommand: "npm run nd.build.device.native.ios",
         patterns: [
             iosSourcePath
         ],
@@ -221,8 +179,9 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.angular.run.watch.android",
-        value: "npm run nd.open.android.studio && npm run nd.build.run.demo.angular.app.android",
+        value: "npm run nd.open.android.studio && npm run nd.demo.angular.tns.run.android",
         shortCommands: ["demo-angular android simulator attach & watch", "demo-angular android device attach & watch"],
+        buildCommand: "npm run nd.build.native.android",
         patterns: [
             androidSourcePath
         ],
@@ -231,8 +190,9 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.angular.run.watch.ios",
-        value: "npm run nd.open.xcode && npm run nd.build.run.simulator.demo.angular.app.ios",
+        value: "npm run nd.open.xcode && npm run npm run nd.demo.angular.tns.run.ios",
         shortCommands: ["demo-angular ios simulator attach & watch"],
+        buildCommand: "npm run nd.build.simulator.native.ios",
         patterns: [
             iosSourcePath
         ],
@@ -240,8 +200,9 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.angular.run.watch.device.ios",
-        value: "npm run nd.open.xcode && npm run nd.build.run.demo.angular.app.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
         shortCommands: ["demo-angular ios device attach & watch"],
+        buildCommand: "npm run nd.build.device.native.ios",
         patterns: [
             iosSourcePath
         ],
@@ -249,8 +210,9 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.vue.run.watch.android",
-        value: "npm run nd.open.android.studio && npm run nd.build.run.demo.vue.app.android",
+        value: "npm run nd.open.android.studio && npm run nd.demo.vue.tns.run.android",
         shortCommands: ["demo-vue android simulator attach & watch", "demo-vue android device attach & watch"],
+        buildCommand: "npm run nd.build.native.android",
         patterns: [ 
             androidSourcePath
          ],
@@ -261,8 +223,9 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.vue.run.watch.ios",
-        value: "npm run nd.open.xcode && npm run nd.build.run.simulator.demo.vue.app.ios",
+        value: "npm run nd.open.xcode && npm run npm run nd.demo.vue.tns.run.ios",
         shortCommands: ["demo-vue ios simulator attach & watch"],
+        buildCommand: "npm run nd.build.simulator.native.ios",
         patterns: [
             iosSourcePath
         ],
@@ -270,8 +233,9 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.vue.run.watch.device.ios",
-        value: "npm run nd.open.xcode && npm run nd.build.run.demo.vue.app.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.vue.tns.run.ios",
         shortCommands: ["demo-vue ios device attach & watch"],
+        buildCommand: "npm run nd.build.device.native.ios",
         patterns: [
             iosSourcePath
         ],
@@ -285,7 +249,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.tns.run.ios",
-        value: "cd " + demoFolder + " && tns build ios && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoFolder + " && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
@@ -297,7 +261,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.angular.tns.run.ios",
-        value: "cd " + demoAngularFolder + " && tns build ios && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoAngularFolder + " && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo-angular' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
@@ -309,7 +273,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.vue.tns.run.ios",
-        value: "cd " + demoVueFolder + " && tns build ios && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoVueFolder + " && tns run ios --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo-vue' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
