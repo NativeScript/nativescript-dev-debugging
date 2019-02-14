@@ -373,7 +373,6 @@ function writeToSrcJson(inputParams) {
     var pluginWatch = updateWatch(predefinedScripts, pluginWatchJson);
     ndJson[scriptsTag] = pluginScripts;
     ndJson[watchTag] = pluginWatch;
-    ndJson[devDepsTag] = newDevDeps;
     ndJson[descriptionsTag] = descriptions;
     ndJson[shortCommandsTag] = shortCommands;
     ndJson[buildCommandsTag] = buildCommand;
