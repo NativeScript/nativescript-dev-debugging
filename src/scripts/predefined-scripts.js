@@ -169,7 +169,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.run.watch.device.ios",
-        value: "npm run nd.open.xcode && npm run npm run nd.demo.tns.run.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.tns.run.ios",
         shortCommands: ["demo ios device attach & watch"],
         buildCommand: "npm run nd.build.device.native.ios",
         patterns: [
@@ -190,7 +190,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.angular.run.watch.ios",
-        value: "npm run nd.open.xcode && npm run npm run nd.demo.angular.tns.run.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.angular.tns.run.ios",
         shortCommands: ["demo-angular ios simulator attach & watch"],
         buildCommand: "npm run nd.build.simulator.native.ios",
         patterns: [
@@ -223,7 +223,7 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.vue.run.watch.ios",
-        value: "npm run nd.open.xcode && npm run npm run nd.demo.vue.tns.run.ios",
+        value: "npm run nd.open.xcode && npm run nd.demo.vue.tns.run.ios",
         shortCommands: ["demo-vue ios simulator attach & watch"],
         buildCommand: "npm run nd.build.simulator.native.ios",
         patterns: [
