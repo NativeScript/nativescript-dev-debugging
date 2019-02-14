@@ -267,13 +267,13 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.vue.tns.run.android",
-        value: "cd " + demoVueFolder + " && tns run android --syncAllFiles",
+        value: "cd " + demoVueFolder + " && tns run android --bundle --syncAllFiles",
         description: "Runs the 'demo-vue' app on Android with '--syncAllFiles' argument",
         category: "secondary"
     },
     {
         key: "nd.demo.vue.tns.run.ios",
-        value: "cd " + demoVueFolder + " && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoVueFolder + " && tns run ios --bundle --syncAllFiles" + provisioningParam,
         description: "Runs the 'demo-vue' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
