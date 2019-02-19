@@ -1,3 +1,9 @@
+# Version 1.0.1
+
+## Fixed:
+
+- When saving a change to a file in Xcode during a "Attach to process", after new app deploy and "Attach to process" the break points are not hit. ([#2](https://github.com/NativeScript/nativescript-dev-debugging/issues/2))
+
 # Version 1.0.0
 
 ## Fixed:
