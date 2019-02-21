@@ -1,3 +1,6 @@
+[![npm](https://img.shields.io/npm/v/nativescript-dev-debugging.svg)](https://www.npmjs.com/package/nativescript-dev-debugging)
+[![npm](https://img.shields.io/npm/dt/nativescript-dev-debugging.svg?label=npm%20downloads)](https://www.npmjs.com/package/nativescript-dev-debugging)
+
 # nativescript-dev-debugging
 
 This dev plugin allows a __NativeScript plugin authors__ to use a **predefined workflow** with which you can **develop** and **debug** both the **native iOS/Android** and the **TypeScript/JavaScript** wrapper source code of their NS plugin. The main API that this plugin exposes is through `npm scripts` which will be saved to your package.json of your plugin's source code.
