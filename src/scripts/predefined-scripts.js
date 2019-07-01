@@ -243,37 +243,37 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.demo.tns.run.android",
-        value: "cd " + demoFolder + " && tns run android --syncAllFiles",
+        value: "cd " + demoFolder + " && tns run android",
         description: "Runs the 'demo' app on Android with '--syncAllFiles' argument",
         category: "secondary"
     },
     {
         key: "nd.demo.tns.run.ios",
-        value: "cd " + demoFolder + " && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoFolder + " && tns run ios" + provisioningParam,
         description: "Runs the 'demo' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
     {
         key: "nd.demo.angular.tns.run.android",
-        value: "cd " + demoAngularFolder + " && tns run android --syncAllFiles",
+        value: "cd " + demoAngularFolder + " && tns run android",
         description: "Runs the 'demo-angular' app on Android with '--syncAllFiles' argument",
         category: "secondary"
     },
     {
         key: "nd.demo.angular.tns.run.ios",
-        value: "cd " + demoAngularFolder + " && tns run ios --syncAllFiles" + provisioningParam,
+        value: "cd " + demoAngularFolder + " && tns run ios" + provisioningParam,
         description: "Runs the 'demo-angular' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
     {
         key: "nd.demo.vue.tns.run.android",
-        value: "cd " + demoVueFolder + " && tns run android --bundle --syncAllFiles",
+        value: "cd " + demoVueFolder + " && tns run android --bundle",
         description: "Runs the 'demo-vue' app on Android with '--syncAllFiles' argument",
         category: "secondary"
     },
     {
         key: "nd.demo.vue.tns.run.ios",
-        value: "cd " + demoVueFolder + " && tns run ios --bundle --syncAllFiles" + provisioningParam,
+        value: "cd " + demoVueFolder + " && tns run ios --bundle" + provisioningParam,
         description: "Runs the 'demo-vue' app on iOS with '--syncAllFiles' argument",
         category: "secondary"
     },
