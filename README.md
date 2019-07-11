@@ -8,7 +8,6 @@ This dev plugin allows a __NativeScript plugin authors__ to use a **predefined w
 Note
 > - This NS dev plugin has been developed on Mac and has not been tested on Windows.
 > - Using the plugin's scripts will open both Android Studio and XCode so be aware that those applications will open during the executing of the scripts.
-> - This plugin uses the `--syncAllFiles` to ensure that all of your NS plugin source code changes are transferred when changes are detected.
 
 ## Installation
 
