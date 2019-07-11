@@ -9,7 +9,7 @@
 		"prompt": "1.0.0",
 		"chokidar": "2.0.4",
 		"ps-tree": "1.2.0",
-		"lodash": "4.17.11"
+		"lodash": "4.17.13"
 	},
 	"scripts": {
 		"config": "node ./scripts/postinstall.js",
