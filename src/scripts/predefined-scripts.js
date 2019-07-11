@@ -309,19 +309,19 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
     },
     {
         key: "nd.clean.demo",
-        value: "rm -rf " + demoFolder + "/node_modules " + demoFolder + "/platforms",
+        value: "rm -rf " + demoFolder + "/node_modules " + demoFolder + "/platforms " + demoFolder + "/hooks",
         description: "Clears the node_modules and platforms folder of the Vanila NS app",
         category: "main"
     },
     {
         key: "nd.clean.demo.angular",
-        value: "rm -rf " + demoAngularFolder + "/node_modules " + demoAngularFolder + "/platforms",
+        value: "rm -rf " + demoAngularFolder + "/node_modules " + demoAngularFolder + "/platforms " + demoAngularFolder + "/hooks",
         description: "Clears the node_modules and platforms folder of the Angular NS app",
         category: "main"
     },
     {
         key: "nd.clean.demo.vue",
-        value: "rm -rf " + demoVueFolder + "/node_modules " + demoVueFolder + "/platforms",
+        value: "rm -rf " + demoVueFolder + "/node_modules " + demoVueFolder + "/platforms " + demoVueFolder + "/hooks",
         description: "Clears the node_modules and platforms folder of the Angular NS app",
         category: "main"
     }];
