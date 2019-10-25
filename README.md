@@ -123,5 +123,4 @@ Due to the nature of the `nativescript-dev-debugging` plugin and the way it is u
 In order to test the node package locally:
 - Open the app folder `cd app`
 - Run `npm i`
-- Run `npm run install` - will execute the package's postinstall script like it is being installed in the app folder for the first time
-- Run `npm run install <full path to a 'n.debug.config.json' file>` - will execute the package's postinstall script with the configuration of the `n.debug.config.json` file
+- Run `npm run nd.install` - will execute the package's postinstall script like it is being installed in the app folder for the first time
