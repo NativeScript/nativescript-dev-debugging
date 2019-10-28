@@ -1,6 +1,6 @@
 {
 	"name": "nativescript-dev-debugging",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"description": "This dev plugin allows an NativeScript plugin authors to use a predefined workflow with which you can develop and debug both the native iOS/Android and the TypeScript/JavaScript wrapper source code of their NS plugin. The main API that this plugin exposes is through `npm scripts` which will be saved to your package.json of your plugin's source code.",
 	"main": "index.js",
 	"dependencies": {
