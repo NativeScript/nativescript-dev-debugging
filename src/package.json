@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"dependencies": {
 		"chalk": "2.4.1",
+		"cli-autocomplete": "0.4.1",
 		"cli-prompter": "1.0.0",
 		"prompt": "1.0.0",
 		"chokidar": "2.0.4",
