@@ -14,6 +14,12 @@ do
     esac
 done
 
+currentPlatform="$(uname -s)"
+if [ ! "$currentPlatform" = "Darwin" ]; then
+    # only try to build on Mac OS
+    echo "iOS build requires Mac OS. Skipping..."
+    exit 0
+fi
 if [ -z "$DEVICE_FLAVOR" ] && [ $BUILD_FLAVOR = "Debug" ]
 then
     DEVICE_FLAVOR="Fat"  

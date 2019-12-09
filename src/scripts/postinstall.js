@@ -1,11 +1,13 @@
 var fs = require('fs');
 const chalk = require('chalk');
 const prompter = require('cli-prompter');
+const path = require('path');
+const SEP = path.sep;
 var predefinedScriptsModule = require('./predefined-scripts');
 var predefinedDepsModule = require('./predefined-dev-deps');
-const defaultDemoPath = "../demo";
-const defaultDemoAngularPath = "../demo-angular";
-const defaultDemoVuePath = "../demo-vue";
+const defaultDemoPath = path.join("..", "demo");
+const defaultDemoAngularPath = path.join("..", "demo-angular");
+const defaultDemoVuePath = path.join("..", "demo-vue");
 
 const inputIsConfiguredKey = "isConfigured";
 const inputPluginFolderKeyKey = "inputPluginFolderKey";
@@ -287,16 +289,16 @@ function initConfig() {
                     demoVueFolder: undefined,
                     provisioningProfile: undefined
                 };
-                var pluginRepositoryPath = trimTrailingChar(values[inputPluginFolderKeyKey], '/');;
-                inputParams.pluginAndroidSrcFolder = pluginRepositoryPath + "/src-native/android";
-                inputParams.pluginIosSrcFolder = pluginRepositoryPath + "/src-native/ios";
-                inputParams.pluginSrcFolder = pluginRepositoryPath + "/src";
-                inputParams.pluginPlatformFolder = pluginRepositoryPath + "/src/platforms";
+                var pluginRepositoryPath = trimTrailingChar(values[inputPluginFolderKeyKey], SEP);;
+                inputParams.pluginAndroidSrcFolder = path.join(pluginRepositoryPath, "src-native", "android");
+                inputParams.pluginIosSrcFolder = path.join(pluginRepositoryPath, "src-native", "ios");
+                inputParams.pluginSrcFolder = path.join(pluginRepositoryPath, "src");
+                inputParams.pluginPlatformFolder = path.join(pluginRepositoryPath, "src", "platforms");
                 inputParams.androidLibraryName = values[inputAndroidLibraryNameKey];
                 inputParams.iosLibraryName = values[inputIOSLibraryNameKey];
-                inputParams.demoFolder = pluginRepositoryPath + "/demo";
-                inputParams.demoAngularFolder = pluginRepositoryPath + "/demo-angular";
-                inputParams.demoVueFolder = pluginRepositoryPath + "/demo-vue";
+                inputParams.demoFolder = path.join(pluginRepositoryPath, "demo");
+                inputParams.demoAngularFolder = path.join(pluginRepositoryPath, "demo-angular");
+                inputParams.demoVueFolder = path.join(pluginRepositoryPath, "demo-vue");
                 inputParams.provisioningProfile = values[inputProvisioningProfileKey];
                 saveConfigurationToLocal(configurationFilePath, inputParams);
                 writeToSrcJson(inputParams);
@@ -309,7 +311,7 @@ function getConfigFilePath() {
     const arg = process.argv[2];
     let configFileName = "n.debug.config.json";
     if (process.env.INIT_CWD) {
-        configFileName = process.env.INIT_CWD + "/n.debug.config.json";
+        configFileName = path.join(process.env.INIT_CWD, "n.debug.config.json");
     }
 
     if (arg && arg != "" && arg != "dev") {
@@ -319,7 +321,7 @@ function getConfigFilePath() {
             return configFileName;
 
         } else {
-            return process.cwd() + "/app/" + configFileName;
+            return path.join(process.cwd(), "app", configFileName);
         }
     }
 }
@@ -332,8 +334,8 @@ function writeToSrcJson(inputParams) {
     const shortCommandsTag = "shortCommands";
     const buildCommandsTag = "buildCommand"
     const categoriesTag = "categories";
-    var path = inputParams.pluginSrcFolder + "/package.json";
-    let jsonFile = fs.readFileSync(path);
+    var packagePath = path.join(inputParams.pluginSrcFolder, "package.json");
+    let jsonFile = fs.readFileSync(packagePath);
     var jsonObject = JSON.parse(jsonFile);
     inputParams = cleanUpInput(inputParams);
     const predefinedScripts = predefinedScriptsModule.getPluginPreDefinedScripts(
@@ -356,7 +358,7 @@ function writeToSrcJson(inputParams) {
 
     jsonObject[scriptsTag] = newScripts;
     jsonObject[devDepsTag] = newDevDeps;
-    fs.writeFileSync(path, JSON.stringify(jsonObject, null, "\t"));
+    fs.writeFileSync(packagePath, JSON.stringify(jsonObject, null, "\t"));
 
     var ndJson = {};
     var pluginScriptsJson = {};
@@ -377,7 +379,7 @@ function writeToSrcJson(inputParams) {
     ndJson[shortCommandsTag] = shortCommands;
     ndJson[buildCommandsTag] = buildCommand;
     ndJson[categoriesTag] = categories;
-    var ndJsonPath = inputParams.pluginSrcFolder + "/node_modules/nativescript-dev-debugging/scripts/nd-package.json";
+    var ndJsonPath = path.join(inputParams.pluginSrcFolder, "node_modules", "nativescript-dev-debugging", "scripts", "nd-package.json");
     fs.writeFileSync(ndJsonPath, JSON.stringify(ndJson, null, "\t"));
 
     console.log(chalk.green("Plugin Configuration Successful"));
@@ -414,19 +416,19 @@ function ensureJsonObject(jsonSection) {
 
 function cleanUpInput(input) {
     if (input.demoFolder != defaultDemoPath) {
-        input.demoFolder = trimTrailingChar(input.demoFolder, '/');
+        input.demoFolder = trimTrailingChar(input.demoFolder, SEP);
     }
 
     if (input.demoAngularFolder && input.demoAngularFolder != defaultDemoAngularPath) {
-        input.demoAngularFolder = trimTrailingChar(input.demoAngularFolder, '/');
+        input.demoAngularFolder = trimTrailingChar(input.demoAngularFolder, SEP);
     }
 
     if (input.demoVueFolder && input.demoVueFolder != defaultDemoVuePath) {
-        input.demoVueFolder = trimTrailingChar(input.demoVueFolder, '/');
+        input.demoVueFolder = trimTrailingChar(input.demoVueFolder, SEP);
     }
-    input.pluginPlatformFolder = trimTrailingChar(input.pluginPlatformFolder, '/');
-    input.pluginIosSrcFolder = trimTrailingChar(input.pluginIosSrcFolder, '/');
-    input.pluginAndroidSrcFolder = trimTrailingChar(input.pluginAndroidSrcFolder, '/');
+    input.pluginPlatformFolder = trimTrailingChar(input.pluginPlatformFolder, SEP);
+    input.pluginIosSrcFolder = trimTrailingChar(input.pluginIosSrcFolder, SEP);
+    input.pluginAndroidSrcFolder = trimTrailingChar(input.pluginAndroidSrcFolder, SEP);
 
     return input;
 }
@@ -434,14 +436,15 @@ function cleanUpInput(input) {
 function trimTrailingChar(input, charToTrim) {
     var regExp = new RegExp(charToTrim + "+$");
     var result = input.replace(regExp, "");
-    result = addPrefixChar(result, '/');
+    result = addPrefixChar(result, SEP);
 
     return result;
 }
 
 function addPrefixChar(input, char) {
-    if (!input.startsWith(char)) {
-        return "/" + input;
+    // if the path starts with a separator or is of the type "c:...", ignore it
+    if (!input.startsWith(char) && !/^[a-z]+:/i.test(input)) {
+        return char + input;
     }
 
     return input;
