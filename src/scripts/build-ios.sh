@@ -3,14 +3,13 @@ set -o pipefail
 
 BUILD_FLAVOR="Release"
 
-while getopts b:t:n:d: option
+while getopts b:t:n: option
 do
     case "${option}"
         in
     b) BUILD_FLAVOR=${OPTARG};;
     t) PLUGIN_TARGET_DIR=${OPTARG};;
     n) IOS_SOURCE_DIR=${OPTARG};;
-    d) DEVICE_FLAVOR=${OPTARG};;
     esac
 done
 
@@ -19,10 +18,6 @@ if [ ! "$currentPlatform" = "Darwin" ]; then
     # only try to build on Mac OS
     echo "iOS build requires Mac OS. Skipping..."
     exit 0
-fi
-if [ -z "$DEVICE_FLAVOR" ] && [ $BUILD_FLAVOR = "Debug" ]
-then
-    DEVICE_FLAVOR="Fat"  
 fi
 
 XCODE_PROJ_DIR=`find $IOS_SOURCE_DIR -name "*.xcodeproj" -print`
@@ -33,97 +28,85 @@ PROJECT_NAME="$SOURCE_NAME.xcodeproj"
 TARGET_NAME="$SOURCE_NAME"
 FRAMEWORK_NAME="$SOURCE_NAME"
 FRAMEWORK_FILE=$FRAMEWORK_NAME.framework
+XCFRAMEWORK_FILE=$FRAMEWORK_NAME.xcframework
 FRAMEWORK_DSYM_FILE=$FRAMEWORK_NAME.framework.dSYM
+IOS_FRAMEWORK_DSYM_FILE=$FRAMEWORK_NAME.ios.framework.dSYM
+MAC_FRAMEWORK_DSYM_FILE=$FRAMEWORK_NAME.macos.framework.dSYM
 
 BUILD_DIR="$IOS_SOURCE_DIR/build/intermediates/${FRAMEWORK_NAME}"
-BUILD_FOR_SIMULATOR_DIR="$BUILD_DIR/$FLAVOR-iphonesimulator"
+BUILD_FOR_DEVICE_DIR="$BUILD_DIR/$BUILD_FLAVOR-iphoneos"
+BUILD_FOR_SIMULATOR_DIR="$BUILD_DIR/$BUILD_FLAVOR-iphonesimulator"
+BUILD_FOR_MAC_DIR="$BUILD_DIR/$BUILD_FLAVOR-maccatalyst"
 BUILD_OUTPUT_DIR="$IOS_SOURCE_DIR/build/outputs"
-HAS_DSYM="yes"  
+HAS_DSYM="yes"
 
 PLUGIN_TARGET_SUBDIR="$PLUGIN_TARGET_DIR/ios"
 
-OUTPUT_FRAMEWORK_FILE_DIR=$PLUGIN_TARGET_SUBDIR/$FRAMEWORK_FILE
-OUTPUT_FRAMEWORK_DSYM_FILE_DIR=$PLUGIN_TARGET_SUBDIR/$FRAMEWORK_DSYM_FILE
+OUTPUT_FRAMEWORK_FILE_DIR=$PLUGIN_TARGET_SUBDIR/$XCFRAMEWORK_FILE
+OUTPUT_IOS_FRAMEWORK_DSYM_FILE_DIR=$PLUGIN_TARGET_SUBDIR/$IOS_FRAMEWORK_DSYM_FILE
+OUTPUT_MAC_FRAMEWORK_DSYM_FILE_DIR=$PLUGIN_TARGET_SUBDIR/$IOS_FRAMEWORK_DSYM_FILE
 
 cd $IOS_SOURCE_DIR
 
-if [ -d "$BUILD_DIR" ]; then
-    rm -rf "$BUILD_DIR"
-fi
+# rm -rf "$BUILD_DIR"
+
+echo "Build for Mac Catalyst in" $BUILD_FLAVOR "configuration"
+xcodebuild -project $PROJECT_NAME -scheme $TARGET_NAME \
+    -destination 'variant=Mac Catalyst,arch=x86_64' \
+    -configuration "$BUILD_FLAVOR" \
+    GCC_PREPROCESSOR_DEFINITIONS='$GCC_PREPROCESSOR_DEFINITIONS ' \
+    BUILD_DIR=$BUILD_DIR \
+    build -quiet
 
 echo "Build for iphonesimulator in" $BUILD_FLAVOR "configuration"
 xcodebuild -project $PROJECT_NAME -scheme $TARGET_NAME \
     -configuration "$BUILD_FLAVOR" \
     -sdk iphonesimulator \
     GCC_PREPROCESSOR_DEFINITIONS='$GCC_PREPROCESSOR_DEFINITIONS ' \
-    CONFIGURATION_BUILD_DIR=$BUILD_FOR_SIMULATOR_DIR \
-    clean build -quiet
+    BUILD_DIR=$BUILD_DIR \
+    build -quiet
 
 echo "Build for iphoneos in" $BUILD_FLAVOR "configuration"
 xcodebuild -project $PROJECT_NAME -scheme $TARGET_NAME \
     -configuration "$BUILD_FLAVOR" \
     -sdk iphoneos \
     GCC_PREPROCESSOR_DEFINITIONS='$GCC_PREPROCESSOR_DEFINITIONS ' \
-    clean build archive -quiet
+    BUILD_DIR=$BUILD_DIR \
+    build -quiet
 
-DEVICE_DIR="$(xcodebuild -project $PROJECT_NAME -scheme $TARGET_NAME -configuration $BUILD_FLAVOR \
-    -showBuildSettings | grep CONFIGURATION_BUILD_DIR | sed 's/.*= //')"
+# DEVICE_DIR="$(xcodebuild -project $PROJECT_NAME -scheme $TARGET_NAME -configuration $BUILD_FLAVOR \
+    # -showBuildSettings | grep CONFIGURATION_BUILD_DIR | sed 's/.*= //')"
 
-if [ -d "$BUILD_OUTPUT_DIR/$FRAMEWORK_FILE" ]; then
-    echo "Cleaning $BUILD_OUTPUT_DIR/$FRAMEWORK_FILE"
-    rm -rf "$BUILD_OUTPUT_DIR/$FRAMEWORK_FILE"
-fi
+rm -rf "$BUILD_OUTPUT_DIR"
+mkdir -p "$BUILD_OUTPUT_DIR"
 
-if [ -d "$BUILD_OUTPUT_DIR/$FRAMEWORK_DSYM_FILE" ]; then
-    echo "Cleaning $BUILD_OUTPUT_DIR/$FRAMEWORK_DSYM_FILE"
-    rm -rf "$BUILD_OUTPUT_DIR/$FRAMEWORK_DSYM_FILE"
-fi
+echo "Create fat dSYM for iOS at $BUILD_OUTPUT_DIR/$IOS_FRAMEWORK_DSYM_FILE"
+cp -fr "$BUILD_FOR_SIMULATOR_DIR/$FRAMEWORK_DSYM_FILE" "$BUILD_OUTPUT_DIR/$IOS_FRAMEWORK_DSYM_FILE"
+rm "$BUILD_OUTPUT_DIR/$IOS_FRAMEWORK_DSYM_FILE/Contents/Resources/DWARF/$FRAMEWORK_NAME"
+lipo -create -output "$BUILD_OUTPUT_DIR/$IOS_FRAMEWORK_DSYM_FILE/Contents/Resources/DWARF/$FRAMEWORK_NAME" \
+    "$BUILD_FOR_SIMULATOR_DIR/$FRAMEWORK_DSYM_FILE/Contents/Resources/DWARF/$FRAMEWORK_NAME" \
+    "$BUILD_FOR_DEVICE_DIR/$FRAMEWORK_DSYM_FILE/Contents/Resources/DWARF/$FRAMEWORK_NAME"
 
-mkdir -p "$BUILD_OUTPUT_DIR/$FRAMEWORK_FILE"
+echo "Copy macOS dSYM to $BUILD_OUTPUT_DIR/$IOS_FRAMEWORK_DSYM_FILE"
+cp -fr "$BUILD_FOR_MAC_DIR/$FRAMEWORK_DSYM_FILE" "$BUILD_OUTPUT_DIR/$MAC_FRAMEWORK_DSYM_FILE"
 
-cp -fr "$DEVICE_DIR/$FRAMEWORK_FILE" "$BUILD_OUTPUT_DIR"
 
-if [ "$DEVICE_FLAVOR" = "Simulator" ]; then
-    echo "Debug info enabled: Coping dSYM for Simulator"
-    cp -fr "$BUILD_FOR_SIMULATOR_DIR/$FRAMEWORK_DSYM_FILE" "$BUILD_OUTPUT_DIR"
-elif [ "$DEVICE_FLAVOR" = "Device" ]; then
-    echo "Debug info enabled: Coping dSYM for Device"
-    cp -fr "$DEVICE_DIR/$FRAMEWORK_DSYM_FILE" "$BUILD_OUTPUT_DIR"
-else
-    HAS_DSYM="no"
-    echo "Debug info disabled: Cannot copy dSYM for 'fat framework', please specify second arg (Simulator/Device)"
-fi
-
-echo "Build fat framework"
-xcrun -sdk iphoneos lipo -create \
-    $BUILD_FOR_SIMULATOR_DIR/$FRAMEWORK_FILE/$FRAMEWORK_NAME \
-    $DEVICE_DIR/$FRAMEWORK_FILE/$FRAMEWORK_NAME \
--o "$BUILD_OUTPUT_DIR/$FRAMEWORK_FILE/$FRAMEWORK_NAME"
+echo "Build xcframework"
+xcodebuild -create-xcframework -framework "$BUILD_FOR_SIMULATOR_DIR/$FRAMEWORK_FILE" -framework "$BUILD_FOR_DEVICE_DIR/$FRAMEWORK_FILE" -framework "$BUILD_FOR_MAC_DIR/$FRAMEWORK_FILE" -output "$BUILD_OUTPUT_DIR/$XCFRAMEWORK_FILE"
 
 rm -rf $BUILD_DIR
 
-echo "$FRAMEWORK_FILE was built in $BUILD_OUTPUT_DIR"
+echo "$XCFRAMEWORK_FILE was built in $BUILD_OUTPUT_DIR"
+rm -rf $PLUGIN_TARGET_SUBDIR/XCFrameworks.zip $PLUGIN_TARGET_SUBDIR/*.dSYM* $PLUGIN_TARGET_SUBDIR/*.xcframework
+mkdir -p $PLUGIN_TARGET_SUBDIR
 
-if [ ! -d $PLUGIN_TARGET_DIR ]; then
-    mkdir $PLUGIN_TARGET_DIR
-fi
+echo "Zip $XCFRAMEWORK_FILE to $PLUGIN_TARGET_SUBDIR"
+(
+    cd $BUILD_OUTPUT_DIR
+    zip -q -r --symlinks $PLUGIN_TARGET_SUBDIR/XCFrameworks.zip $XCFRAMEWORK_FILE
+)
 
-if [ ! -d $PLUGIN_TARGET_SUBDIR ]; then
-    mkdir $PLUGIN_TARGET_SUBDIR
-fi
-
-if [ -e $OUTPUT_FRAMEWORK_FILE_DIR ]; then
-    rm -rf $OUTPUT_FRAMEWORK_FILE_DIR
-fi
-
-if [ -e $OUTPUT_FRAMEWORK_DSYM_FILE_DIR ]; then
-    rm -rf $OUTPUT_FRAMEWORK_DSYM_FILE_DIR
-fi
-
-cp -R "$BUILD_OUTPUT_DIR/$FRAMEWORK_FILE" $PLUGIN_TARGET_SUBDIR
-echo "iOS $FRAMEWORK_FILE was copied to $PLUGIN_TARGET_SUBDIR"
-if [ $HAS_DSYM = "yes" ]
-then
-    cp -R "$BUILD_OUTPUT_DIR/$FRAMEWORK_DSYM_FILE" $PLUGIN_TARGET_SUBDIR 
-    echo "iOS $FRAMEWORK_DSYM_FILE was copied to $PLUGIN_TARGET_SUBDIR"
-fi
+echo "Copying iOS $IOS_FRAMEWORK_DSYM_FILE to $PLUGIN_TARGET_SUBDIR"
+cp -R "$BUILD_OUTPUT_DIR/$IOS_FRAMEWORK_DSYM_FILE" $PLUGIN_TARGET_SUBDIR
+echo "Copying macOS $IOS_FRAMEWORK_DSYM_FILE to $PLUGIN_TARGET_SUBDIR"
+cp -R "$BUILD_OUTPUT_DIR/$MAC_FRAMEWORK_DSYM_FILE" $PLUGIN_TARGET_SUBDIR
