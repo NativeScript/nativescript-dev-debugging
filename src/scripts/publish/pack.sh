@@ -22,10 +22,20 @@ pack() {
     echo 'Copying src...'
     node_modules/.bin/ncp "$SOURCE_DIR" "$TO_SOURCE_DIR"
 
-    # copy LICENSE to src
-    echo 'Copying README & LICENSE to /src...'
-    node_modules/.bin/ncp "$ROOT_DIR"/LICENSE "$TO_SOURCE_DIR"/LICENSE
+    # strip all scripts except postinstall
+    node -e "const p = require(\"$SOURCE_DIR/package.json\"); for (const i in p.scripts) if (i !== 'postinstall') delete p.scripts[i]; console.log(JSON.stringify(p, null, 2));" > "$TO_SOURCE_DIR/package.json"
+
+    # copy README & LICENSE to src
+    echo 'Copying README and LICENSE to /src...'
+    node_modules/.bin/ncp "$ROOT_DIR"/LICENSE.md "$TO_SOURCE_DIR"/LICENSE.md
     node_modules/.bin/ncp "$ROOT_DIR"/README.md "$TO_SOURCE_DIR"/README.md
+
+    echo "Zip $XCFRAMEWORK_FILE to $PLUGIN_TARGET_SUBDIR"
+    (
+        cd $TO_SOURCE_DIR/platforms/ios
+        zip -q -r --symlinks XCFrameworks.zip *.xcframework
+        rm -rf *.xcframework
+    )
 
     echo 'Creating package...'
     # create package dir
