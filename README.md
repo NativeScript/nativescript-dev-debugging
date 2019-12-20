@@ -14,15 +14,16 @@ Note
 ### Requirements
 
 - npm 6.4.1 or above (`npm --version`)
-- NativeScript 5.1.0 or above (`$ tns --version`)
-- Xcode 10.1 Build version 10B61 (`$ xcodebuild -version`)
+- NativeScript 6.4.0 or above (`$ tns --version`)
+- Xcode 11 or above (`$ xcodebuild -version`)
+- macOS Catalina for iOS or macOS Catalyst builds
 - Android Studio 3.2.1 or above (`$ mdls -name kMDItemVersion /Applications/Android\ Studio.app`)
 - The Xcode project of your plugin has to have a build schema with the name of the framework that it creates (for example the project that creates 'TNSWidgets.framework' has a schema named 'TNSWidgets')
 
 The first thing you need to do is install the plugin:
 
 - npm install nativescript-dev-debugging --save-dev
-- During installation the plugin requires you to provide configuration of the location and relative information about your source code. Here there are two options you can use 
+- During installation the plugin requires you to provide configuration of the location and relative information about your source code. Here there are two options you can use
 
 **A fresh configuration**
 
@@ -47,7 +48,7 @@ Recommended for plugins that **have not used** the [NativeScript plugin seed](ht
 - The name of the Android library of your plugin
 - The "path" to the folder which hold the NativeScript Vanila application used as demo of your plugin
 - The "path" to the folder which hold the NativeScript + Angular application used as demo of your plugin (optional)
-- The Apple provisioning profile that is required for the above NativeScript application (optional) 
+- The Apple provisioning profile that is required for the above NativeScript application (optional)
 
 ### "Plugin seed" friendly configuration
 
@@ -116,7 +117,7 @@ With this workflow (`demo ios attach & watch`) the following will happen:
 
 # Troubleshooting
 
-Due to the nature of the `nativescript-dev-debugging` plugin and the way it is using multiple third party solutions to provide its workflows (xcode build, gradle, NativeScript CLI etc.) it is possible that in specific environment setups some issues can occur. While the fact that the plugin simply start and manages processes that will use those third party solutions in most cases if an error occurs the console output will be the original one from those solutions and should be helpful in determining the cause of the error, there are cases when the plugin's code could be causing strange behaviors. When using the `npm run nd.run` command you could pass an first attribute `log` to view additional information about the executed processes and their status (how/what and why the file watchers are executing), simply run `npm run nd.run log`. 
+Due to the nature of the `nativescript-dev-debugging` plugin and the way it is using multiple third party solutions to provide its workflows (xcode build, gradle, NativeScript CLI etc.) it is possible that in specific environment setups some issues can occur. While the fact that the plugin simply start and manages processes that will use those third party solutions in most cases if an error occurs the console output will be the original one from those solutions and should be helpful in determining the cause of the error, there are cases when the plugin's code could be causing strange behaviors. When using the `npm run nd.run` command you could pass an first attribute `log` to view additional information about the executed processes and their status (how/what and why the file watchers are executing), simply run `npm run nd.run log`.
 
 # Contributing
 
