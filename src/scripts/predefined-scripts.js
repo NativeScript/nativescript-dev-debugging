@@ -213,10 +213,10 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         value: "npm run nd.open.android.studio && npm run nd.demo.vue.tns.run.android",
         shortCommands: ["demo-vue android simulator attach & watch", "demo-vue android device attach & watch"],
         buildCommand: "npm run nd.build.native.android",
-        patterns: [ 
+        patterns: [
             androidSourcePath
          ],
-        ignore: [ 
+        ignore: [
             androidSourceBuildFolder
          ],
         extensions: ["java"]
@@ -323,6 +323,12 @@ function getPluginPreDefinedScripts(srcPath, demoFolder, demoAngularFolder, demo
         key: "nd.clean.demo.vue",
         value: "rm -rf " + demoVueFolder + "/node_modules " + demoVueFolder + "/platforms " + demoVueFolder + "/hooks",
         description: "Clears the node_modules and platforms folder of the Angular NS app",
+        category: "main"
+    },
+    {
+        key: "nd.pack",
+        value: "cp -rf ./node_modules/nativescript-dev-debugging/scripts/publish ../publish && bash ../publish/pack.sh",
+        description: "Updates publish folder and executes pack.sh",
         category: "main"
     }];
 }

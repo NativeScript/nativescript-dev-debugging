@@ -1,6 +1,6 @@
 .idea
 .DS_Store
-*.esm.json 
+*.esm.json
 *.tns.json
 *.log
 node_modules/
@@ -8,4 +8,4 @@ platforms/
 *.zip
 *.tgz
 nd-package.json
-publish/src/
+publish/
